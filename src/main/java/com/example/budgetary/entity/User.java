@@ -1,19 +1,12 @@
 package com.example.budgetary.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -30,13 +23,10 @@ public class User {
 
     private String email;
 
-    @ManyToMany
-    @JoinTable(name = "users_groups",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id"))
-    private Set<Group>groups = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<Transaction> transactions = new TreeSet<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Purchase> purchases = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "users")
+    private Set<Budget> budgets = new TreeSet<>();
 
 }

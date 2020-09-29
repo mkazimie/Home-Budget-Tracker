@@ -1,18 +1,14 @@
 package com.example.budgetary.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Set;
+import java.util.TreeSet;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -21,14 +17,21 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String name;
 
-    private double budget;
+    private BigDecimal moneyLeft;
 
-    @OneToMany(mappedBy = "category")
-    private List<Purchase> purchases = new ArrayList<>();
+    @ManyToOne
+    private Budget budget;
+
+    private LocalDate startDate;
+
+    private LocalDate endDate;
+
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "category")
+    private Set<Transaction> transactions = new TreeSet<>();
 
 
 }
