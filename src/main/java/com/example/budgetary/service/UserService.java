@@ -2,6 +2,8 @@ package com.example.budgetary.service;
 
 import com.example.budgetary.entity.Authority;
 import com.example.budgetary.entity.User;
+import com.example.budgetary.entity.dto.UserDto;
+import com.example.budgetary.exception.RecordAlreadyExistsException;
 import com.example.budgetary.repository.AuthorityRepository;
 import com.example.budgetary.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,10 +31,21 @@ public class UserService {
     }
 
     public void saveUser(User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setActive(true);
-        Authority authority = authorityRepository.findByName("ROLE_USER");
-        user.setAuthorities(new HashSet<>(Arrays.asList(authority)));
         userRepository.save(user);
     }
+
+    public void registerUser(UserDto userDto) throws RecordAlreadyExistsException {
+        if (findByUsername(userDto.getUsername()) != null) {
+            throw new RecordAlreadyExistsException("Username already exists");
+        } else {
+            User user = new User();
+            user.setUsername(userDto.getUsername());
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            user.setActive(true);
+            Authority authority = authorityRepository.findByName("ROLE_USER");
+            user.setAuthorities(new HashSet<>(Arrays.asList(authority)));
+            saveUser(user);
+        }
+    }
+
 }

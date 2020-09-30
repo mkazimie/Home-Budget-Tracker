@@ -29,36 +29,41 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Create an Account</h1>
                         </div>
-                        <form class="user" method="post">
+                            <div id="errorMsg" class="alert alert-danger d-none" role="alert">${error}</div>
+                        <form:form method="post" modelAttribute="userDto" cssClass="user">
                             <div class="form-group">
-                                <input type="text" class="form-control form-control-user" id="username" name="username"
-                                       placeholder="Username">
+                                <form:input path="username" type="text" class="form-control form-control-user"
+                                            placeholder="Username"/>
+                                <form:errors path="username" cssClass="errorMessage"/>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" class="form-control form-control-user" id="password"
-                                           name="password" placeholder="Password">
+                                    <form:input path="password" type="password" class="form-control form-control-user"
+                                                placeholder="Password"/>
+                                    <form:errors path="password" cssClass="errorMessage"/>
+
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="password" class="form-control form-control-user" id="repeatPassword"
-                                           name="repeatPassword"
-                                           placeholder="Repeat Password">
+                                    <form:input path="matchingPassword" type="password"
+                                                class="form-control form-control-user"
+                                                placeholder="Repeat Password"/>
+
                                 </div>
                             </div>
-                            <button class="btn btn-primary btn-user btn-block" type="submit"> Register Account </button>
+                            <button class="btn btn-primary btn-user btn-block" type="submit"> Register Account</button>
 
-<%--                            <hr>--%>
-<%--                            <a href="index.html" class="btn btn-google btn-user btn-block">--%>
-<%--                                <i class="fab fa-google fa-fw"></i> Register with Google--%>
-<%--                            </a>--%>
-<%--                            <a href="index.html" class="btn btn-facebook btn-user btn-block">--%>
-<%--                                <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook--%>
-<%--                            </a>--%>
-                        </form>
+                            <%--                            <hr>--%>
+                            <%--                            <a href="index.html" class="btn btn-google btn-user btn-block">--%>
+                            <%--                                <i class="fab fa-google fa-fw"></i> Register with Google--%>
+                            <%--                            </a>--%>
+                            <%--                            <a href="index.html" class="btn btn-facebook btn-user btn-block">--%>
+                            <%--                                <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook--%>
+                            <%--                            </a>--%>
+                        </form:form>
                         <hr>
-<%--                        <div class="text-center">--%>
-<%--                            <a class="small" href="forgot-password.html">Forgot Password?</a>--%>
-<%--                        </div>--%>
+                        <%--                        <div class="text-center">--%>
+                        <%--                            <a class="small" href="forgot-password.html">Forgot Password?</a>--%>
+                        <%--                        </div>--%>
                         <div class="text-center">
                             <a class="small" href="/login">Already have an account? Login!</a>
                         </div>
@@ -72,5 +77,11 @@
 <div>
     <%@include file="fragment/footer.jsp" %>
 </div>
+<script type="text/javascript">
+    let errorMsg = document.querySelector("#errorMsg");
+    if (errorMsg.innerText !== '') {
+        errorMsg.classList.remove("d-none");
+    }
+</script>
 </body>
 </html>
