@@ -17,11 +17,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String userName;
+    private String username;
 
     private String password;
-
-    private String email;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Transaction> transactions = new TreeSet<>();
@@ -29,4 +27,10 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "users")
     private Set<Budget> budgets = new TreeSet<>();
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "users_authorities", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id"))
+    Set<Authority> authorities;
+
+    private boolean active;
 }
