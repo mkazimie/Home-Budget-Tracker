@@ -17,14 +17,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/user/**").hasRole("USER").and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/dashboard")
-                .permitAll().and()
+                .antMatchers("/auth/**").authenticated()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .and()
+                .formLogin().loginPage("/login")
+                .failureUrl("/login/error")
+                .defaultSuccessUrl("/auth/budgets").and()
                 .logout()
                 .logoutSuccessUrl("/")
-                .permitAll();
+                .permitAll()
+                .and().exceptionHandling().accessDeniedPage("/403");
+        ;
     }
 
     @Bean

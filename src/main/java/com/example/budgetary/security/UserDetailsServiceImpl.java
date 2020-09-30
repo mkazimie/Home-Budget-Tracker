@@ -8,13 +8,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
 
 
-@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserService userService;
@@ -27,13 +25,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userService.findByUsername(username);
-        if (user == null || !user.isActive()) {
+        if (user == null) {
             throw new UsernameNotFoundException(username);
         }
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         user.getAuthorities().forEach(auth ->
                 grantedAuthorities.add(new SimpleGrantedAuthority(auth.getName())));
-        return new CustomSecurityUser(user.getUsername(), user.getPassword(),
+        return new CurrentUser(user.getUsername(), user.getPassword(),
                 grantedAuthorities, user);
     }
 
