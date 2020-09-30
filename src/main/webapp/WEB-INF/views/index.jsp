@@ -10,12 +10,10 @@
 
 <html>
 <head>
+    <%@include file="fragment/header.jsp" %>
     <title>Title</title>
 </head>
 <body>
-<div>
-    <%@include file="fragment/header.jsp" %>
-</div>
 
 <!-- Page Heading -->
 <div id="wrapper">
@@ -374,7 +372,8 @@
 </a>
 
 <!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -391,23 +390,14 @@
         </div>
     </div>
 </div>
-
-<!-- Bootstrap core JavaScript-->
-<script src="/resources/static/vendor/jquery/jquery.min.js"></script>
-<script src="/resources/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-<!-- Core plugin JavaScript-->
-<script src="/resources/static/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="/resources/static/js/sb-admin-2.min.js"></script>
-
+<div>
+    <%@include file="fragment/footer.jsp" %>
+</div>
 <!-- Page level plugins -->
 <script src="/resources/static/vendor/chart.js/Chart.min.js"></script>
 
 <!-- Page level custom scripts -->
 <script src="/resources/static/js/demo/chart-area-demo.js"></script>
 <script src="/resources/static/js/demo/chart-pie-demo.js"></script>
-
 </body>
 </html>

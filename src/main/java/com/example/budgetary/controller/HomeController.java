@@ -4,6 +4,7 @@ import com.example.budgetary.entity.User;
 import com.example.budgetary.service.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -30,6 +31,14 @@ public class HomeController {
         userService.saveUser(user);
         return user.toString();
     }
+
+    @GetMapping("/login")
+    public String getLogin(Model model){
+        User user = new User();
+        model.addAttribute(user);
+        return "login";
+    }
+
 
 
 }
