@@ -9,7 +9,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 :root {
-    --blue: #4e73df;
+    --blue: #0F1C2E;
     --indigo: #6610f2;
     --purple: #6f42c1;
     --pink: #e83e8c;
@@ -22,7 +22,7 @@
     --white: #fff;
     --gray: #858796;
     --gray-dark: #5a5c69;
-    --primary: #4e73df;
+    --primary: #0F1C2E;
     --secondary: #858796;
     --success: #1cc88a;
     --info: #36b9cc;
@@ -147,7 +147,7 @@ sup {
 }
 
 a {
-    color: #4e73df;
+    color: #0F1C2E;
     text-decoration: none;
     background-color: transparent
 }
@@ -2454,8 +2454,8 @@ a.btn.disabled, fieldset:disabled a.btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #4e73df;
-    border-color: #4e73df
+    background-color: #0F1C2E;
+    border-color: #0F1C2E
 }
 
 .btn-primary:hover {
@@ -2473,8 +2473,8 @@ a.btn.disabled, fieldset:disabled a.btn {
 
 .btn-primary.disabled, .btn-primary:disabled {
     color: #fff;
-    background-color: #4e73df;
-    border-color: #4e73df
+    background-color: #0F1C2E;
+    border-color: #0F1C2E
 }
 
 .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
@@ -2733,14 +2733,14 @@ a.btn.disabled, fieldset:disabled a.btn {
 }
 
 .btn-outline-primary {
-    color: #4e73df;
-    border-color: #4e73df
+    color: #0F1C2E;
+    border-color: #0F1C2E
 }
 
 .btn-outline-primary:hover {
     color: #fff;
-    background-color: #4e73df;
-    border-color: #4e73df
+    background-color: #0F1C2E;
+    border-color: #0F1C2E
 }
 
 .btn-outline-primary.focus, .btn-outline-primary:focus {
@@ -2748,14 +2748,14 @@ a.btn.disabled, fieldset:disabled a.btn {
 }
 
 .btn-outline-primary.disabled, .btn-outline-primary:disabled {
-    color: #4e73df;
+    color: #0F1C2E;
     background-color: transparent
 }
 
 .btn-outline-primary:not(:disabled):not(.disabled).active, .btn-outline-primary:not(:disabled):not(.disabled):active, .show > .btn-outline-primary.dropdown-toggle {
     color: #fff;
-    background-color: #4e73df;
-    border-color: #4e73df
+    background-color: #0F1C2E;
+    border-color: #0F1C2E
 }
 
 .btn-outline-primary:not(:disabled):not(.disabled).active:focus, .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .show > .btn-outline-primary.dropdown-toggle:focus {
@@ -2974,7 +2974,7 @@ a.btn.disabled, fieldset:disabled a.btn {
 
 .btn-link {
     font-weight: 400;
-    color: #4e73df;
+    color: #0F1C2E;
     text-decoration: none
 }
 
@@ -3271,7 +3271,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 .dropdown-item.active, .dropdown-item:active {
     color: #fff;
     text-decoration: none;
-    background-color: #4e73df
+    background-color: #0F1C2E
 }
 
 .dropdown-item.disabled, .dropdown-item:disabled {
@@ -3556,8 +3556,8 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 
 .custom-control-input:checked ~ .custom-control-label::before {
     color: #fff;
-    border-color: #4e73df;
-    background-color: #4e73df
+    border-color: #0F1C2E;
+    background-color: #0F1C2E
 }
 
 .custom-control-input:focus ~ .custom-control-label::before {
@@ -3621,8 +3621,8 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 }
 
 .custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
-    border-color: #4e73df;
-    background-color: #4e73df
+    border-color: #0F1C2E;
+    background-color: #0F1C2E
 }
 
 .custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::after {
@@ -3851,7 +3851,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     width: 1rem;
     height: 1rem;
     margin-top: -.25rem;
-    background-color: #4e73df;
+    background-color: #0F1C2E;
     border: 0;
     border-radius: 1rem;
     -webkit-transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
@@ -3884,7 +3884,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 .custom-range::-moz-range-thumb {
     width: 1rem;
     height: 1rem;
-    background-color: #4e73df;
+    background-color: #0F1C2E;
     border: 0;
     border-radius: 1rem;
     -moz-transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
@@ -3920,7 +3920,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     margin-top: 0;
     margin-right: .2rem;
     margin-left: .2rem;
-    background-color: #4e73df;
+    background-color: #0F1C2E;
     border: 0;
     border-radius: 1rem;
     -ms-transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
@@ -4055,7 +4055,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
     color: #fff;
-    background-color: #4e73df
+    background-color: #0F1C2E
 }
 
 .nav-fill .nav-item {
@@ -4725,7 +4725,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     padding: .5rem .75rem;
     margin-left: -1px;
     line-height: 1.25;
-    color: #4e73df;
+    color: #0F1C2E;
     background-color: #fff;
     border: 1px solid #dddfeb
 }
@@ -4758,8 +4758,8 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 .page-item.active .page-link {
     z-index: 3;
     color: #fff;
-    background-color: #4e73df;
-    border-color: #4e73df
+    background-color: #0F1C2E;
+    border-color: #0F1C2E
 }
 
 .page-item.disabled .page-link {
@@ -4842,7 +4842,7 @@ a.badge:focus, a.badge:hover {
 
 .badge-primary {
     color: #fff;
-    background-color: #4e73df
+    background-color: #0F1C2E
 }
 
 a.badge-primary:focus, a.badge-primary:hover {
@@ -5155,7 +5155,7 @@ a.badge-dark.focus, a.badge-dark:focus {
     color: #fff;
     text-align: center;
     white-space: nowrap;
-    background-color: #4e73df;
+    background-color: #0F1C2E;
     transition: width .6s ease
 }
 
@@ -5244,8 +5244,8 @@ a.badge-dark.focus, a.badge-dark:focus {
 .list-group-item.active {
     z-index: 2;
     color: #fff;
-    background-color: #4e73df;
-    border-color: #4e73df
+    background-color: #0F1C2E;
+    border-color: #0F1C2E
 }
 
 .list-group-item + .list-group-item {
@@ -6375,7 +6375,7 @@ a.close.disabled {
 }
 
 .bg-primary {
-    background-color: #4e73df !important
+    background-color: #0F1C2E !important
 }
 
 a.bg-primary:focus, a.bg-primary:hover, button.bg-primary:focus, button.bg-primary:hover {
@@ -6487,7 +6487,7 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 }
 
 .border-primary {
-    border-color: #4e73df !important
+    border-color: #0F1C2E !important
 }
 
 .border-secondary {
@@ -9720,7 +9720,7 @@ a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover {
 }
 
 .text-primary {
-    color: #4e73df !important
+    color: #0F1C2E !important
 }
 
 a.text-primary:focus, a.text-primary:hover {
@@ -10029,9 +10029,9 @@ a:focus {
 }
 
 .bg-gradient-primary {
-    /*background-color: #4e73df;*/
-    background-color: #0f49f5;
-    background-image: linear-gradient(180deg, #F7FBF4 10%, #224abe 100%);
+    /*background-color: #0F1C2E;*/
+    background-color: #0F1C2E;
+    background-image: linear-gradient(180deg, #162941 10%, #0F1C2E 100%);
     background-size: cover
 }
 
@@ -10171,11 +10171,11 @@ a:focus {
 }
 
 .border-left-primary {
-    border-left: .25rem solid #4e73df !important
+    border-left: .25rem solid #0F1C2E !important
 }
 
 .border-bottom-primary {
-    border-bottom: .25rem solid #4e73df !important
+    border-bottom: .25rem solid #0F1C2E !important
 }
 
 .border-left-secondary {
@@ -10356,8 +10356,8 @@ a:focus {
 }
 
 .topbar .dropdown-list .dropdown-header {
-    background-color: #4e73df;
-    border: 1px solid #4e73df;
+    background-color: #0F1C2E;
+    border: 1px solid #0F1C2E;
     padding-top: .75rem;
     padding-bottom: .75rem;
     color: #fff
@@ -10528,7 +10528,7 @@ a:focus {
 }
 
 .sidebar .nav-item .collapse .collapse-inner .collapse-item.active, .sidebar .nav-item .collapsing .collapse-inner .collapse-item.active {
-    color: #4e73df;
+    color: #0F1C2E;
     font-weight: 700
 }
 
@@ -11366,7 +11366,7 @@ form.user .btn-user {
     content: attr(data-text);
     position: absolute;
     left: -2px;
-    text-shadow: 1px 0 #4e73df;
+    text-shadow: 1px 0 #0F1C2E;
     top: 0;
     color: #5a5c69;
     background: #f8f9fc;

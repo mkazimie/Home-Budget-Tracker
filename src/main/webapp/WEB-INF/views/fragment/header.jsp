@@ -30,6 +30,11 @@
 
     <!-- Custom styles for this template-->
     <link href="<c:url value="/resources/static/css/sb-admin-2.min.css"/>" rel="stylesheet">
+
+    <!--Custom styles-->
+    <link href="<c:url value="/resources/static/css/customizedStyles.css"/>" rel="stylesheet">
+
+
 </head>
 <body>
 </body>

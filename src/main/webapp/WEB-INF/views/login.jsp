@@ -83,7 +83,7 @@
 
 </div>
 <div>
-    <%@include file="fragment/footer.jsp" %>
+    <%@include file="fragment/core-js-plugins.jsp" %>
 </div>
 
 </body>

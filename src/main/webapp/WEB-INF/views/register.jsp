@@ -75,13 +75,7 @@
 
 </div>
 <div>
-    <%@include file="fragment/footer.jsp" %>
+    <%@include file="fragment/core-js-plugins.jsp" %>
 </div>
-<script type="text/javascript">
-    let errorMsg = document.querySelector("#errorMsg");
-    if (errorMsg.innerText !== '') {
-        errorMsg.classList.remove("d-none");
-    }
-</script>
 </body>
 </html>
