@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Data
+@ToString(exclude = "budgets")
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -21,11 +22,11 @@ public class User {
 
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Set<Transaction> transactions = new TreeSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    private Set<Transaction> transactions = new HashSet<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "users")
-    private Set<Budget> budgets = new TreeSet<>();
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
+    private Set<Budget> budgets = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "users_authorities", joinColumns = @JoinColumn(name = "user_id"),

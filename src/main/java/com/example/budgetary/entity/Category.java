@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -31,7 +32,7 @@ public class Category {
     private LocalDate endDate;
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "category")
-    private Set<Transaction> transactions = new TreeSet<>();
+    private Set<Transaction> transactions = new HashSet<>();
 
 
 }

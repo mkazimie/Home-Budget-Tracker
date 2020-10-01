@@ -1,15 +1,17 @@
 package com.example.budgetary.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -22,13 +24,19 @@ public class Budget {
 
     private String name;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endDate;
+
     @ManyToMany
     @JoinTable(name = "budgets_users", joinColumns = @JoinColumn(name = "budget_id"), inverseJoinColumns =
     @JoinColumn(name = "user_id"))
     private Set<User> users = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "budget")
-    private Set<Category> categories = new TreeSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "budget")
+    private Set<Category> categories = new HashSet<>();
 
 
 }
