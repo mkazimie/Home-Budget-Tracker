@@ -43,7 +43,7 @@
                     <div class="card-header py-3">
                         <div class="row">
                             <h4 class="m-0 font-weight-bold text-primary col-10">Your Budgets</h4>
-                            <a href="/auth/budgets/form" class="btn btn-primary"> + </a>
+                            <a href="/auth/budgets/form" class="btn btn-primary"> <i class="fas fa-plus"></i> </a>
                         </div>
                         <div class="mt-2">
                             <h6 class="card-subtitle mb-2 text-muted">You currently have <strong>${noOfBudgets}</strong>
@@ -63,7 +63,7 @@
                                     <th>Contributors</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
-                                    <th> $$$</th>
+                                    <th><strong>€</strong></th>
                                 </tr>
                                 </thead>
 <%--                                <tfoot>--%>
@@ -90,7 +90,7 @@
                                         </td>
                                         <td class="align-middle">${budget.startDate}</td>
                                         <td class="align-middle">${budget.endDate}</td>
-                                        <td class="align-middle">$$$</td>
+                                        <td class="align-middle">${budget.budgetMoney}</td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>

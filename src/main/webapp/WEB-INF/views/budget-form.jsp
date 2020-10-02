@@ -32,17 +32,27 @@
                         <div id="errorMsg" class="alert alert-danger d-none" role="alert">${error}</div>
                         <form:form method="post" action="/auth/budgets" modelAttribute="budget" cssClass="user">
                             <div class="form-group">
+                                <form:label path="name"> Name </form:label>
                                 <form:input path="name" type="text" class="form-control form-control-user"
                                             placeholder="2020, May, etc..."/>
                                 <form:errors path="name" cssClass="errorMessage"/>
                             </div>
+                            <div class="form-group">
+                                <form:label path="budgetMoney"> Budget </form:label>
+                                <form:input path="budgetMoney" type="number" min="0"
+                                            class="form-control form-control-user"
+                                            placeholder="ex. 2000 €"/>
+                                <form:errors path="budgetMoney" cssClass="errorMessage"/>
+                            </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <form:label path="startDate"> From </form:label>
                                     <form:input path="startDate" type="date" class="form-control form-control-user"
                                                 placeholder="yyyy-MM-dd"/>
                                     <form:errors path="startDate" cssClass="errorMessage"/>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <form:label path="endDate"> To </form:label>
                                     <form:input path="endDate" type="date" class="form-control form-control-user"
                                                 placeholder="yyyy-MM-dd"/>
                                     <form:errors path="endDate" cssClass="errorMessage"/>

@@ -2,6 +2,7 @@ package com.example.budgetary.controller;
 
 import com.example.budgetary.entity.Budget;
 import com.example.budgetary.entity.Category;
+import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.User;
 import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
@@ -53,9 +54,15 @@ public class BudgetController {
     @GetMapping("/budgets/{id}")
     public String displayBudgetById(@PathVariable Long id, Model model){
         Budget budget = budgetService.findById(id);
-        Set<Category> categories = budget.getCategories();
+//        Set<Category> categories = budget.getCategories();
+//        List<Category> catList = new ArrayList<>(categories);
+//        Collections.sort(catList);
+        Category newCategory = new Category();
+        Transaction transaction = new Transaction();
         model.addAttribute("budget", budget);
-        model.addAttribute("categories", categories);
+//        model.addAttribute("catList", catList);
+        model.addAttribute("newCategory", newCategory);
+        model.addAttribute("transaction", transaction);
         return "budget";
     }
 

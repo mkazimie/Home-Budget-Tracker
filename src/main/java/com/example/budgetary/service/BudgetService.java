@@ -8,10 +8,7 @@ import com.example.budgetary.repository.BudgetRepository;
 import org.springframework.stereotype.Service;
 
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class BudgetService {
@@ -28,10 +25,11 @@ public class BudgetService {
 
     public void saveBudget(User user, Budget budget){
         budget.setUsers(new HashSet<>(Arrays.asList(user)));
-        Category category = new Category();
-        category.setBudget(budget);
-        category.setName("Savings");
-        budget.getCategories().add(category);
+//        Category category = new Category();
+//        category.setBudget(budget);
+//        category.setName("Savings");
+//        budget.getCategories().add(category);
+        budget.setBudgetMoney(budget.getBudgetMoney());
         budgetRepository.save(budget);
     }
 
@@ -42,5 +40,15 @@ public class BudgetService {
     public Budget findById(Long id){
         Optional<Budget> budget = budgetRepository.findById(id);
         return budget.orElseThrow(() -> new NoRecordFoundException("No such record in the Database"));
+    }
+
+    public List<Category> addCategoryToBudget(Category category, Budget budget){
+        Set<Category> categories = budget.getCategories();
+        categories.add(category);
+        budget.setCategories(categories);
+        budgetRepository.save(budget);
+        List <Category> budgetCategories = new ArrayList<>(budget.getCategories());
+        Collections.sort(budgetCategories);
+        return budgetCategories;
     }
 }

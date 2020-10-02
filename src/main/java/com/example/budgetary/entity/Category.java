@@ -14,7 +14,7 @@ import java.util.TreeSet;
 @AllArgsConstructor
 @Entity
 @Table(name = "categories")
-public class Category {
+public class Category implements Comparable<Category> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,17 +22,17 @@ public class Category {
 
     private String name;
 
-    private BigDecimal moneyLeft;
+    private BigDecimal categoryMoney;
 
     @ManyToOne
     private Budget budget;
-
-    private LocalDate startDate;
-
-    private LocalDate endDate;
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "category")
     private Set<Transaction> transactions = new HashSet<>();
 
 
+    @Override
+    public int compareTo(Category category) {
+        return this.getId().compareTo(category.getId());
+    }
 }
