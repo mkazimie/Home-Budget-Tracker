@@ -35,48 +35,53 @@
 
                 <%--                        <!-- Page Heading -->--%>
                 <%--                        <h1 class="h3 mb-2 text-gray-800">Budgets</h1>--%>
-                <%--                        <p class="mb-4"> Your Budgets </p>--%>
+                <%--                                        <p class="mb-4"> You currently have  ${noOfBudgets}--%>
+                <%--                                            Budgets </p>--%>
 
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
                         <div class="row">
                             <h4 class="m-0 font-weight-bold text-primary col-10">Your Budgets</h4>
-<%--                            <form action="/auth/budgets" method="post">--%>
-                                <a href="/auth/budgets/form" class="btn btn-primary"> + </a>
-<%--                                <button class="btn btn-primary"><i class="fas fa-plus"></i></button>--%>
-<%--                            </form>--%>
+                            <a href="/auth/budgets/form" class="btn btn-primary"> + </a>
                         </div>
-
-
+                        <div class="mt-2">
+                            <h6 class="card-subtitle mb-2 text-muted">You currently have <strong>${noOfBudgets}</strong>
+                                Budgets</h6>
+                        </div>
                     </div>
                     <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">You currently have ${noOfBudgets} Budgets</li>
+                        </ul>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
+                                    <th></th>
                                     <th>Name</th>
                                     <th>Contributors</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th> $$$</th>
-                                    <th> Go</th>
                                 </tr>
                                 </thead>
-                                <tfoot>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Contributors</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th> $$$</th>
-                                    <th> Go</th>
-                                </tr>
-                                </tfoot>
+<%--                                <tfoot>--%>
+<%--                                <tr>--%>
+<%--                                    <th></th>--%>
+<%--                                    <th>Name</th>--%>
+<%--                                    <th>Contributors</th>--%>
+<%--                                    <th>Start Date</th>--%>
+<%--                                    <th>End Date</th>--%>
+<%--                                    <th> $$$</th>--%>
+<%--                                </tr>--%>
+<%--                                </tfoot>--%>
 
                                 <tbody>
                                 <c:forEach items="${budgets}" var="budget">
                                     <tr class="text-center">
+                                        <td class="align-middle"><a href="/auth/budgets/${budget.id}"
+                                                                    class="btn btn-primary"><i class="fas fa-angle-double-right"></i></a></td>
                                         <td class="align-middle">${budget.name}</td>
                                         <td class="align-middle">
                                             <c:forEach items="${budget.users}" var="user">
@@ -86,7 +91,6 @@
                                         <td class="align-middle">${budget.startDate}</td>
                                         <td class="align-middle">${budget.endDate}</td>
                                         <td class="align-middle">$$$</td>
-                                        <td class="align-middle"><a href="#">Details</a></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>

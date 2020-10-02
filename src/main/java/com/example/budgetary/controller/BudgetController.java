@@ -1,10 +1,10 @@
 package com.example.budgetary.controller;
 
 import com.example.budgetary.entity.Budget;
+import com.example.budgetary.entity.Category;
 import com.example.budgetary.entity.User;
 import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
-import org.hibernate.Hibernate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,8 +42,7 @@ public class BudgetController {
     public String addNewBudget(@ModelAttribute @Valid Budget budget, BindingResult bindingResult,
             @AuthenticationPrincipal CurrentUser currentUser, Model model) {
         if (!bindingResult.hasErrors()){
-            budget.setUsers(new HashSet<>(Arrays.asList(currentUser.getUser())));
-            budgetService.saveBudget(budget);
+            budgetService.saveBudget(currentUser.getUser(), budget);
             getBudgets(currentUser.getUser(), model);
             return "budgets";
         }
@@ -51,6 +50,14 @@ public class BudgetController {
         return "budget-form";
     }
 
+    @GetMapping("/budgets/{id}")
+    public String displayBudgetById(@PathVariable Long id, Model model){
+        Budget budget = budgetService.findById(id);
+        Set<Category> categories = budget.getCategories();
+        model.addAttribute("budget", budget);
+        model.addAttribute("categories", categories);
+        return "budget";
+    }
 
 
     @GetMapping("/dashboard")
@@ -61,7 +68,9 @@ public class BudgetController {
 
     private void getBudgets(User user, Model model) {
         Set<Budget> budgets = budgetService.getBudgets(user);
+        int noOfBudgets = budgetService.countBudgetsByUser(user);
         model.addAttribute("budgets", budgets);
+        model.addAttribute("noOfBudgets", noOfBudgets);
     }
 
     @ModelAttribute("currentUser")
