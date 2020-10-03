@@ -24,6 +24,7 @@ public class Category implements Comparable<Category> {
 
     private BigDecimal categoryMoney;
 
+
     @ManyToOne
     private Budget budget;
 
@@ -33,6 +34,10 @@ public class Category implements Comparable<Category> {
 
     @Override
     public int compareTo(Category category) {
-        return this.getId().compareTo(category.getId());
+        int compareTo= 0;
+        if (this.getId() != null && category.getId() != null){
+            compareTo = this.getId().compareTo(category.getId());
+        }
+        return compareTo;
     }
 }

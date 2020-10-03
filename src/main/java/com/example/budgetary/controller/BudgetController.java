@@ -4,6 +4,7 @@ import com.example.budgetary.entity.Budget;
 import com.example.budgetary.entity.Category;
 import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.User;
+import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -33,7 +34,7 @@ public class BudgetController {
     }
 
     @GetMapping("/budgets/form")
-    public String displayBudgetForm(Model model){
+    public String displayBudgetForm(Model model) {
         Budget budget = new Budget();
         model.addAttribute("budget", budget);
         return "budget-form";
@@ -41,9 +42,9 @@ public class BudgetController {
 
     @PostMapping("/budgets")
     public String addNewBudget(@ModelAttribute @Valid Budget budget, BindingResult bindingResult,
-            @AuthenticationPrincipal CurrentUser currentUser, Model model) {
-        if (!bindingResult.hasErrors()){
-            budgetService.saveBudget(currentUser.getUser(), budget);
+                               @AuthenticationPrincipal CurrentUser currentUser, Model model) {
+        if (!bindingResult.hasErrors()) {
+            budgetService.createBudget(currentUser.getUser(), budget);
             getBudgets(currentUser.getUser(), model);
             return "budgets";
         }
@@ -52,25 +53,23 @@ public class BudgetController {
     }
 
     @GetMapping("/budgets/{id}")
-    public String displayBudgetById(@PathVariable Long id, Model model){
+    public String displayBudgetById(@PathVariable Long id, Model model) {
         Budget budget = budgetService.findById(id);
-//        Set<Category> categories = budget.getCategories();
-//        List<Category> catList = new ArrayList<>(categories);
-//        Collections.sort(catList);
-        Category newCategory = new Category();
+        CategoryDto categoryDto = new CategoryDto();
         Transaction transaction = new Transaction();
         model.addAttribute("budget", budget);
-//        model.addAttribute("catList", catList);
-        model.addAttribute("newCategory", newCategory);
         model.addAttribute("transaction", transaction);
+        if (!model.containsAttribute("categoryDto")) {
+            model.addAttribute("categoryDto", categoryDto);
+        }
         return "budget";
     }
 
 
-    @GetMapping("/dashboard")
-    public String displayDashboard() {
-        return "dashboard";
-    }
+//    @GetMapping("/dashboard")
+//    public String displayDashboard() {
+//        return "dashboard";
+//    }
 
 
     private void getBudgets(User user, Model model) {

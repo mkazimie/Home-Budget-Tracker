@@ -159,11 +159,11 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <form:form method="post" action="/auth/budgets/${budget.id}/categories"
-                                               modelAttribute="newCategory">
+                                               modelAttribute="categoryDto">
                                     <div class="form-group">
                                         <form:label path="name"> Name </form:label>
                                         <form:input path="name" type="text" class="form-control form-control-user"
-                                                    placeholder="ex. Food, Home..."/>
+                                                    placeholder="ex. Food, Home..." required="required"/>
                                         <form:errors path="name" cssClass="errorMessage"/>
                                     </div>
                                     <div class="form-group">
@@ -171,7 +171,7 @@
                                         <form:input path="categoryMoney" type="number" min="0"
                                                     max="${budget.budgetMoney}"
                                                     class="form-control form-control-user"
-                                                    placeholder="ex. 100 €"/>
+                                                    placeholder="ex. 100 €" required="required"/>
                                         <form:errors path="categoryMoney" cssClass="errorMessage"/>
                                     </div>
                                 </div>

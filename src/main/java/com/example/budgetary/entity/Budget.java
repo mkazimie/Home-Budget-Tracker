@@ -1,6 +1,7 @@
 package com.example.budgetary.entity;
 
 import lombok.*;
+import org.hibernate.annotations.SortNatural;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -8,6 +9,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 
 @Getter
@@ -38,6 +41,7 @@ public class Budget {
     private Set<User> users = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "budget")
-    private Set<Category> categories = new HashSet<>();
+    @OrderBy
+    private SortedSet<Category> categories = new TreeSet<>();
 
 }

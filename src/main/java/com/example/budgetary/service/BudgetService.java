@@ -1,7 +1,6 @@
 package com.example.budgetary.service;
 
 import com.example.budgetary.entity.Budget;
-import com.example.budgetary.entity.Category;
 import com.example.budgetary.entity.User;
 import com.example.budgetary.exception.NoRecordFoundException;
 import com.example.budgetary.repository.BudgetRepository;
@@ -23,13 +22,18 @@ public class BudgetService {
         return budgetRepository.findAllByUsers(user);
     }
 
-    public void saveBudget(User user, Budget budget){
+    public void createBudget(User user, Budget budget){
         budget.setUsers(new HashSet<>(Arrays.asList(user)));
 //        Category category = new Category();
 //        category.setBudget(budget);
 //        category.setName("Savings");
 //        budget.getCategories().add(category);
-        budget.setBudgetMoney(budget.getBudgetMoney());
+//        budget.setBudgetMoney(budget.getBudgetMoney());
+        saveBudget(budget);
+    }
+
+
+    public void saveBudget(Budget budget){
         budgetRepository.save(budget);
     }
 
@@ -42,13 +46,13 @@ public class BudgetService {
         return budget.orElseThrow(() -> new NoRecordFoundException("No such record in the Database"));
     }
 
-    public List<Category> addCategoryToBudget(Category category, Budget budget){
-        Set<Category> categories = budget.getCategories();
-        categories.add(category);
-        budget.setCategories(categories);
-        budgetRepository.save(budget);
-        List <Category> budgetCategories = new ArrayList<>(budget.getCategories());
-        Collections.sort(budgetCategories);
-        return budgetCategories;
-    }
+//    public List<Category> addCategoryToBudget(Category category, Budget budget){
+//        Set<Category> categories = budget.getCategories();
+//        categories.add(category);
+//        budget.setCategories(categories);
+//        budgetRepository.save(budget);
+//        List <Category> budgetCategories = new ArrayList<>(budget.getCategories());
+//        Collections.sort(budgetCategories);
+//        return budgetCategories;
+//    }
 }

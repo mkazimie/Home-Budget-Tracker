@@ -2,6 +2,7 @@ package com.example.budgetary.controller;
 
 import com.example.budgetary.entity.Budget;
 import com.example.budgetary.entity.Category;
+import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.service.BudgetService;
 import com.example.budgetary.service.CategoryService;
 import org.springframework.stereotype.Controller;
@@ -9,12 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/auth/budgets")
@@ -28,22 +27,20 @@ public class CategoryController {
         this.budgetService = budgetService;
     }
 
-    @PostMapping("/{id}/categories")
-    public String addCategory(@ModelAttribute("newCategory") @Valid Category category, BindingResult bindingResult,
-                              Model model,
-                              @PathVariable Long id){
+    @PostMapping("/{budgetId}/categories")
+    public String addCategory(@ModelAttribute("newCategory") @Valid CategoryDto categoryDto, BindingResult bindingResult,
+                              Model model, @PathVariable Long budgetId, RedirectAttributes attr){
         if (!bindingResult.hasErrors()){
-            Budget budget = budgetService.findById(id);
-            category.setBudget(budget);
-            categoryService.saveCategory(category);
-//            Set<Category> categories = budget.getCategories();
-//            List <Category> budgetCategories = new ArrayList<>(categories);
-//            Collections.sort(budgetCategories);
-//            model.addAttribute("budgetCategories", budgetCategories);
+            Budget budget = budgetService.findById(budgetId);
+            SortedSet<Category> budgetCategories = categoryService.addNewCategory(categoryDto, budget);
+            model.addAttribute("budgetCategories", budgetCategories);
             model.addAttribute("budget", budget);
-            return "budget";
+        } else {
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.categoryDto", bindingResult);
+            attr.addFlashAttribute("categoryDto", categoryDto);
         }
-        return "budget";
+        return "redirect:/auth/budgets/{budgetId}";
+
     }
 
 
