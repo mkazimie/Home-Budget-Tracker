@@ -3,10 +3,12 @@ package com.example.budgetary.service;
 import com.example.budgetary.entity.Budget;
 import com.example.budgetary.entity.Category;
 import com.example.budgetary.entity.dto.CategoryDto;
+import com.example.budgetary.exception.NoRecordFoundException;
 import com.example.budgetary.repository.BudgetRepository;
 import com.example.budgetary.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.SortedSet;
 
 @Service
@@ -33,6 +35,11 @@ public class CategoryService {
         budget.setCategories(budgetCategories);
         budgetService.saveBudget(budget);
         return budgetCategories;
+    }
+
+    public Category findCategoryById(Long id){
+        Optional<Category> category = categoryRepository.findById(id);
+        return category.orElseThrow(() -> new NoRecordFoundException("No record found in our DB"));
     }
 
 

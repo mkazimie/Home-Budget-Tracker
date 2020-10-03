@@ -206,8 +206,7 @@
                                         <tbody>
                                         <c:forEach items="${budget.categories}" var="category">
                                             <tr class="text-center">
-                                                <td class="align-middle"><a href="/auth/budgets/${budget.id}/categories
-                                            /${category.id}"
+                                                <td class="align-middle"><a href="/auth/budgets/${budget.id}/categories/${category.id}"
                                                                             class="btn btn-primary"><i
                                                         class="fas fa-angle-double-right"></i></a></td>
                                                 <td class="align-middle">${category.name}</td>

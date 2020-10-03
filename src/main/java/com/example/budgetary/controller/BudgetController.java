@@ -56,20 +56,12 @@ public class BudgetController {
     public String displayBudgetById(@PathVariable Long id, Model model) {
         Budget budget = budgetService.findById(id);
         CategoryDto categoryDto = new CategoryDto();
-        Transaction transaction = new Transaction();
         model.addAttribute("budget", budget);
-        model.addAttribute("transaction", transaction);
         if (!model.containsAttribute("categoryDto")) {
             model.addAttribute("categoryDto", categoryDto);
         }
         return "budget";
     }
-
-
-//    @GetMapping("/dashboard")
-//    public String displayDashboard() {
-//        return "dashboard";
-//    }
 
 
     private void getBudgets(User user, Model model) {
