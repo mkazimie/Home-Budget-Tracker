@@ -1660,7 +1660,8 @@ pre code {
 .table {
     width: 100%;
     margin-bottom: 1rem;
-    color: #858796
+    color: #0F1C2E;
+    /*color: #858796*/
 }
 
 .table td, .table th {
