@@ -150,7 +150,7 @@
                 <!-- Content Row -->
                 <div class="row">
 
-                    <!-- Form for adding NEW CATEGORY directly -->
+                    <!-- Form for adding NEW CATEGORY -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <div class="card border-left-warning shadow py-2">
                             <div class="card-header">
@@ -185,6 +185,7 @@
                         </div>
                     </div>
 
+                    <!-- Table displaying ALL CATEGORIES for this budget -->
                     <div class="col-md-6 mb-4 ">
                         <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-header">
@@ -196,21 +197,22 @@
                                 <div class="table-responsive">
                                     <table class="table" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
-                                        <tr>
-                                            <th></th>
+                                        <tr class="text-center">
                                             <th>Name</th>
                                             <th><strong>Budget €</strong></th>
+                                            <th>Details</th>
                                         </tr>
                                         </thead>
 
                                         <tbody>
                                         <c:forEach items="${budget.categories}" var="category">
                                             <tr class="text-center">
-                                                <td class="align-middle"><a href="/auth/budgets/${budget.id}/categories/${category.id}"
-                                                                            class="btn btn-primary"><i
-                                                        class="fas fa-angle-double-right"></i></a></td>
                                                 <td class="align-middle">${category.name}</td>
                                                 <td class="align-middle">${category.categoryMoney}</td>
+                                                <td class="align-middle"><a
+                                                        href="/auth/budgets/${budget.id}/categories/${category.id}"
+                                                        class="btn btn-primary"><i
+                                                        class="fas fa-angle-double-right"></i></a></td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>

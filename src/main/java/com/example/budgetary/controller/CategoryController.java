@@ -62,6 +62,11 @@ public class CategoryController {
         return budgetService.findById(budgetId);
     }
 
+    @ModelAttribute("transactionType")
+    public List<String> status() {
+        return Arrays.asList("Income", "Expense");
+    }
+
 
 
 

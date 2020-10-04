@@ -35,7 +35,8 @@
 
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-baseline justify-content-between mb-4">
-                    <a href="/auth/budgets/" class="btn btn-primary"><i class="fas fa-angle-double-left"></i></a>
+                    <a href="/auth/budgets/${budget.id}"
+                       class="btn btn-primary"><i class="fas fa-angle-double-left"></i></a>
                     <h1 class="col-10 h3 mb-0 text-gray-800">${category.name} Category Dashboard </h1>
                 </div>
 
@@ -87,39 +88,41 @@
                 <div class="row">
 
 
-                    <!-- Form for adding NEW TRANSACTION directly LEAVE FOR CATEGORIES!!! -->
+                    <!-- Form for adding NEW TRANSACTION -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <div class="card border-left-info h-100 shadow py-2">
                             <div class="card-header">
-                                <div class="card-title font-weight-bold text-center">Add Transaction</div>
+                                <h5 class="card-title text-primary font-weight-bold text-center"> Add Transaction </h5>
                             </div>
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <form:form method="post" action="/auth/budgets/${budget.id}/transactions"
                                                modelAttribute="transactionDto">
                                     <div class="form-group">
-                                        <form:label path="title"> Title </form:label>
+                                        <form:label path="title" cssClass="text-primary"> Title </form:label>
                                         <form:input path="title" type="text" class="form-control form-control-user"
                                                     placeholder="Transaction Title"/>
                                         <form:errors path="title" cssClass="errorMessage"/>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="type"> Type </form:label>
-                                        <form:input path="type" type="text"
-                                                    class="form-control form-control-user"
-                                                    placeholder="Income / Spending "/>
+                                        <form:label path="type" cssClass="text-primary"> Type </form:label>
+                                        <form:select path="type" class="form-control">
+                                            <form:option value="null" label="--Select--" selected="selected"/>
+                                            <form:options items="${transactionType}"/>
+                                        </form:select>
                                         <form:errors path="type" cssClass="errorMessage"/>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="sum"> Sum </form:label>
-                                        <form:input path="sum" type="number"
+                                        <form:label path="sum" cssClass="text-primary"> Sum </form:label>
+                                        <form:input path="sum" type="number" min="0" max="${category.categoryMoney}"
                                                     class="form-control form-control-user"
                                                     placeholder="ex. 50 EUR"/>
                                         <form:errors path="sum" cssClass="errorMessage"/>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="date"> Date </form:label>
-                                        <form:input path="date" type="date"
+                                        <form:label path="date" cssClass="text-primary"> Date </form:label>
+                                        <form:input path="date" type="date" min="${budget.startDate}"
+                                                    max="${budget.endDate}"
                                                     class="form-control form-control-user"
                                                     placeholder="yyyy-MM-dd"/>
                                         <form:errors path="date" cssClass="errorMessage"/>
@@ -151,7 +154,6 @@
                                             <th>#</th>
                                             <th>Title</th>
                                             <th><strong>€</strong></th>
-                                            <th>Type</th>
                                             <th>User</th>
 
                                         </tr>
@@ -163,7 +165,6 @@
                                                 <td>#</td>
                                                 <td class="align-middle">${transaction.title}</td>
                                                 <td class="align-middle">${transaction.sum}</td>
-                                                <td class="align-middle">${transaction.type}</td>
                                                 <td class="align-middle">${transaction.user.username}</td>
                                             </tr>
                                         </c:forEach>

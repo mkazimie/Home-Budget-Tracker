@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -24,13 +25,25 @@ public class Category implements Comparable<Category> {
 
     private BigDecimal categoryMoney;
 
-
     @ManyToOne
     private Budget budget;
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "category")
     private Set<Transaction> transactions = new HashSet<>();
 
+    private LocalDateTime dateAdded;
+
+    private LocalDateTime dateUpdated;
+
+    @PrePersist
+    public void prePersist(){
+        dateAdded = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        dateUpdated = LocalDateTime.now();
+    }
 
     @Override
     public int compareTo(Category category) {
