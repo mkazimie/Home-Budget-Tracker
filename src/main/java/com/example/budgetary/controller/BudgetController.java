@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.*;
 
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/auth/budgets")
 public class BudgetController {
 
     private final BudgetService budgetService;
@@ -27,20 +27,20 @@ public class BudgetController {
     }
 
 
-    @GetMapping("/budgets")
+    @GetMapping("")
     public String displayBudgets(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
         getBudgets(currentUser.getUser(), model);
         return "budgets";
     }
 
-    @GetMapping("/budgets/form")
+    @GetMapping("/form")
     public String displayBudgetForm(Model model) {
         Budget budget = new Budget();
         model.addAttribute("budget", budget);
         return "budget-form";
     }
 
-    @PostMapping("/budgets")
+    @PostMapping("")
     public String addNewBudget(@ModelAttribute @Valid Budget budget, BindingResult bindingResult,
                                @AuthenticationPrincipal CurrentUser currentUser, Model model) {
         if (!bindingResult.hasErrors()) {
@@ -52,7 +52,7 @@ public class BudgetController {
         return "budget-form";
     }
 
-    @GetMapping("/budgets/{id}")
+    @GetMapping("/{id}")
     public String displayBudgetById(@PathVariable Long id, Model model) {
         Budget budget = budgetService.findById(id);
         CategoryDto categoryDto = new CategoryDto();

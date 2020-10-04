@@ -19,18 +19,6 @@ public class TransactionService {
         this.categoryService = categoryService;
     }
 
-    //    public SortedSet<Category> addNewCategory(CategoryDto categoryDto, Budget budget){
-    //        Category category = new Category();
-    //        category.setName(categoryDto.getName());
-    //        category.setCategoryMoney(categoryDto.getCategoryMoney());
-    //        category.setBudget(budget);
-    //        saveCategory(category);
-    //        SortedSet<Category> budgetCategories = budget.getCategories();
-    //        budgetCategories.add(category);
-    //        budget.setCategories(budgetCategories);
-    //        budgetService.saveBudget(budget);
-    //        return budgetCategories;
-    //    }
 
     public Set<Transaction> addTransaction(TransactionDto transactionDto, Category transactionCategory){
         Transaction transaction = new Transaction();

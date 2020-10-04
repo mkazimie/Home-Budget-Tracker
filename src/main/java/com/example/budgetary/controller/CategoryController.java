@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.*;
 
 @Controller
-@RequestMapping("/auth/budgets/{budgetId}")
+@RequestMapping("/auth/budgets/{budgetId}/categories")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -28,7 +28,7 @@ public class CategoryController {
         this.budgetService = budgetService;
     }
 
-    @PostMapping("/categories")
+    @PostMapping("")
     public String addCategory(@ModelAttribute("newCategory") @Valid CategoryDto categoryDto, BindingResult bindingResult,
                               Model model, @PathVariable Long budgetId, RedirectAttributes attr){
         if (!bindingResult.hasErrors()){
@@ -43,13 +43,15 @@ public class CategoryController {
         return "redirect:/auth/budgets/{budgetId}";
     }
 
-    @GetMapping("/categories/{categoryId}")
+    @GetMapping("/{categoryId}")
     public String displayCategory(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model){
         Category category = categoryService.findCategoryById(categoryId);
         Budget budget = findBudget(budgetId);
         model.addAttribute("category", category);
         model.addAttribute("budget", budget);
-        model.addAttribute("transactionDto", new TransactionDto());
+        if (!model.containsAttribute("transactionDto")) {
+            model.addAttribute("transactionDto", new TransactionDto());
+        }
         return "category";
 
     }

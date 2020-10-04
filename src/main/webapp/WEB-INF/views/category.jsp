@@ -13,7 +13,7 @@
 <html>
 <head>
     <%@include file="fragment/header.jsp" %>
-    <title>Title</title>
+    <title>Category View</title>
 </head>
 <body>
 <!-- Page Heading -->
@@ -89,35 +89,41 @@
 
 
                     <!-- Form for adding NEW TRANSACTION -->
-                    <div class="col-xl-3 col-md-6 mb-4 ">
+                    <div class="col-xl-4 col-md-6 mb-4 ">
                         <div class="card border-left-info h-100 shadow py-2">
                             <div class="card-header">
                                 <h5 class="card-title text-primary font-weight-bold text-center"> Add Transaction </h5>
                             </div>
                             <div class="card-body">
-                                <div class="row no-gutters align-items-center">
+                                <div class="row no-gutters align-items-center justify-content-center">
                                     <form:form method="post"
                                                action="/auth/budgets/${budget.id}/categories/${category.id}/transactions"
                                                modelAttribute="transactionDto">
                                     <div class="form-group">
                                         <form:label path="title" cssClass="text-primary"> Title </form:label>
                                         <form:input path="title" type="text" class="form-control form-control-user"
-                                                    placeholder="Transaction Title"/>
+                                                    placeholder="" required="required"/>
                                         <form:errors path="title" cssClass="errorMessage"/>
                                     </div>
                                     <div class="form-group">
                                         <form:label path="type" cssClass="text-primary"> Type </form:label>
                                         <form:select path="type" class="form-control">
-                                            <form:option value="null" label="--Select--" selected="selected"/>
+                                            <form:option value="Expense" label="--Select--" selected="selected"/>
                                             <form:options items="${transactionType}"/>
                                         </form:select>
                                         <form:errors path="type" cssClass="errorMessage"/>
                                     </div>
                                     <div class="form-group">
                                         <form:label path="sum" cssClass="text-primary"> Sum </form:label>
-                                        <form:input path="sum" type="number" min="0" max="${category.categoryMoney}"
-                                                    class="form-control form-control-user"
-                                                    placeholder="ex. 50 EUR"/>
+                                        <div class="input-group">
+                                            <form:input path="sum" type="number" min="1"
+                                                        max="${category.categoryMoney}" step=".01"
+                                                        class="form-control form-control-user"
+                                                        placeholder=""/>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">€</span>
+                                            </div>
+                                        </div>
                                         <form:errors path="sum" cssClass="errorMessage"/>
                                     </div>
                                     <div class="form-group">
@@ -125,7 +131,7 @@
                                         <form:input path="date" type="date" min="${budget.startDate}"
                                                     max="${budget.endDate}"
                                                     class="form-control form-control-user"
-                                                    placeholder="yyyy-MM-dd"/>
+                                                    placeholder="yyyy-MM-dd" required="required"/>
                                         <form:errors path="date" cssClass="errorMessage"/>
                                     </div>
                                 </div>
@@ -138,8 +144,8 @@
                         </div>
                     </div>
 
-
-                    <div class="col-md-6 mb-4 ">
+                    <!-- Table with list of transactions -->
+                    <div class="col-xl-6 col-md-6 mb-4 ">
                         <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-header">
                                 <div class="row">
@@ -149,10 +155,9 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                    <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
-                                        <tr>
-                                            <th>#</th>
+                                        <tr class="text-center">
                                             <th>Title</th>
                                             <th><strong>€</strong></th>
                                             <th>User</th>
@@ -163,7 +168,6 @@
                                         <tbody>
                                         <c:forEach items="${category.transactions}" var="transaction">
                                             <tr class="text-center">
-                                                <td>#</td>
                                                 <td class="align-middle">${transaction.title}</td>
                                                 <td class="align-middle">${transaction.sum}</td>
                                                 <td class="align-middle">${transaction.user.username}</td>

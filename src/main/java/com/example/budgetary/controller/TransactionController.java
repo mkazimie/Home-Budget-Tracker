@@ -27,11 +27,11 @@ public class TransactionController {
     }
 
     @PostMapping("")
-    public String displayCategoryForm(@ModelAttribute @Valid TransactionDto transactionDto,
-                                      @PathVariable Long categoryId, BindingResult bindingResult,
-                                      RedirectAttributes attr,
-                                      Model model, @PathVariable Long budgetId){
-        if (!bindingResult.hasErrors()){
+    public String addTransaction(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto,
+                                 BindingResult bindingResult,
+                                 @PathVariable Long categoryId,
+                                 Model model, @PathVariable Long budgetId, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
             Category transactionCategory = categoryService.findCategoryById(categoryId);
             Set<Transaction> categoryTransactions = transactionService.addTransaction(transactionDto, transactionCategory);
             model.addAttribute("categoryTransactions", categoryTransactions);

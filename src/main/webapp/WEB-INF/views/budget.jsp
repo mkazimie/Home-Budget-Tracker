@@ -151,14 +151,14 @@
                 <div class="row">
 
                     <!-- Form for adding NEW CATEGORY -->
-                    <div class="col-xl-3 col-md-6 mb-4 ">
+                    <div class="col-xl-4 col-md-6 mb-4 ">
                         <div class="card border-left-warning shadow py-2">
                             <div class="card-header">
                                 <h5 class="card-title font-weight-bold text-center text-primary">Add
                                     Category</h5>
                             </div>
                             <div class="card-body">
-                                <div class="row no-gutters align-items-center">
+                                <div class="row no-gutters align-items-center justify-content-center">
                                     <form:form method="post" action="/auth/budgets/${budget.id}/categories"
                                                modelAttribute="categoryDto">
                                     <div class="form-group">
@@ -169,10 +169,15 @@
                                     </div>
                                     <div class="form-group">
                                         <form:label path="categoryMoney" cssClass="text-primary"> Budget </form:label>
-                                        <form:input path="categoryMoney" type="number" min="0"
-                                                    max="${budget.budgetMoney}"
-                                                    class="form-control form-control-user"
-                                                    placeholder="ex. 100 €" required="required"/>
+                                        <div class="input-group">
+                                            <form:input path="categoryMoney" type="number" min="1" step=".01"
+                                                        max="${budget.budgetMoney}"
+                                                        class="form-control form-control-user"
+                                                        placeholder="" required="required"/>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">€</span>
+                                            </div>
+                                        </div>
                                         <form:errors path="categoryMoney" cssClass="errorMessage"/>
                                     </div>
                                 </div>
@@ -186,7 +191,7 @@
                     </div>
 
                     <!-- Table displaying ALL CATEGORIES for this budget -->
-                    <div class="col-md-6 mb-4 ">
+                    <div class="col-xl-7 col-md-6 mb-4 ">
                         <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-header">
                                 <div class="row">
@@ -195,24 +200,23 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                    <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                         <tr class="text-center">
+                                            <th></th>
                                             <th>Name</th>
                                             <th><strong>Budget €</strong></th>
-                                            <th>Details</th>
                                         </tr>
                                         </thead>
 
                                         <tbody>
                                         <c:forEach items="${budget.categories}" var="category">
                                             <tr class="text-center">
-                                                <td class="align-middle">${category.name}</td>
-                                                <td class="align-middle">${category.categoryMoney}</td>
                                                 <td class="align-middle"><a
                                                         href="/auth/budgets/${budget.id}/categories/${category.id}"
                                                         class="btn btn-primary"><i
-                                                        class="fas fa-angle-double-right"></i></a></td>
+                                                        class="fas fa-angle-double-right"></i></a></td>                                                <td class="align-middle">${category.name}</td>
+                                                <td class="align-middle">${category.categoryMoney}</td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>
