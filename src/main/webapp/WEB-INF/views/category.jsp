@@ -96,7 +96,8 @@
                             </div>
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
-                                    <form:form method="post" action="/auth/budgets/${budget.id}/transactions"
+                                    <form:form method="post"
+                                               action="/auth/budgets/${budget.id}/categories/${category.id}/transactions"
                                                modelAttribute="transactionDto">
                                     <div class="form-group">
                                         <form:label path="title" cssClass="text-primary"> Title </form:label>

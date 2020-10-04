@@ -32,7 +32,6 @@ public class CategoryController {
     public String addCategory(@ModelAttribute("newCategory") @Valid CategoryDto categoryDto, BindingResult bindingResult,
                               Model model, @PathVariable Long budgetId, RedirectAttributes attr){
         if (!bindingResult.hasErrors()){
-//            Budget budget = budgetService.findById(budgetId);
             Budget budget = findBudget(budgetId);
             SortedSet<Category> budgetCategories = categoryService.addNewCategory(categoryDto, budget);
             model.addAttribute("budgetCategories", budgetCategories);
@@ -47,9 +46,6 @@ public class CategoryController {
     @GetMapping("/categories/{categoryId}")
     public String displayCategory(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model){
         Category category = categoryService.findCategoryById(categoryId);
-
-
-
         Budget budget = findBudget(budgetId);
         model.addAttribute("category", category);
         model.addAttribute("budget", budget);

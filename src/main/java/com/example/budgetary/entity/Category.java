@@ -1,6 +1,7 @@
 package com.example.budgetary.entity;
 
 import lombok.*;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -10,9 +11,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "transactions")
 @Entity
 @Table(name = "categories")
 public class Category implements Comparable<Category> {
