@@ -66,9 +66,11 @@ public class BudgetController {
     public String displayBudgetById(@PathVariable Long id, Model model) {
         Budget budget = budgetService.findById(id);
         BigDecimal allExpenses = countAllExpenses(budget);
+        BigDecimal allCategoryBudgets = sumUpCategoryBudgets(budget);
         CategoryDto categoryDto = new CategoryDto();
         model.addAttribute("budget", budget);
         model.addAttribute("allExpenses", allExpenses);
+        model.addAttribute("allCategoryBudgets", allCategoryBudgets);
         if (!model.containsAttribute("categoryDto")) {
             model.addAttribute("categoryDto", categoryDto);
         }
@@ -81,6 +83,12 @@ public class BudgetController {
         int noOfBudgets = budgetService.countBudgetsByUser(user);
         model.addAttribute("budgets", budgets);
         model.addAttribute("noOfBudgets", noOfBudgets);
+    }
+
+    private BigDecimal sumUpCategoryBudgets(Budget budget) {
+        return budget.getCategories().stream()
+                .map(Category::getCategoryBudget)
+                .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
     private BigDecimal countAllExpenses(Budget budget) {

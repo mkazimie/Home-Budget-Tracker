@@ -171,7 +171,7 @@
                                         <form:label path="categoryMoney" cssClass="text-primary"> Budget </form:label>
                                         <div class="input-group">
                                             <form:input path="categoryMoney" type="number" min="1" step=".01"
-                                                        max="${budget.budgetMoney}"
+                                                        max="${budget.budgetMoney - allCategoryBudgets}"
                                                         class="form-control form-control-user"
                                                         placeholder="" required="required"/>
                                             <div class="input-group-append">
@@ -205,7 +205,8 @@
                                         <tr class="text-center">
                                             <th></th>
                                             <th>Name</th>
-                                            <th><strong>Budget €</strong></th>
+                                            <th><strong>Budget</strong></th>
+                                            <th><strong>Available</strong></th>
                                         </tr>
                                         </thead>
 
@@ -216,7 +217,8 @@
                                                         href="/auth/budgets/${budget.id}/categories/${category.id}"
                                                         class="btn btn-primary"><i
                                                         class="fas fa-angle-double-right"></i></a></td>                                                <td class="align-middle">${category.name}</td>
-                                                <td class="align-middle">${category.categoryMoney}</td>
+                                                <td class="align-middle">${category.categoryBudget}</td>
+                                                <td class="align-middle">${category.moneyLeft}</td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>

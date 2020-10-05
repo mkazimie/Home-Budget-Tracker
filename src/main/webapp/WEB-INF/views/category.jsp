@@ -52,7 +52,7 @@
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
                                             LEFT
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">${category.categoryMoney}</div>
+                                        <div class="h5 mb-0 font-weight-bold text-white">${category.moneyLeft}</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
@@ -72,7 +72,9 @@
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
                                             SPENT
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">${sumOfCategoryTransactions}</div>
+                                        <div
+                                                class="h5 mb-0 font-weight-bold text-white">${category.categoryBudget
+                                                 - category.moneyLeft}</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
@@ -117,7 +119,7 @@
                                         <form:label path="sum" cssClass="text-primary"> Sum </form:label>
                                         <div class="input-group">
                                             <form:input path="sum" type="number" min="1"
-                                                        max="${category.categoryMoney}" step=".01"
+                                                        max="${category.moneyLeft}" step=".01"
                                                         class="form-control form-control-user"
                                                         placeholder=""/>
                                             <div class="input-group-append">

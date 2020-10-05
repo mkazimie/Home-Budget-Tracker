@@ -28,7 +28,8 @@ public class CategoryService {
     public SortedSet<Category> addNewCategory(CategoryDto categoryDto, Budget budget){
         Category category = new Category();
         category.setName(categoryDto.getName());
-        category.setCategoryMoney(categoryDto.getCategoryMoney());
+        category.setCategoryBudget(categoryDto.getCategoryMoney());
+        category.setMoneyLeft(categoryDto.getCategoryMoney());
         category.setBudget(budget);
         saveCategory(category);
         SortedSet<Category> budgetCategories = budget.getCategories();

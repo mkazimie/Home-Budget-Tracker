@@ -49,8 +49,8 @@ public class CategoryController {
     public String displayCategory(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model) {
         Category category = categoryService.findCategoryById(categoryId);
         Budget budget = findBudget(budgetId);
-        BigDecimal sumOfCategoryExpenses = countCategoryExpenses(category);
-        model.addAttribute("sumOfCategoryTransactions", sumOfCategoryExpenses);
+//        BigDecimal sumOfCategoryExpenses = countCategoryExpenses(category);
+//        model.addAttribute("sumOfCategoryTransactions", sumOfCategoryExpenses);
         model.addAttribute("category", category);
         model.addAttribute("budget", budget);
         if (!model.containsAttribute("transactionDto")) {
@@ -60,12 +60,12 @@ public class CategoryController {
 
     }
 
-    public BigDecimal countCategoryExpenses(Category category) {
-        Set<Transaction> categoryTransactions = category.getTransactions();
-        return categoryTransactions.stream()
-                .map(Transaction::getSum)
-                .reduce(new BigDecimal(0), BigDecimal::add);
-    }
+//    public BigDecimal countCategoryExpenses(Category category) {
+//        Set<Transaction> categoryTransactions = category.getTransactions();
+//        return categoryTransactions.stream()
+//                .map(Transaction::getSum)
+//                .reduce(new BigDecimal(0), BigDecimal::add);
+//    }
 
 
     public Budget findBudget(@PathVariable Long budgetId) {

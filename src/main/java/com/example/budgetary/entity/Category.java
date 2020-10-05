@@ -26,7 +26,9 @@ public class Category implements Comparable<Category> {
 
     private String name;
 
-    private BigDecimal categoryMoney;
+    private BigDecimal categoryBudget;
+
+    private BigDecimal moneyLeft;
 
     @ManyToOne
     private Budget budget;

@@ -37,6 +37,8 @@ public class Budget {
 
     private BigDecimal budgetMoney;
 
+    private BigDecimal moneyLeft;
+
     @ManyToMany
     @JoinTable(name = "budgets_users", joinColumns = @JoinColumn(name = "budget_id"), inverseJoinColumns =
     @JoinColumn(name = "user_id"))
