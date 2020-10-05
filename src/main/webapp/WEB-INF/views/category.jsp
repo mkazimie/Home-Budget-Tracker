@@ -45,12 +45,12 @@
 
                     <!-- Money Left Card -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
-                        <div class="card h-100 shadow py-2 bg-gradient-success ">
+                        <div class="card h-100 shadow py-2 bg-gradient-info">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Savings
+                                            LEFT
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-white">${category.categoryMoney}</div>
                                     </div>
@@ -65,14 +65,14 @@
                     <!-- Spent so far -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
-                        <div class="card h-100 shadow py-2 bg-gradient-secondary ">
+                        <div class="card h-100 shadow py-2 bg-gradient-warning">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Spendings
+                                            SPENT
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">XXX EUR</div>
+                                        <div class="h5 mb-0 font-weight-bold text-white">${sumOfCategoryTransactions}</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
@@ -92,7 +92,7 @@
                     <div class="col-xl-4 col-md-6 mb-4 ">
                         <div class="card border-left-info h-100 shadow py-2">
                             <div class="card-header">
-                                <h5 class="card-title text-primary font-weight-bold text-center"> Add Transaction </h5>
+                                <h5 class="card-title text-primary font-weight-bold text-center"> Add Expense </h5>
                             </div>
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center justify-content-center">
@@ -105,14 +105,14 @@
                                                     placeholder="" required="required"/>
                                         <form:errors path="title" cssClass="errorMessage"/>
                                     </div>
-                                    <div class="form-group">
-                                        <form:label path="type" cssClass="text-primary"> Type </form:label>
-                                        <form:select path="type" class="form-control">
-                                            <form:option value="Expense" label="--Select--" selected="selected"/>
-                                            <form:options items="${transactionType}"/>
-                                        </form:select>
-                                        <form:errors path="type" cssClass="errorMessage"/>
-                                    </div>
+<%--                                    <div class="form-group">--%>
+<%--                                        <form:label path="type" cssClass="text-primary"> Type </form:label>--%>
+<%--                                        <form:select path="type" class="form-control">--%>
+<%--                                            <form:option value="Expense" label="--Select--" selected="selected"/>--%>
+<%--                                            <form:options items="${transactionType}"/>--%>
+<%--                                        </form:select>--%>
+<%--                                        <form:errors path="type" cssClass="errorMessage"/>--%>
+<%--                                    </div>--%>
                                     <div class="form-group">
                                         <form:label path="sum" cssClass="text-primary"> Sum </form:label>
                                         <div class="input-group">
@@ -150,7 +150,7 @@
                             <div class="card-header">
                                 <div class="row">
                                     <h5 class="m-0 font-weight-bold text-primary text-center col-10"> Latest
-                                        Transactions </h5>
+                                        Expenses </h5>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -161,6 +161,7 @@
                                             <th>Title</th>
                                             <th><strong>€</strong></th>
                                             <th>User</th>
+                                            <th>Date</th>
 
                                         </tr>
                                         </thead>
@@ -171,6 +172,7 @@
                                                 <td class="align-middle">${transaction.title}</td>
                                                 <td class="align-middle">${transaction.sum}</td>
                                                 <td class="align-middle">${transaction.user.username}</td>
+                                                <td class="align-middle">${transaction.date}</td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>

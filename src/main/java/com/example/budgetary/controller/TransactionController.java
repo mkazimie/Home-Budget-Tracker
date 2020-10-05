@@ -3,8 +3,10 @@ package com.example.budgetary.controller;
 import com.example.budgetary.entity.Category;
 import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.dto.TransactionDto;
+import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.CategoryService;
 import com.example.budgetary.service.TransactionService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Controller
@@ -28,12 +31,13 @@ public class TransactionController {
 
     @PostMapping("")
     public String addTransaction(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto,
-                                 BindingResult bindingResult,
+                                 BindingResult bindingResult, @AuthenticationPrincipal CurrentUser currentUser,
                                  @PathVariable Long categoryId,
                                  Model model, @PathVariable Long budgetId, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
             Category transactionCategory = categoryService.findCategoryById(categoryId);
-            Set<Transaction> categoryTransactions = transactionService.addTransaction(transactionDto, transactionCategory);
+            Set<Transaction> categoryTransactions = transactionService.addTransaction(transactionDto,
+                    transactionCategory, currentUser.getUser());
             model.addAttribute("categoryTransactions", categoryTransactions);
         } else {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.transactionDto", bindingResult);

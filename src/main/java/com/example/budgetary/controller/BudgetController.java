@@ -14,8 +14,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/auth/budgets")
@@ -62,8 +65,10 @@ public class BudgetController {
     @GetMapping("/{id}")
     public String displayBudgetById(@PathVariable Long id, Model model) {
         Budget budget = budgetService.findById(id);
+        BigDecimal allExpenses = countAllExpenses(budget);
         CategoryDto categoryDto = new CategoryDto();
         model.addAttribute("budget", budget);
+        model.addAttribute("allExpenses", allExpenses);
         if (!model.containsAttribute("categoryDto")) {
             model.addAttribute("categoryDto", categoryDto);
         }
@@ -77,6 +82,14 @@ public class BudgetController {
         model.addAttribute("budgets", budgets);
         model.addAttribute("noOfBudgets", noOfBudgets);
     }
+
+    private BigDecimal countAllExpenses(Budget budget) {
+        return budget.getCategories().stream()
+                .flatMap(category -> category.getTransactions().stream())
+                .map(Transaction::getSum)
+                .reduce(new BigDecimal(0), BigDecimal::add);
+    }
+
 
     @ModelAttribute("currentUser")
     public User currentUser(@AuthenticationPrincipal CurrentUser currentUser) {

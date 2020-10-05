@@ -29,7 +29,7 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4"> Create New Budget </h1>
                         </div>
-                        <div id="errorMsg" class="alert alert-danger d-none" role="alert">${error}</div>
+                        <div class="errorMsg alert alert-danger d-none" role="alert">${error}</div>
                         <form:form method="post" action="/auth/budgets" modelAttribute="budget" cssClass="user">
                             <div class="form-group">
                                 <form:label path="name" cssClass="text-primary"> Name </form:label>

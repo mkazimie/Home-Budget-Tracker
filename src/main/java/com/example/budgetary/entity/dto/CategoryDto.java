@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class CategoryDto {
 
-    @Pattern(regexp = "[A-Za-z0-9-_/ .]{1,20}", message = "Please name your category (1-20 characters)")
+    @Pattern(regexp = "[A-Za-z0-9-_/ .]{1,20}", message = "*Please name your category (1-20 characters)")
     private String name;
 
     private BigDecimal categoryMoney;

@@ -7,8 +7,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.*;
 
-@Data
-@ToString(exclude = "budgets")
+@Getter
+@Setter
+@ToString(exclude = {"budgets", "transactions"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

@@ -8,6 +8,7 @@ import com.example.budgetary.repository.BudgetRepository;
 import com.example.budgetary.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.SortedSet;
 

@@ -2,6 +2,7 @@ package com.example.budgetary.controller;
 
 import com.example.budgetary.entity.Budget;
 import com.example.budgetary.entity.Category;
+import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.service.BudgetService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -30,8 +32,8 @@ public class CategoryController {
 
     @PostMapping("")
     public String addCategory(@ModelAttribute("newCategory") @Valid CategoryDto categoryDto, BindingResult bindingResult,
-                              Model model, @PathVariable Long budgetId, RedirectAttributes attr){
-        if (!bindingResult.hasErrors()){
+                              Model model, @PathVariable Long budgetId, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
             Budget budget = findBudget(budgetId);
             SortedSet<Category> budgetCategories = categoryService.addNewCategory(categoryDto, budget);
             model.addAttribute("budgetCategories", budgetCategories);
@@ -44,9 +46,11 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
-    public String displayCategory(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model){
+    public String displayCategory(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model) {
         Category category = categoryService.findCategoryById(categoryId);
         Budget budget = findBudget(budgetId);
+        BigDecimal sumOfCategoryExpenses = countCategoryExpenses(category);
+        model.addAttribute("sumOfCategoryTransactions", sumOfCategoryExpenses);
         model.addAttribute("category", category);
         model.addAttribute("budget", budget);
         if (!model.containsAttribute("transactionDto")) {
@@ -56,16 +60,17 @@ public class CategoryController {
 
     }
 
-    public Budget findBudget(@PathVariable Long budgetId){
+    public BigDecimal countCategoryExpenses(Category category) {
+        Set<Transaction> categoryTransactions = category.getTransactions();
+        return categoryTransactions.stream()
+                .map(Transaction::getSum)
+                .reduce(new BigDecimal(0), BigDecimal::add);
+    }
+
+
+    public Budget findBudget(@PathVariable Long budgetId) {
         return budgetService.findById(budgetId);
     }
-
-    @ModelAttribute("transactionType")
-    public List<String> status() {
-        return Arrays.asList("Income", "Expense");
-    }
-
-
 
 
 }

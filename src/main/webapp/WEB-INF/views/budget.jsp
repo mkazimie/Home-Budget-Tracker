@@ -55,7 +55,7 @@
                                             Savings
                                             <%--                                            ${catList[0].name}--%>
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">${budget.budgetMoney}</div>
+                                        <div class="h5 mb-0 font-weight-bold text-white">${budget.budgetMoney}€</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
@@ -75,7 +75,7 @@
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
                                             Spendings
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">XXX EUR</div>
+                                        <div class="h5 mb-0 font-weight-bold text-white">${allExpenses}€</div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-euro-sign fa-2x text-gray-300"></i>

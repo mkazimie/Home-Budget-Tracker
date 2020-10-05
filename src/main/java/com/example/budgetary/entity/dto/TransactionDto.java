@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class TransactionDto {
 
 
-    @Pattern(regexp = "[A-Za-z0-9-_/ .]{1,20}", message = "Please name your transaction (1-20 characters)")
+    @Pattern(regexp = "[A-Za-z0-9-_/ .]{1,20}", message = "* Please name your transaction (1-20 characters)")
     private String title;
 
     private String type;
