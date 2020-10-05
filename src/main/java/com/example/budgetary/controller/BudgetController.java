@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -44,6 +45,12 @@ public class BudgetController {
     public String addNewBudget(@ModelAttribute @Valid Budget budget, BindingResult bindingResult,
                                @AuthenticationPrincipal CurrentUser currentUser, Model model) {
         if (!bindingResult.hasErrors()) {
+            LocalDate startDate = budget.getStartDate();
+            LocalDate endDate = budget.getEndDate();
+            if (!(startDate.isBefore(endDate))) {
+                model.addAttribute("error", "The end date must be a valid date and later than the start date");
+                return "budget-form";
+            }
             budgetService.createBudget(currentUser.getUser(), budget);
             getBudgets(currentUser.getUser(), model);
             return "budgets";

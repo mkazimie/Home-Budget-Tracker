@@ -32,33 +32,39 @@
                         <div id="errorMsg" class="alert alert-danger d-none" role="alert">${error}</div>
                         <form:form method="post" action="/auth/budgets" modelAttribute="budget" cssClass="user">
                             <div class="form-group">
-                                <form:label path="name"> Name </form:label>
-                                <form:input path="name" type="text" class="form-control form-control-user"
-                                            placeholder="2020, May, etc..."/>
+                                <form:label path="name" cssClass="text-primary"> Name </form:label>
+                                <form:input path="name" type="text" class="form-control"
+                                            placeholder="ex. May, 2021..."/>
                                 <form:errors path="name" cssClass="errorMessage"/>
                             </div>
                             <div class="form-group">
-                                <form:label path="budgetMoney"> Budget </form:label>
-                                <form:input path="budgetMoney" type="number" min="0"
-                                            class="form-control form-control-user"
-                                            placeholder="ex. 2000 €"/>
+                                <form:label path="budgetMoney" cssClass="text-primary"> Budget </form:label>
+                                <div class="input-group">
+                                    <form:input path="budgetMoney" type="number" min="1"
+                                                class="form-control"
+                                                placeholder=""/>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">€</span>
+                                    </div>
+                                </div>
                                 <form:errors path="budgetMoney" cssClass="errorMessage"/>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <form:label path="startDate"> From </form:label>
-                                    <form:input path="startDate" type="date" class="form-control form-control-user"
+                                    <form:label path="startDate" cssClass="text-primary"> From </form:label>
+                                    <form:input id="startDate" path="startDate" type="date" class="form-control"
                                                 placeholder="yyyy-MM-dd"/>
                                     <form:errors path="startDate" cssClass="errorMessage"/>
                                 </div>
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <form:label path="endDate"> To </form:label>
-                                    <form:input path="endDate" type="date" class="form-control form-control-user"
+                                    <form:label path="endDate" cssClass="text-primary"> To </form:label>
+                                    <form:input id="endDate" path="endDate" min="${budget.startDate}" type="date"
+                                                class="form-control"
                                                 placeholder="yyyy-MM-dd"/>
                                     <form:errors path="endDate" cssClass="errorMessage"/>
                                 </div>
                             </div>
-                            <button class="btn btn-primary btn-user btn-block" type="submit"> Create Budget </button>
+                            <button class="btn btn-primary btn-block mt-4" type="submit"> Create Budget</button>
                         </form:form>
 
                     </div>
@@ -70,6 +76,14 @@
 </div>
 <div>
     <%@include file="fragment/core-js-plugins.jsp" %>
+<script type="text/javascript">
+    let startDate = document.querySelector("#startDate");
+    let endDate = document.querySelector("#endDate");
+
+    if (startDate > endDate){
+        alert("Invalid Date Range");
+    }
+</script>
 </div>
 </body>
 </html>
