@@ -56,7 +56,7 @@ public class BudgetController {
             }
             budgetService.createBudget(currentUser.getUser(), budget);
             getBudgets(currentUser.getUser(), model);
-            return "budgets";
+            return "redirect:/auth/budgets";
         }
         model.addAttribute("error", "Please try again");
         return "budget-form";

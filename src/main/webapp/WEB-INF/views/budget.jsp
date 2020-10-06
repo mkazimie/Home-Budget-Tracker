@@ -47,18 +47,18 @@
 
                     <!-- Money Left Card -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
-                        <div class="card h-100 shadow py-2 bg-gradient-success ">
+                        <div class="card h-100 shadow py-2 bg-gradient-info ">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Savings
+                                            Budget
                                             <%--                                            ${catList[0].name}--%>
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">${budget.budgetMoney}€</div>
+                                        <div class="h5 mb-0 font-weight-bold text-white">${budget.budgetMoney} €</div>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        <i class="fas fa-coins fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
@@ -68,17 +68,17 @@
                     <!-- Spent so far -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
-                        <div class="card h-100 shadow py-2 bg-gradient-secondary ">
+                        <div class="card h-100 shadow py-2 bg-gradient-success ">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Spendings
+                                            Available
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">${allExpenses}€</div>
+                                        <div class="h5 mb-0 font-weight-bold text-white">${budget.moneyLeft} €</div>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
@@ -88,17 +88,17 @@
                     <!-- Income -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
-                        <div class="card h-100 shadow py-2 bg-gradient-info ">
+                        <div class="card h-100 shadow py-2 bg-gradient-warning ">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Income
+                                            Spendings
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">XXX EUR</div>
+                                        <div class="h5 mb-0 font-weight-bold text-white">${allExpenses} €</div>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
 
                     <!-- Form for adding NEW CATEGORY -->
                     <div class="col-xl-4 col-md-6 mb-4 ">
-                        <div class="card border-left-warning shadow py-2">
+                        <div class="card border-left-info shadow py-2">
                             <div class="card-header">
                                 <h5 class="card-title font-weight-bold text-center text-primary">Add
                                     Category</h5>
@@ -183,7 +183,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button class="btn btn-warning btn-user btn-block" type="submit"> Save
+                                <button class="btn btn-info btn-user btn-block" type="submit"> Save
                                 </button>
                                 </form:form>
                             </div>
@@ -195,7 +195,8 @@
                         <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-header">
                                 <div class="row">
-                                    <h5 class="m-0 font-weight-bold text-primary col-10"> Budget Categories </h5>
+                                    <h5 class="m-0 font-weight-bold text-primary col-10 text-center"> Budget
+                                        Categories </h5>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -216,9 +217,10 @@
                                                 <td class="align-middle"><a
                                                         href="/auth/budgets/${budget.id}/categories/${category.id}"
                                                         class="btn btn-primary"><i
-                                                        class="fas fa-angle-double-right"></i></a></td>                                                <td class="align-middle">${category.name}</td>
-                                                <td class="align-middle">${category.categoryBudget}</td>
-                                                <td class="align-middle">${category.moneyLeft}</td>
+                                                        class="fas fa-angle-double-right"></i></a></td>
+                                                <td class="align-middle">${category.name}</td>
+                                                <td class="align-middle">${category.categoryBudget} €</td>
+                                                <td class="align-middle text-success">${category.moneyLeft} €</td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>

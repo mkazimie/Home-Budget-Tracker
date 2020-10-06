@@ -28,13 +28,14 @@ public class TransactionService {
         transaction.setTitle(transactionDto.getTitle());
         transaction.setSum(transactionDto.getSum());
         transaction.setDate(transactionDto.getDate());
+        transaction.setType(transactionDto.getType());
         transaction.setCategory(transactionCategory);
         transaction.setUser(user);
         BigDecimal transactionSum = transaction.getSum();
         BigDecimal moneyLeft = transactionCategory.getMoneyLeft();
         Budget budget = transactionCategory.getBudget();
         transactionCategory.setMoneyLeft(moneyLeft.subtract(transactionSum));
-        budget.setBudgetMoney(budget.getBudgetMoney().subtract(transactionSum));
+        budget.setMoneyLeft(budget.getMoneyLeft().subtract(transactionSum));
         saveTransaction(transaction);
         Set<Transaction> categoryTransactions = transactionCategory.getTransactions();
         categoryTransactions.add(transaction);

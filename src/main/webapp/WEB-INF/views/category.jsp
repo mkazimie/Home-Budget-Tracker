@@ -139,6 +139,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
+                                <form:hidden path="type" value="expense"/>
                                 <button class="btn btn-info btn-user btn-block" type="submit"> Save
                                 </button>
                                 </form:form>
@@ -172,7 +173,12 @@
                                         <c:forEach items="${category.transactions}" var="transaction">
                                             <tr class="text-center">
                                                 <td class="align-middle">${transaction.title}</td>
-                                                <td class="align-middle">${transaction.sum}</td>
+                                                <c:if test="${transaction.type.equals('expense')}">
+                                                    <td class="align-middle text-danger"> - ${transaction.sum}</td>
+                                                </c:if>
+                                                <c:if test="${transaction.type.equals('income')}">
+                                                    <td class="align-middle text-success"> + ${transaction.sum}</td>
+                                                </c:if>
                                                 <td class="align-middle">${transaction.user.username}</td>
                                                 <td class="align-middle">${transaction.date}</td>
                                             </tr>

@@ -64,7 +64,7 @@
                                     <form:errors path="endDate" cssClass="errorMessage"/>
                                 </div>
                             </div>
-                            <button class="btn btn-primary btn-block mt-4" type="submit"> Create Budget</button>
+                            <button class="btn btn-primary btn-block mt-4" type="submit"> Save </button>
                         </form:form>
 
                     </div>

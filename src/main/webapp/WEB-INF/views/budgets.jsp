@@ -55,7 +55,7 @@
                             <li class="list-group-item">You currently have ${noOfBudgets} Budgets</li>
                         </ul>
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th></th>
@@ -63,20 +63,10 @@
                                     <th>Contributors</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
-                                    <th><strong>€</strong></th>
+                                    <th><strong>Total Budget</strong></th>
+                                    <th><strong>Available</strong></th>
                                 </tr>
                                 </thead>
-<%--                                <tfoot>--%>
-<%--                                <tr>--%>
-<%--                                    <th></th>--%>
-<%--                                    <th>Name</th>--%>
-<%--                                    <th>Contributors</th>--%>
-<%--                                    <th>Start Date</th>--%>
-<%--                                    <th>End Date</th>--%>
-<%--                                    <th> $$$</th>--%>
-<%--                                </tr>--%>
-<%--                                </tfoot>--%>
-
                                 <tbody>
                                 <c:forEach items="${budgets}" var="budget">
                                     <tr class="text-center">
@@ -90,7 +80,9 @@
                                         </td>
                                         <td class="align-middle">${budget.startDate}</td>
                                         <td class="align-middle">${budget.endDate}</td>
-                                        <td class="align-middle">${budget.budgetMoney}</td>
+                                        <td class="align-middle">${budget.budgetMoney} €</td>
+                                        <td class="align-middle text-success font-weight-bolder">${budget.moneyLeft}
+                                            €</td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
