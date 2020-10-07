@@ -73,4 +73,8 @@ public class CategoryController {
     }
 
 
+    @ModelAttribute("transactionType")
+    public List<String> status() {
+        return Arrays.asList("Income", "Expense");
+    }
 }

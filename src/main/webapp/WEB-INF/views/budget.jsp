@@ -45,7 +45,7 @@
                 <!-- Content Row -->
                 <div class="row">
 
-                    <!-- Money Left Card -->
+                    <!-- BUDGET -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <div class="card h-100 shadow py-2 bg-gradient-info ">
                             <div class="card-body">
@@ -65,7 +65,7 @@
                         </div>
                     </div>
 
-                    <!-- Spent so far -->
+                    <!-- AVAILABLE -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
                         <div class="card h-100 shadow py-2 bg-gradient-success ">
@@ -85,7 +85,7 @@
                         </div>
                     </div>
 
-                    <!-- Income -->
+                    <!-- SPENDINGS -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
                         <div class="card h-100 shadow py-2 bg-gradient-warning ">
@@ -104,47 +104,6 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <!-- Card for adding Categories -->
-                    <%--                    <div class="col-xl-3 col-md-6 mb-4 ">--%>
-                    <%--                        <div class="card border-left-warning h-100 shadow py-2">--%>
-                    <%--                            <div class="card-body">--%>
-                    <%--                                <div class="row no-gutters align-items-center">--%>
-                    <%--                                    <div class="col mr-2">--%>
-                    <%--                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1"> NEW--%>
-                    <%--                                            EXPENSE CATEGORY--%>
-                    <%--                                        </div>--%>
-                    <%--                                    </div>--%>
-                    <%--                                    <div class="col-auto">--%>
-                    <%--                                        <a href="/auth/budgets/${budget.id}/categories/form"--%>
-                    <%--                                           class="btn btn-warning"><i class="fas fa-plus"></i></a>--%>
-                    <%--                                    </div>--%>
-                    <%--                                </div>--%>
-                    <%--                            </div>--%>
-                    <%--                        </div>--%>
-                    <%--                    </div>--%>
-
-                    <%--                    <!-- Card for adding new Transaction -->--%>
-                    <%--                    <div class="col-xl-3 col-md-6 mb-4 ">--%>
-                    <%--                        <div class="card border-left-info h-100 shadow py-2">--%>
-                    <%--                            <div class="card-body">--%>
-                    <%--                                <div class="row no-gutters align-items-center">--%>
-                    <%--                                    <div class="col mr-2">--%>
-                    <%--                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1"> NEW--%>
-                    <%--                                            <br/>--%>
-                    <%--                                            TRANSACTION--%>
-                    <%--                                        </div>--%>
-                    <%--                                    </div>--%>
-                    <%--                                    <div class="col-auto">--%>
-                    <%--                                        <a href="/auth/budgets/${budget.id}/transactions/form"--%>
-                    <%--                                           class="btn btn-info"><i class="fas fa-plus"></i></a>--%>
-                    <%--                                    </div>--%>
-                    <%--                                </div>--%>
-                    <%--                            </div>--%>
-                    <%--                        </div>--%>
-                    <%--                    </div>--%>
-
                 </div>
 
                 <!-- Content Row -->
@@ -161,12 +120,40 @@
                                 <div class="row no-gutters align-items-center justify-content-center">
                                     <form:form method="post" action="/auth/budgets/${budget.id}/categories"
                                                modelAttribute="categoryDto">
-                                    <div class="form-group">
-                                        <form:label path="name" cssClass="text-primary"> Name </form:label>
-                                        <form:input path="name" type="text" class="form-control form-control-user"
-                                                    placeholder="ex. Food, Home..." required="required"/>
-                                        <form:errors path="name" cssClass="errorMessage"/>
+
+                                    <!-- Category Name SELECT Input - can be toggled -->
+
+                                    <div id="selectInput" class="form-group">
+                                        <form:label path="selectedName" cssClass="text-primary"> Name </form:label>
+                                        <form:select path="selectedName" class="form-control" id="selectCat">
+                                            <form:option label="--Select--"
+                                                         selected="selected" value=" "/>
+                                            <form:options items="${catName.keySet()}"/>
+                                            <form:option value="customized"
+                                                         label="Add your own"/>
+                                        </form:select>
+                                        <form:errors path="selectedName" cssClass="errorMessage"/>
                                     </div>
+
+                                    <!-- Category OWN Input - can be toggled -->
+
+                                    <div id="ownInput" class="form-group d-none">
+                                        <form:label path="ownName" cssClass="text-primary"> Name </form:label>
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                                <div class="input-group-text">
+                                                    <input type="checkbox" id="getCatList">&nbsp List
+                                                </div>
+                                            </div>
+                                            <form:input path="ownName" type="text"
+                                                        class="form-control form-control-user"
+                                                        placeholder="ex. Food, Leisure..."
+                                                        pattern="[A-Za-z0-9-_/ .,]{1,20}"
+                                            />
+                                            <form:errors path="ownName" cssClass="errorMessage"/>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <form:label path="categoryMoney" cssClass="text-primary"> Budget </form:label>
                                         <div class="input-group">
@@ -180,6 +167,7 @@
                                         </div>
                                         <form:errors path="categoryMoney" cssClass="errorMessage"/>
                                     </div>
+
                                 </div>
                             </div>
                             <div class="card-footer">
@@ -191,6 +179,7 @@
                     </div>
 
                     <!-- Table displaying ALL CATEGORIES for this budget -->
+
                     <div class="col-xl-7 col-md-6 mb-4 ">
                         <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-header">
@@ -203,7 +192,7 @@
                                 <div class="table-responsive">
                                     <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
-                                        <tr class="text-center">
+                                        <tr>
                                             <th></th>
                                             <th>Name</th>
                                             <th><strong>Budget</strong></th>
@@ -213,12 +202,22 @@
 
                                         <tbody>
                                         <c:forEach items="${budget.categories}" var="category">
-                                            <tr class="text-center">
+                                            <tr>
                                                 <td class="align-middle"><a
                                                         href="/auth/budgets/${budget.id}/categories/${category.id}"
                                                         class="btn btn-primary"><i
                                                         class="fas fa-angle-double-right"></i></a></td>
-                                                <td class="align-middle">${category.name}</td>
+                                                <td
+                                                        class="align-middle">
+                                                    <c:choose>
+                                                        <c:when test="${empty catName.get(category.name)}">
+                                                            <i class="fas fa-ellipsis-h"></i> </c:when>
+                                                        <c:otherwise>
+                                                            ${catName.get(category.name)}
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    &nbsp;&nbsp; ${category.name}
+                                                </td>
                                                 <td class="align-middle">${category.categoryBudget} €</td>
                                                 <td class="align-middle text-success">${category.moneyLeft} €</td>
                                             </tr>
@@ -230,147 +229,6 @@
                         </div>
                     </div>
                 </div>
-
-                <%--                                                                                <c:forEach items="${budget.categories}" var="category">
-
-                                                            <div class="col-xl-3 col-md-6 mb-4">
-                                                                <div class="card border-bottom-primary shadow h-100 py-2">
-                                                                    <div class="card-body">
-                                                                        <div class="row no-gutters align-items-center">
-                                                                            <div class="col mr-2">
-                                                                                <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                                                                    ${category.name}
-                                                                                </div>
-                                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${category.categoryMoney}</div>
-                                                                            </div>
-                                                                            <div class="col-auto">
-                                                                                <i class="fas fa-angle-double-right fa-2x text-gray-300"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </c:forEach>
-                                                    </div>--%>
-
-
-                <!-- Form for adding NEW TRANSACTION directly LEAVE FOR CATEGORIES!!! -->
-                <%--                    <div class="col-xl-3 col-md-6 mb-4 ">--%>
-                <%--                        <div class="card border-left-info h-100 shadow py-2">--%>
-                <%--                            <div class="card-header">--%>
-                <%--                                <div class="card-title font-weight-bold text-center">Add Transaction</div>--%>
-                <%--                            </div>--%>
-                <%--                            <div class="card-body">--%>
-                <%--                                <div class="row no-gutters align-items-center">--%>
-                <%--                                    <form:form method="post" action="/auth/budgets/${budget.id}/transactions"--%>
-                <%--                                               modelAttribute="transaction">--%>
-                <%--                                    <div class="form-group">--%>
-                <%--                                        <form:label path="title"> Title </form:label>--%>
-                <%--                                        <form:input path="title" type="text" class="form-control form-control-user"--%>
-                <%--                                                    placeholder="Transaction Title"/>--%>
-                <%--                                        <form:errors path="title" cssClass="errorMessage"/>--%>
-                <%--                                    </div>--%>
-                <%--                                    <div class="form-group">--%>
-                <%--                                        <form:label path="type"> Type </form:label>--%>
-                <%--                                        <form:input path="type" type="text"--%>
-                <%--                                                    class="form-control form-control-user"--%>
-                <%--                                                    placeholder="Income / Spending "/>--%>
-                <%--                                        <form:errors path="type" cssClass="errorMessage"/>--%>
-                <%--                                    </div>--%>
-                <%--                                    <div class="form-group">--%>
-                <%--                                        <form:label path="date"> Date </form:label>--%>
-                <%--                                        <form:input path="date" type="date"--%>
-                <%--                                                    class="form-control form-control-user"--%>
-                <%--                                                    placeholder="yyyy-MM-dd"/>--%>
-                <%--                                        <form:errors path="date" cssClass="errorMessage"/>--%>
-                <%--                                    </div>--%>
-                <%--                                </div>--%>
-                <%--                            </div>--%>
-                <%--                            <div class="card-footer">--%>
-                <%--                                <button class="btn btn-info btn-user btn-block" type="submit"> Save--%>
-                <%--                                </button>--%>
-                <%--                                </form:form>--%>
-                <%--                            </div>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
-
-                <%--                    MARK END OF ROW AN BEGINNING OF NEW ROW--%>
-                <%--                </div>--%>
-
-
-                <%--                <!-- Content Row -->--%>
-                <%--                <div class="row">--%>
-                <%--                    TILL HERE--%>
-
-                <%--                    <!-- Earnings (Monthly) Card Example -->--%>
-                <%--                    <div class="col-xl-3 col-md-6 mb-4">--%>
-                <%--                        <div class="card border-left-success shadow h-100 py-2">--%>
-                <%--                            <div class="card-body">--%>
-                <%--                                <div class="row no-gutters align-items-center">--%>
-                <%--                                    <div class="col mr-2">--%>
-                <%--                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings--%>
-                <%--                                            (Annual)--%>
-                <%--                                        </div>--%>
-                <%--                                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>--%>
-                <%--                                    </div>--%>
-                <%--                                    <div class="col-auto">--%>
-                <%--                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>--%>
-                <%--                                    </div>--%>
-                <%--                                </div>--%>
-                <%--                            </div>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
-
-                <%--                    <!-- Earnings (Monthly) Card Example -->--%>
-                <%--                    <div class="col-xl-3 col-md-6 mb-4">--%>
-                <%--                        <div class="card border-left-info shadow h-100 py-2">--%>
-                <%--                            <div class="card-body">--%>
-                <%--                                <div class="row no-gutters align-items-center">--%>
-                <%--                                    <div class="col mr-2">--%>
-                <%--                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks</div>--%>
-                <%--                                        <div class="row no-gutters align-items-center">--%>
-                <%--                                            <div class="col-auto">--%>
-                <%--                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>--%>
-                <%--                                            </div>--%>
-                <%--                                            <div class="col">--%>
-                <%--                                                <div class="progress progress-sm mr-2">--%>
-                <%--                                                    <div class="progress-bar bg-info" role="progressbar"--%>
-                <%--                                                         style="width: 50%"--%>
-                <%--                                                         aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>--%>
-                <%--                                                </div>--%>
-                <%--                                            </div>--%>
-                <%--                                        </div>--%>
-                <%--                                    </div>--%>
-                <%--                                    <div class="col-auto">--%>
-                <%--                                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>--%>
-                <%--                                    </div>--%>
-                <%--                                </div>--%>
-                <%--                            </div>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
-
-                <!-- CATEGORY CARD -->
-                <%--                                                            <c:forEach items="${budget.categories}" var="category">--%>
-
-                <%--                                            <div class="col-xl-3 col-md-6 mb-4">--%>
-                <%--                                                <div class="card border-bottom-primary shadow h-100 py-2">--%>
-                <%--                                                    <div class="card-body">--%>
-                <%--                                                        <div class="row no-gutters align-items-center">--%>
-                <%--                                                            <div class="col mr-2">--%>
-                <%--                                                                <div class="text-md font-weight-bold text-primary text-uppercase mb-1">--%>
-                <%--                                                                    ${category.name}--%>
-                <%--                                                                </div>--%>
-                <%--                                                                <div class="h5 mb-0 font-weight-bold text-gray-800">${category.categoryMoney}</div>--%>
-                <%--                                                            </div>--%>
-                <%--                                                            <div class="col-auto">--%>
-                <%--                                                                <i class="fas fa-angle-double-right fa-2x text-gray-300"></i>--%>
-                <%--                                                            </div>--%>
-                <%--                                                        </div>--%>
-                <%--                                                    </div>--%>
-                <%--                                                </div>--%>
-                <%--                                            </div>--%>
-                <%--                                        </c:forEach>--%>
-                <%--                                    </div>--%>
 
                 <!-- Content Row -->
 
@@ -642,7 +500,26 @@
     <%@include file="fragment/core-js-plugins.jsp" %>
 </div>
 
+<script>
+    $("#selectCat").change(function () {
+        if ($(this).val() === "customized") {
+            $("#selectInput").addClass("d-none");
+            $("#ownInput").removeClass("d-none");
+        }
+    });
+
+    $("#getCatList").change(function () {
+        if ($("#getCatList").is(':checked')) {
+            $("#selectInput").removeClass("d-none");
+            $("#ownInput").addClass("d-none");
+            this.checked = false;
+            $("#selectCat option:selected").prop("selected", false);
+        }
+    });
+
+</script>
 <!-- Page level plugins -->
+
 <script src="/resources/static/vendor/chart.js/Chart.min.js"></script>
 <script src="/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>

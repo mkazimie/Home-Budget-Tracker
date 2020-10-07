@@ -7,6 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
         errorMsg.classList.remove("d-none");
     }
 
+    //add new input field if add customized category selected
+
+
+
+
 })
 
 

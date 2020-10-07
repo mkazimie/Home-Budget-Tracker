@@ -94,6 +94,7 @@ public class BudgetController {
     private BigDecimal countAllExpenses(Budget budget) {
         return budget.getCategories().stream()
                 .flatMap(category -> category.getTransactions().stream())
+                .filter(transaction -> transaction.getType().equals("Expense"))
                 .map(Transaction::getSum)
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
@@ -103,5 +104,25 @@ public class BudgetController {
     public User currentUser(@AuthenticationPrincipal CurrentUser currentUser) {
         return currentUser.getUser();
     }
+
+    @ModelAttribute("catName")
+    public Map<String, String> categories() {
+        Map<String, String> catNames = new LinkedHashMap<>();
+        catNames.put("Home Expenses", "<i class='fas fa-file-invoice'></i>");
+        catNames.put("Supermarket", "<i class='fas fa-shopping-cart'></i>");
+        catNames.put("Public Transport", "<i class='fas fa-bus-alt'></i>");
+        catNames.put("Vehicle", "<i class='fas fa-car'></i>");
+        catNames.put("Health", "<i class='fas fa-tablets'></i>");
+        catNames.put("Gym", "<i class='fas fa-dumbbell'></i>");
+        catNames.put("Going Out", "<i class='fas fa-glass-cheers'></i>");
+        catNames.put("Shopping", "<i class='fas fa-shopping-bag'></i>");
+        catNames.put("Personal Care", "<i class='fas fa-hand-sparkles'></i>");
+        catNames.put("Travel", "<i class='fas fa-plane'></i>");
+        catNames.put("Other", "<i class='fas fa-atom'></i>");
+        catNames.put("Savings", "<i class='fas fa-piggy-bank'></i>");
+        catNames.put("Unexpected", "<i class='fas fa-exclamation-triangle'></i>");
+        return catNames;
+    }
+
 
 }

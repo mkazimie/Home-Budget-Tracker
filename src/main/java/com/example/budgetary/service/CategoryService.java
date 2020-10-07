@@ -27,7 +27,12 @@ public class CategoryService {
 
     public SortedSet<Category> addNewCategory(CategoryDto categoryDto, Budget budget){
         Category category = new Category();
-        category.setName(categoryDto.getName());
+        String categoryDtoName = categoryDto.getSelectedName();
+        if (categoryDtoName.equals("customized")) {
+            category.setName(categoryDto.getOwnName());
+        } else {
+            category.setName(categoryDtoName);
+        }
         category.setCategoryBudget(categoryDto.getCategoryMoney());
         category.setMoneyLeft(categoryDto.getCategoryMoney());
         category.setBudget(budget);

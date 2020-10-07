@@ -34,8 +34,14 @@ public class TransactionService {
         BigDecimal transactionSum = transaction.getSum();
         BigDecimal moneyLeft = transactionCategory.getMoneyLeft();
         Budget budget = transactionCategory.getBudget();
-        transactionCategory.setMoneyLeft(moneyLeft.subtract(transactionSum));
-        budget.setMoneyLeft(budget.getMoneyLeft().subtract(transactionSum));
+        if (transaction.getType().equals("Expense")) {
+            transactionCategory.setMoneyLeft(moneyLeft.subtract(transactionSum));
+            budget.setMoneyLeft(budget.getMoneyLeft().subtract(transactionSum));
+        } else {
+            transactionCategory.setMoneyLeft(moneyLeft.add(transactionSum));
+            budget.setMoneyLeft(budget.getMoneyLeft().add(transactionSum));
+            transactionCategory.setCategoryBudget(transactionCategory.getCategoryBudget().add(transactionSum));
+        }
         saveTransaction(transaction);
         Set<Transaction> categoryTransactions = transactionCategory.getTransactions();
         categoryTransactions.add(transaction);

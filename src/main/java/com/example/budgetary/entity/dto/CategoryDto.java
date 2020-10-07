@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
 @Data
@@ -12,8 +12,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class CategoryDto {
 
-    @Pattern(regexp = "[A-Za-z0-9-_/ .]{1,20}", message = "*Please name your category (1-20 characters)")
-    private String name;
+    @NotBlank
+    private String selectedName;
+
+    private String ownName;
 
     private BigDecimal categoryMoney;
+
 }

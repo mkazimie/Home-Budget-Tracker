@@ -107,14 +107,14 @@
                                                     placeholder="" required="required"/>
                                         <form:errors path="title" cssClass="errorMessage"/>
                                     </div>
-<%--                                    <div class="form-group">--%>
-<%--                                        <form:label path="type" cssClass="text-primary"> Type </form:label>--%>
-<%--                                        <form:select path="type" class="form-control">--%>
-<%--                                            <form:option value="Expense" label="--Select--" selected="selected"/>--%>
-<%--                                            <form:options items="${transactionType}"/>--%>
-<%--                                        </form:select>--%>
-<%--                                        <form:errors path="type" cssClass="errorMessage"/>--%>
-<%--                                    </div>--%>
+                                    <div class="form-group">
+                                        <form:label path="type" cssClass="text-primary"> Type </form:label>
+                                        <form:select path="type" class="form-control">
+                                            <form:option value="Expense" label="--Select--" selected="selected"/>
+                                            <form:options items="${transactionType}"/>
+                                        </form:select>
+                                        <form:errors path="type" cssClass="errorMessage"/>
+                                    </div>
                                     <div class="form-group">
                                         <form:label path="sum" cssClass="text-primary"> Sum </form:label>
                                         <div class="input-group">
@@ -139,7 +139,6 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <form:hidden path="type" value="expense"/>
                                 <button class="btn btn-info btn-user btn-block" type="submit"> Save
                                 </button>
                                 </form:form>
@@ -173,10 +172,10 @@
                                         <c:forEach items="${category.transactions}" var="transaction">
                                             <tr class="text-center">
                                                 <td class="align-middle">${transaction.title}</td>
-                                                <c:if test="${transaction.type.equals('expense')}">
-                                                    <td class="align-middle text-danger"> - ${transaction.sum}</td>
+                                                <c:if test="${transaction.type.equals('Expense')}">
+                                                    <td class="align-middle text-danger"> -${transaction.sum}</td>
                                                 </c:if>
-                                                <c:if test="${transaction.type.equals('income')}">
+                                                <c:if test="${transaction.type.equals('Income')}">
                                                     <td class="align-middle text-success"> + ${transaction.sum}</td>
                                                 </c:if>
                                                 <td class="align-middle">${transaction.user.username}</td>
