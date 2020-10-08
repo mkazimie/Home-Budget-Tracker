@@ -101,6 +101,25 @@
         </div>
     </li>
 
+    <!-- Nav Item - MONEY TRANSFER -->
+<%--    <li class="nav-item">--%>
+<%--    <c:if test="${not empty budget.id}">--%>
+<%--    <a class="nav-link" href="/auth/budgets/${budget.id}/transfer">--%>
+<%--        <i class="fas fa-money-bill-wave"></i>--%>
+<%--        <span>Transfer Money</span>--%>
+<%--    </c:if>--%>
+<%--    </li>--%>
+
+<%--        <div class="h-100">--%>
+<%--            <a href="/auth/budgets/${budget.id}/transfer"--%>
+<%--               class="btn btn-primary">--%>
+<%--                <i class="fas fa-money-bill-wave"></i>--%>
+<%--                <i class="fas fa-plus"></i></a>--%>
+<%--        </div>--%>
+
+<%--            <i class="fas fa-plus"></i></a>--%>
+<%--                <span>Transfer</span></a>--%>
+
     <!-- Nav Item - Charts -->
     <li class="nav-item">
         <a class="nav-link" href="charts.html">

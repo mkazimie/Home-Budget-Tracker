@@ -10,16 +10,19 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Set;
+import java.util.SortedSet;
 
 @Service
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final CategoryService categoryService;
+    private final BudgetService budgetService;
 
-    public TransactionService(TransactionRepository transactionRepository, CategoryService categoryService) {
+    public TransactionService(TransactionRepository transactionRepository, CategoryService categoryService, BudgetService budgetService) {
         this.transactionRepository = transactionRepository;
         this.categoryService = categoryService;
+        this.budgetService = budgetService;
     }
 
 
@@ -48,6 +51,21 @@ public class TransactionService {
         transactionCategory.setTransactions(categoryTransactions);
         categoryService.saveCategory(transactionCategory);
         return categoryTransactions;
+    }
+
+    public SortedSet<Transaction> addIncome(TransactionDto transactionDto, User user, Long budgetId){
+        Budget budget = budgetService.findById(budgetId);
+        Transaction transaction = new Transaction();
+        transaction.setSum(transactionDto.getSum());
+        transaction.setType(transactionDto.getType());
+        transaction.setTitle(transactionDto.getTitle());
+        transaction.setBudget(budget);
+        transaction.setUser(user);
+        saveTransaction(transaction);
+        SortedSet<Transaction> transactions = budget.getTransactions();
+        transactions.add(transaction);
+        budgetService.saveBudget(budget);
+        return transactions;
     }
 
     public void saveTransaction(Transaction transaction) {

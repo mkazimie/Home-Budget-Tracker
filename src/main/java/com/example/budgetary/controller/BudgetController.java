@@ -5,8 +5,11 @@ import com.example.budgetary.entity.Category;
 import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.User;
 import com.example.budgetary.entity.dto.CategoryDto;
+import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
+import com.example.budgetary.service.CategoryService;
+import com.google.gson.Gson;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,17 +20,17 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/auth/budgets")
 public class BudgetController {
 
     private final BudgetService budgetService;
+    private final CategoryService categoryService;
 
-    public BudgetController(BudgetService budgetService) {
+    public BudgetController(BudgetService budgetService, CategoryService categoryService) {
         this.budgetService = budgetService;
+        this.categoryService = categoryService;
     }
 
 
@@ -100,6 +103,7 @@ public class BudgetController {
     }
 
 
+
     @ModelAttribute("currentUser")
     public User currentUser(@AuthenticationPrincipal CurrentUser currentUser) {
         return currentUser.getUser();
@@ -116,7 +120,7 @@ public class BudgetController {
         catNames.put("Gym", "<i class='fas fa-dumbbell'></i>");
         catNames.put("Going Out", "<i class='fas fa-glass-cheers'></i>");
         catNames.put("Shopping", "<i class='fas fa-shopping-bag'></i>");
-        catNames.put("Personal Care", "<i class='fas fa-hand-sparkles'></i>");
+        catNames.put("Personal Care", "<i class='fas fa-magic'></i>");
         catNames.put("Travel", "<i class='fas fa-plane'></i>");
         catNames.put("Other", "<i class='fas fa-atom'></i>");
         catNames.put("Savings", "<i class='fas fa-piggy-bank'></i>");

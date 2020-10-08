@@ -48,4 +48,8 @@ public class Budget {
     @OrderBy
     private SortedSet<Category> categories = new TreeSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "budget")
+    @OrderBy
+    private SortedSet<Transaction> transactions = new TreeSet<>();
+
 }

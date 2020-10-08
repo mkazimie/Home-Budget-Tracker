@@ -1,9 +1,11 @@
 package com.example.budgetary.controller;
 
+import com.example.budgetary.entity.Budget;
 import com.example.budgetary.entity.Category;
 import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.security.CurrentUser;
+import com.example.budgetary.service.BudgetService;
 import com.example.budgetary.service.CategoryService;
 import com.example.budgetary.service.TransactionService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,20 +17,23 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Set;
+import java.util.SortedSet;
 
 @Controller
-@RequestMapping("/auth/budgets/{budgetId}/categories/{categoryId}/transactions")
+@RequestMapping("/auth/budgets/{budgetId}")
 public class TransactionController {
 
     private final TransactionService transactionService;
     private final CategoryService categoryService;
+    private final BudgetService budgetService;
 
-    public TransactionController(TransactionService transactionService, CategoryService categoryService) {
+    public TransactionController(TransactionService transactionService, CategoryService categoryService, BudgetService budgetService) {
         this.transactionService = transactionService;
         this.categoryService = categoryService;
+        this.budgetService = budgetService;
     }
 
-    @PostMapping("")
+    @PostMapping("/categories/{categoryId}/transactions")
     public String addTransaction(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto,
                                  BindingResult bindingResult, @AuthenticationPrincipal CurrentUser currentUser,
                                  @PathVariable Long categoryId,
@@ -43,6 +48,36 @@ public class TransactionController {
             attr.addFlashAttribute("transactionDto", transactionDto);
         }
         return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
+    }
+
+    @GetMapping("/transfer")
+    public String displayMoneyForm(@PathVariable Long budgetId,
+                                   Model model) {
+        Budget budget = getBudgetById(budgetId);
+        TransactionDto transactionDto = new TransactionDto();
+        model.addAttribute("transactionDto", transactionDto);
+        model.addAttribute("budget", budget);
+        return "transfer-form";
+    }
+
+    @PostMapping("/transfer")
+    public String addIncome(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto,
+                            BindingResult bindingResult,
+                            @AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long budgetId,
+                            Model model) {
+        if (!bindingResult.hasErrors()) {
+            Budget budget = getBudgetById(budgetId);
+            SortedSet<Transaction> moneyTransfers = transactionService.addIncome(transactionDto,
+                    currentUser.getUser(), budgetId);
+            model.addAttribute("moneyTransfers", moneyTransfers);
+        } else {
+            return "transfer-form";
+        }
+        return "redirect:/auth/budgets/{budgetId}/transfer";
+    }
+
+    private Budget getBudgetById(Long budgetId) {
+        return budgetService.findById(budgetId);
     }
 
 }

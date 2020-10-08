@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Entity
 @Table(name = "transactions")
-public class Transaction {
+public class Transaction implements Comparable<Transaction> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,13 +28,21 @@ public class Transaction {
     private Category category;
 
     @ManyToOne
+    private Budget budget;
+
+    @ManyToOne
     private User user;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
 
-
-
-
+    @Override
+    public int compareTo(Transaction transaction) {
+        int compareTo= 0;
+        if (this.getId() != null && transaction.getId() != null){
+            compareTo = this.getId().compareTo(transaction.getId());
+        }
+        return compareTo;
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,6 +23,8 @@ public class TransactionDto {
     private String type;
 
     private BigDecimal sum;
+
+    private List<String> categoryNames;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;

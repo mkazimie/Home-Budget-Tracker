@@ -37,153 +37,68 @@
                 <div class="d-sm-flex align-items-baseline justify-content-between mb-4">
                     <a href="/auth/budgets/${budget.id}"
                        class="btn btn-primary"><i class="fas fa-angle-double-left"></i></a>
-                    <h1 class="col-10 h3 mb-0 text-gray-800">${category.name} Category Dashboard </h1>
+                    <h1 class="col-10 h3 mb-0 text-primary font-weight-bolder">${category.name} </h1>
                 </div>
 
                 <!-- Content Row -->
                 <div class="row">
 
-                    <!-- Money Left Card -->
+                    <!-- BUDGET -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
-                        <div class="card h-100 shadow py-2 bg-gradient-info">
+                        <div class="card h-100 shadow py-2 bg-gradient-info ">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            LEFT
+                                            Budget
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">${category.moneyLeft}</div>
+                                        <div class="h5 mb-0 font-weight-bold text-white">${category.categoryBudget}
+                                            €</div>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        <i class="fas fa-coins fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Spent so far -->
+                    <!-- AVAILABLE -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
-                        <div class="card h-100 shadow py-2 bg-gradient-warning">
+                        <div class="card h-100 shadow py-2 bg-gradient-success ">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            SPENT
+                                            Available
                                         </div>
-                                        <div
-                                                class="h5 mb-0 font-weight-bold text-white">${category.categoryBudget
-                                                 - category.moneyLeft}</div>
+                                        <div class="h5 mb-0 font-weight-bold text-white">${category.moneyLeft} €</div>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fas fa-euro-sign fa-2x text-gray-300"></i>
+                                        <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                </div>
-
-                <!-- Content Row -->
-                <div class="row">
-
-
-                    <!-- Form for adding NEW TRANSACTION -->
-                    <div class="col-xl-4 col-md-6 mb-4 ">
-                        <div class="card border-left-info h-100 shadow py-2">
-                            <div class="card-header">
-                                <h5 class="card-title text-primary font-weight-bold text-center"> Add Expense </h5>
-                            </div>
+                    <!-- SPENDINGS -->
+                    <div class="col-xl-3 col-md-6 mb-4 ">
+                        <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
+                        <div class="card h-100 shadow py-2 bg-gradient-warning ">
                             <div class="card-body">
-                                <div class="row no-gutters align-items-center justify-content-center">
-                                    <form:form method="post"
-                                               action="/auth/budgets/${budget.id}/categories/${category.id}/transactions"
-                                               modelAttribute="transactionDto">
-                                    <div class="form-group">
-                                        <form:label path="title" cssClass="text-primary"> Title </form:label>
-                                        <form:input path="title" type="text" class="form-control form-control-user"
-                                                    placeholder="" required="required"/>
-                                        <form:errors path="title" cssClass="errorMessage"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="type" cssClass="text-primary"> Type </form:label>
-                                        <form:select path="type" class="form-control">
-                                            <form:option value="Expense" label="--Select--" selected="selected"/>
-                                            <form:options items="${transactionType}"/>
-                                        </form:select>
-                                        <form:errors path="type" cssClass="errorMessage"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="sum" cssClass="text-primary"> Sum </form:label>
-                                        <div class="input-group">
-                                            <form:input path="sum" type="number" min="1"
-                                                        max="${category.moneyLeft}" step=".01"
-                                                        class="form-control form-control-user"
-                                                        placeholder=""/>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">€</span>
-                                            </div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
+                                            Spendings
                                         </div>
-                                        <form:errors path="sum" cssClass="errorMessage"/>
+                                        <div class="h5 mb-0 font-weight-bold text-white">${category.categoryBudget
+                                                - category.moneyLeft} €</div>
                                     </div>
-                                    <div class="form-group">
-                                        <form:label path="date" cssClass="text-primary"> Date </form:label>
-                                        <form:input path="date" type="date" min="${budget.startDate}"
-                                                    max="${budget.endDate}"
-                                                    class="form-control form-control-user"
-                                                    placeholder="yyyy-MM-dd" required="required"/>
-                                        <form:errors path="date" cssClass="errorMessage"/>
+                                    <div class="col-auto">
+                                        <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button class="btn btn-info btn-user btn-block" type="submit"> Save
-                                </button>
-                                </form:form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Table with list of transactions -->
-                    <div class="col-xl-6 col-md-6 mb-4 ">
-                        <div class="card border-left-primary shadow h-100 py-2">
-                            <div class="card-header">
-                                <div class="row">
-                                    <h5 class="m-0 font-weight-bold text-primary text-center col-10"> Latest
-                                        Expenses </h5>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                        <tr class="text-center">
-                                            <th>Title</th>
-                                            <th><strong>€</strong></th>
-                                            <th>User</th>
-                                            <th>Date</th>
-
-                                        </tr>
-                                        </thead>
-
-                                        <tbody>
-                                        <c:forEach items="${category.transactions}" var="transaction">
-                                            <tr class="text-center">
-                                                <td class="align-middle">${transaction.title}</td>
-                                                <c:if test="${transaction.type.equals('Expense')}">
-                                                    <td class="align-middle text-danger"> -${transaction.sum}</td>
-                                                </c:if>
-                                                <c:if test="${transaction.type.equals('Income')}">
-                                                    <td class="align-middle text-success"> + ${transaction.sum}</td>
-                                                </c:if>
-                                                <td class="align-middle">${transaction.user.username}</td>
-                                                <td class="align-middle">${transaction.date}</td>
-                                            </tr>
-                                        </c:forEach>
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -191,17 +106,123 @@
                 </div>
 
 
+            <!-- Content Row -->
+            <div class="row">
+
+
+                <!-- Form for adding NEW TRANSACTION -->
+                <div class="col-xl-4 col-md-6 mb-4 ">
+                    <div class="card border-left-info h-100 shadow py-2">
+                        <div class="card-header">
+                            <h5 class="card-title text-primary font-weight-bold text-center"> Add Expense </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center justify-content-center">
+                                <form:form method="post"
+                                           action="/auth/budgets/${budget.id}/categories/${category.id}/transactions"
+                                           modelAttribute="transactionDto">
+                                <div class="form-group">
+                                    <form:label path="title" cssClass="text-primary"> Title </form:label>
+                                    <form:input path="title" type="text" class="form-control form-control-user"
+                                                placeholder="" required="required"/>
+                                    <form:errors path="title" cssClass="errorMessage"/>
+                                </div>
+<%--                                <div class="form-group">--%>
+<%--                                    <form:label path="type" cssClass="text-primary"> Type </form:label>--%>
+<%--                                    <form:select path="type" class="form-control">--%>
+<%--                                        <form:option value="Expense" label="--Select--" selected="selected"/>--%>
+<%--                                        <form:options items="${transactionType}"/>--%>
+<%--                                    </form:select>--%>
+<%--                                    <form:errors path="type" cssClass="errorMessage"/>--%>
+<%--                                </div>--%>
+                                <div class="form-group">
+                                    <form:label path="sum" cssClass="text-primary"> Sum </form:label>
+                                    <div class="input-group">
+                                        <form:input path="sum" type="number" min="1"
+                                                    max="${category.moneyLeft}" step=".01"
+                                                    class="form-control form-control-user"
+                                                    placeholder=""/>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">€</span>
+                                        </div>
+                                    </div>
+                                    <form:errors path="sum" cssClass="errorMessage"/>
+                                </div>
+                                <div class="form-group">
+                                    <form:label path="date" cssClass="text-primary"> Date </form:label>
+                                    <form:input path="date" type="date" min="${budget.startDate}"
+                                                max="${budget.endDate}"
+                                                class="form-control form-control-user"
+                                                placeholder="yyyy-MM-dd" required="required"/>
+                                    <form:errors path="date" cssClass="errorMessage"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-info btn-user btn-block" type="submit"> Save
+                            </button>
+                            <form:hidden path = "type" value = "Expense"/>
+                        </form:form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table with list of transactions -->
+                <div class="col-xl-6 col-md-6 mb-4 ">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-header">
+                            <div class="row">
+                                <h5 class="m-0 font-weight-bold text-primary text-center col-10"> Latest
+                                    Transactions </h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr class="text-center">
+                                        <th>Title</th>
+                                        <th><strong>€</strong></th>
+                                        <th>User</th>
+                                        <th>Date</th>
+
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                    <c:forEach items="${category.transactions}" var="transaction">
+                                        <tr class="text-center">
+                                            <td class="align-middle">${transaction.title}</td>
+                                            <c:if test="${transaction.type.equals('Expense')}">
+                                                <td class="align-middle text-danger"> -${transaction.sum}</td>
+                                            </c:if>
+                                            <c:if test="${transaction.type.equals('Income')}">
+                                                <td class="align-middle text-success"> + ${transaction.sum}</td>
+                                            </c:if>
+                                            <td class="align-middle">${transaction.user.username}</td>
+                                            <td class="align-middle">${transaction.date}</td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- /.container-fluid -->
+
 
         </div>
-        <!-- End of Main Content -->
-
-
-        <%@include file="fragment/footer.jsp" %>
+        <!-- /.container-fluid -->
 
     </div>
-    <!-- End of Content Wrapper -->
+    <!-- End of Main Content -->
+
+
+    <%@include file="fragment/footer.jsp" %>
+
+</div>
+<!-- End of Content Wrapper -->
 
 </div>
 <!-- End of Page Wrapper -->
