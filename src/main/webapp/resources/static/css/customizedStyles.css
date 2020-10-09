@@ -3,9 +3,11 @@
     text-align: center;
 }
 
-.infoIcon {
-
+a.custom-card,
+a.custom-card:hover {
+    text-decoration: none;
 }
+
 /*.css-serial {*/
 /*    counter-reset: serial-number;  !* Set the serial number counter to 0 *!*/
 /*}*/

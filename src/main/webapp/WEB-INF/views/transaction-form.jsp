@@ -32,18 +32,25 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-baseline justify-content-between mb-4">
+                    <a href="/auth/budgets/${budget.id}"
+                       class="btn btn-primary"><i class="fas fa-angle-double-left"></i></a>
+                    <h1 class="col-10 h3 mb-0 text-primary font-weight-bolder">${budget.name} Operations </h1>
+                </div>
+
                 <!-- Content Row -->
                 <div class="row">
 
 
                     <!-- Form for adding NEW TRANSACTION -->
-                    <div class="col-md-6 mb-4">
+                    <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-left-info shadow py-2">
                             <div class="card-header">
-                                <h5 class="card-title text-primary font-weight-bold text-center"> Add Money to Your
-                                    Budget
+                                <h5 class="card-title text-primary font-weight-bold text-center"> New Transaction
                                 </h5>
-                                <h5 class="text-info font-weight-bolder text-center"> ${budget.name} </h5>
+                                <h5 class="text-info font-weight-bolder text-center">
+                                    <a href="/auth/budgets/${budget.id}" class="text-info">${budget.name}</a></h5>
                             </div>
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center justify-content-center">
@@ -55,6 +62,14 @@
                                         <form:input path="title" type="text" class="form-control form-control-user"
                                                     placeholder="" required="required"/>
                                         <form:errors path="title" cssClass="errorMessage"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:label path="type" cssClass="text-primary"> Type </form:label>
+                                        <form:select path="type" class="form-control">
+                                            <form:option value=" " label="--Select--" selected="selected"/>
+                                            <form:options items="${transactionType}"/>
+                                        </form:select>
+                                        <form:errors path="type" cssClass="errorMessage"/>
                                     </div>
 
                                     <!-- optional : for passing money directly to categories? -->
@@ -99,7 +114,6 @@
                             <div class="card-footer">
                                 <button class="btn btn-info btn-user btn-block" type="submit"> Save
                                 </button>
-                                <form:hidden path="type" value="Income"/>
                                 </form:form>
                             </div>
                         </div>
@@ -107,7 +121,7 @@
 
                     <%--                    --%>
 
-                    <div class="col-xl-6 col-md-6 mb-4 ">
+                    <div class="col-xl-9 col-md-6 mb-4 ">
                         <div class="card border-left-primary shadow h-100 py-2">
                             <div class="card-header">
                                 <div class="row">
@@ -120,10 +134,12 @@
                                     <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                         <tr class="text-center">
+                                            <th>Date</th>
                                             <th>Title</th>
                                             <th><strong>€</strong></th>
+                                            <th> Category </th>
                                             <th>User</th>
-                                            <th>Date</th>
+                                            <th>Balance</th>
 
                                         </tr>
                                         </thead>
@@ -131,15 +147,30 @@
                                         <tbody>
                                         <c:forEach items="${budget.transactions}" var="transaction">
                                             <tr class="text-center">
-                                                <td class="align-middle">${transaction.title}</td>
-                                                <c:if test="${transaction.type.equals('Expense')}">
-                                                    <td class="align-middle text-danger"> -${transaction.sum}</td>
-                                                </c:if>
-                                                <c:if test="${transaction.type.equals('Income')}">
-                                                    <td class="align-middle text-success"> + ${transaction.sum}</td>
-                                                </c:if>
-                                                <td class="align-middle">${transaction.user.username}</td>
                                                 <td class="align-middle">${transaction.date}</td>
+                                                <td class="align-middle">${transaction.title}</td>
+
+                                                <c:choose>
+                                                    <c:when test="${transaction.type.equals('Expense')}">
+                                                        <td class="align-middle text-danger"> -${transaction.sum}</td>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <td class="align-middle text-success"> + ${transaction.sum}</td>
+                                                    </c:otherwise>
+                                                </c:choose>
+
+                                                <c:choose>
+                                                    <c:when test="${not empty transaction.category}">
+                                                        <td>${transaction.category.name}</td>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <td> - </td>
+                                                    </c:otherwise>
+                                                </c:choose>
+
+
+                                                <td class="align-middle">${transaction.user.username}</td>
+                                                <td class="align-middle">${transaction.currentBalance}</td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>
@@ -149,44 +180,42 @@
                         </div>
                     </div>
 
-                    <%--                    --%>
-
                 </div>
 
-
-                </div>
-                <!-- /.container-fluid -->
 
             </div>
-            <!-- End of Main Content -->
-            <%@include file="fragment/footer.jsp" %>
+            <!-- /.container-fluid -->
+
         </div>
-
-        <!-- End of Content Wrapper -->
+        <!-- End of Main Content -->
+        <%@include file="fragment/footer.jsp" %>
     </div>
-    <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+    <!-- End of Content Wrapper -->
+</div>
+<!-- End of Page Wrapper -->
 
-    <div>
-        <%@include file="fragment/core-js-plugins.jsp" %>
-    </div>
-    <script>
-        $("#selectAll").click(function () {
-            $(".form-check-input").prop('checked', $(this).prop('checked'));
-        });
-    </script>
-    <!-- Page level plugins -->
-    <script src="/resources/static/vendor/chart.js/Chart.min.js"></script>
-    <script src="/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
 
-    <!-- Page level custom scripts -->
-    <script src="/resources/static/js/demo/chart-area-demo.js"></script>
-    <script src="/resources/static/js/demo/datatables-demo.js"></script>
-    <script src="/resources/static/js/demo/chart-pie-demo.js"></script>
+<div>
+    <%@include file="fragment/core-js-plugins.jsp" %>
+</div>
+<script>
+    $("#selectAll").click(function () {
+        $(".form-check-input").prop('checked', $(this).prop('checked'));
+    });
+</script>
+<!-- Page level plugins -->
+<script src="/resources/static/vendor/chart.js/Chart.min.js"></script>
+<script src="/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="/resources/static/js/demo/chart-area-demo.js"></script>
+<script src="/resources/static/js/demo/datatables-demo.js"></script>
+<script src="/resources/static/js/demo/chart-pie-demo.js"></script>
 </body>
 </html>

@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeSet;
 
 @Getter
@@ -34,7 +35,8 @@ public class Category implements Comparable<Category> {
     private Budget budget;
 
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "category")
-    private Set<Transaction> transactions = new HashSet<>();
+    @OrderBy
+    private SortedSet<Transaction> transactions = new TreeSet<>();
 
     private LocalDateTime dateAdded;
 

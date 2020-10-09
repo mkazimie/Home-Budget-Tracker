@@ -9,7 +9,6 @@ import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
 import com.example.budgetary.service.CategoryService;
-import com.google.gson.Gson;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,11 +25,9 @@ import java.util.*;
 public class BudgetController {
 
     private final BudgetService budgetService;
-    private final CategoryService categoryService;
 
-    public BudgetController(BudgetService budgetService, CategoryService categoryService) {
+    public BudgetController(BudgetService budgetService) {
         this.budgetService = budgetService;
-        this.categoryService = categoryService;
     }
 
 

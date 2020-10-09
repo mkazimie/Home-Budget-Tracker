@@ -64,7 +64,9 @@
 <%--                    </div>--%>
 
                         <!-- BUDGET -->
+
                         <div class="col-xl-3 col-md-6 mb-4 ">
+                            <a href="/auth/budgets/${budget.id}/transfer" class="custom-card">
                             <div class="card h-100 shadow py-2 bg-gradient-info ">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
@@ -81,6 +83,7 @@
                                     </div>
                                 </div>
                             </div>
+                            </a>
                         </div>
 
 

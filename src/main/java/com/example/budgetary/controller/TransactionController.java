@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.Set;
+import java.util.Arrays;
+import java.util.List;
 import java.util.SortedSet;
 
 @Controller
@@ -40,7 +41,7 @@ public class TransactionController {
                                  Model model, @PathVariable Long budgetId, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
             Category transactionCategory = categoryService.findCategoryById(categoryId);
-            Set<Transaction> categoryTransactions = transactionService.addTransaction(transactionDto,
+            SortedSet<Transaction> categoryTransactions = transactionService.makeTransactionOnCategory(transactionDto,
                     transactionCategory, currentUser.getUser());
             model.addAttribute("categoryTransactions", categoryTransactions);
         } else {
@@ -57,7 +58,7 @@ public class TransactionController {
         TransactionDto transactionDto = new TransactionDto();
         model.addAttribute("transactionDto", transactionDto);
         model.addAttribute("budget", budget);
-        return "transfer-form";
+        return "transaction-form";
     }
 
     @PostMapping("/transfer")
@@ -67,11 +68,11 @@ public class TransactionController {
                             Model model) {
         if (!bindingResult.hasErrors()) {
             Budget budget = getBudgetById(budgetId);
-            SortedSet<Transaction> moneyTransfers = transactionService.addIncome(transactionDto,
-                    currentUser.getUser(), budgetId);
+            SortedSet<Transaction> moneyTransfers = transactionService.makeTransactionOnBudget(transactionDto,
+                    currentUser.getUser(), budget);
             model.addAttribute("moneyTransfers", moneyTransfers);
         } else {
-            return "transfer-form";
+            return "transaction-form";
         }
         return "redirect:/auth/budgets/{budgetId}/transfer";
     }
@@ -79,5 +80,11 @@ public class TransactionController {
     private Budget getBudgetById(Long budgetId) {
         return budgetService.findById(budgetId);
     }
+
+    @ModelAttribute("transactionType")
+    public List<String> chooseTransactionType() {
+        return Arrays.asList("Income", "Expense");
+    }
+
 
 }

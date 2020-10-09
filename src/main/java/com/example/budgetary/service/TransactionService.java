@@ -9,8 +9,11 @@ import com.example.budgetary.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Set;
+import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.SortedSet;
+
 
 @Service
 public class TransactionService {
@@ -26,14 +29,13 @@ public class TransactionService {
     }
 
 
-    public Set<Transaction> addTransaction(TransactionDto transactionDto, Category transactionCategory, User user) {
-        Transaction transaction = new Transaction();
-        transaction.setTitle(transactionDto.getTitle());
-        transaction.setSum(transactionDto.getSum());
+    public SortedSet<Transaction> makeTransactionOnCategory(TransactionDto transactionDto, Category transactionCategory,
+                                                            User user) {
+        Transaction transaction = setNewTransaction(transactionDto, user);
         transaction.setDate(transactionDto.getDate());
-        transaction.setType(transactionDto.getType());
         transaction.setCategory(transactionCategory);
-        transaction.setUser(user);
+        transaction.setBudget(transactionCategory.getBudget());
+
         BigDecimal transactionSum = transaction.getSum();
         BigDecimal moneyLeft = transactionCategory.getMoneyLeft();
         Budget budget = transactionCategory.getBudget();
@@ -45,30 +47,66 @@ public class TransactionService {
             budget.setMoneyLeft(budget.getMoneyLeft().add(transactionSum));
             transactionCategory.setCategoryBudget(transactionCategory.getCategoryBudget().add(transactionSum));
         }
+        transaction.setCurrentBalance(budget.getMoneyLeft());
         saveTransaction(transaction);
-        Set<Transaction> categoryTransactions = transactionCategory.getTransactions();
-        categoryTransactions.add(transaction);
-        transactionCategory.setTransactions(categoryTransactions);
-        categoryService.saveCategory(transactionCategory);
-        return categoryTransactions;
+        addTransactionToBudget(transaction, budget);
+        addTransactionToCategory(transaction, transactionCategory);
+        return transactionCategory.getTransactions();
     }
 
-    public SortedSet<Transaction> addIncome(TransactionDto transactionDto, User user, Long budgetId){
-        Budget budget = budgetService.findById(budgetId);
-        Transaction transaction = new Transaction();
-        transaction.setSum(transactionDto.getSum());
-        transaction.setType(transactionDto.getType());
-        transaction.setTitle(transactionDto.getTitle());
+    public SortedSet<Transaction> makeTransactionOnBudget(TransactionDto transactionDto, User user, Budget budget) {
+        Transaction transaction = setNewTransaction(transactionDto, user);
         transaction.setBudget(budget);
-        transaction.setUser(user);
         saveTransaction(transaction);
-        SortedSet<Transaction> transactions = budget.getTransactions();
-        transactions.add(transaction);
-        budgetService.saveBudget(budget);
-        return transactions;
+
+        BigDecimal transactionSum = transaction.getSum();
+        SortedSet<Category> budgetCategories = budget.getCategories();
+
+        if (transaction.getType().equals("Expense")) {
+            budget.setBudgetMoney(budget.getBudgetMoney().subtract(transactionSum));
+            budget.setMoneyLeft(budget.getMoneyLeft().subtract(transactionSum));
+            int numberOfCategories = budgetCategories.size();
+            if (numberOfCategories > 0) {
+                BigDecimal amountToRestFromEachCategory = transactionSum.divide(BigDecimal.valueOf(numberOfCategories), 2,
+                        RoundingMode.CEILING);
+                budgetCategories
+                        .forEach(category -> category.setMoneyLeft(category.getMoneyLeft().subtract(amountToRestFromEachCategory)));
+                budgetCategories
+                        .forEach(category -> category.setCategoryBudget(category.getCategoryBudget().subtract(amountToRestFromEachCategory)));
+            }
+        } else {
+            budget.setBudgetMoney(budget.getBudgetMoney().add(transaction.getSum()));
+            budget.setMoneyLeft(budget.getMoneyLeft().add(transaction.getSum()));
+        }
+        transaction.setCurrentBalance(budget.getMoneyLeft());
+        transaction.setDate(LocalDate.now());
+        addTransactionToBudget(transaction, budget);
+        return budget.getTransactions();
     }
 
     public void saveTransaction(Transaction transaction) {
         transactionRepository.save(transaction);
+    }
+
+    private Transaction setNewTransaction(TransactionDto transactionDto, User user) {
+        Transaction transaction = new Transaction();
+        transaction.setTitle(transactionDto.getTitle());
+        transaction.setSum(transactionDto.getSum());
+        transaction.setType(transactionDto.getType());
+        transaction.setUser(user);
+        return transaction;
+    }
+
+    private void addTransactionToBudget(Transaction transaction, Budget budget){
+        SortedSet<Transaction> budgetTransactions = budget.getTransactions();
+        budgetTransactions.add(transaction);
+        budgetService.saveBudget(budget);
+    }
+
+    private void addTransactionToCategory(Transaction transaction, Category category){
+        SortedSet<Transaction> categoryTransactions = category.getTransactions();
+        categoryTransactions.add(transaction);
+        category.setTransactions(categoryTransactions);
+        categoryService.saveCategory(category);
     }
 }
