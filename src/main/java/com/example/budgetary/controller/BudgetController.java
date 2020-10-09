@@ -56,6 +56,13 @@ public class BudgetController {
         return "budget-form";
     }
 
+    @GetMapping("/form")
+    public String displayBudgetForm(Model model) {
+        Budget budget = new Budget();
+        model.addAttribute("budget", budget);
+        return "budget-form";
+    }
+
     @GetMapping("/{id}")
     public String displayBudgetById(@PathVariable Long id, Model model) {
         Budget budget = budgetService.findById(id);

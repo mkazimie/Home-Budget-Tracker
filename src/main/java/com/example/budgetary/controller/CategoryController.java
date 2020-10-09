@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -47,13 +48,13 @@ public class CategoryController {
                               BindingResult bindingResult,
                               Model model, @PathVariable Long budgetId, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
-            if (categoryDto.getSelectedName().equals("customized") && categoryDto.getOwnName().trim().isEmpty()){
-                attr.addFlashAttribute("error", "Please name your customized category");
+            boolean categoryNameValid = checkIfCategoryNameIsValid(categoryDto, attr, budgetId);
+            if (categoryNameValid) {
+                Budget budget = findBudget(budgetId);
+                SortedSet<Category> budgetCategories = categoryService.addNewCategory(categoryDto, budget);
+                model.addAttribute("budgetCategories", budgetCategories);
+                model.addAttribute("budget", budget);
             }
-            Budget budget = findBudget(budgetId);
-            SortedSet<Category> budgetCategories = categoryService.addNewCategory(categoryDto, budget);
-            model.addAttribute("budgetCategories", budgetCategories);
-            model.addAttribute("budget", budget);
         } else {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.categoryDto", bindingResult);
             attr.addFlashAttribute("categoryDto", categoryDto);
@@ -83,6 +84,22 @@ public class CategoryController {
         return budget.getCategories().stream()
                 .map(Category::getCategoryBudget)
                 .reduce(new BigDecimal(0), BigDecimal::add);
+    }
+
+    private boolean checkIfCategoryNameIsValid (CategoryDto categoryDto, RedirectAttributes attr, Long budgetId){
+        boolean isValid;
+        String selectedName = categoryDto.getSelectedName();
+        String ownName = categoryDto.getOwnName();
+        if (categoryService.findByName(selectedName, budgetId) != null || ((ownName != null && categoryService.findByName(ownName, budgetId) != null)) ){
+            attr.addFlashAttribute("error", "Such category already exists in your budget");
+            isValid = false;
+        } else if (selectedName.equals("customized") && ownName.trim().isEmpty()) {
+            attr.addFlashAttribute("error", "Please name your customized category");
+            isValid = false;
+        } else {
+            isValid = true;
+        }
+        return isValid;
     }
 
     @ModelAttribute("transactionType")

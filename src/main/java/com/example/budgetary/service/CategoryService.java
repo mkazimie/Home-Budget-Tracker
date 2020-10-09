@@ -49,6 +49,10 @@ public class CategoryService {
         return category.orElseThrow(() -> new NoRecordFoundException("No record found in our DB"));
     }
 
+    public Category findByName(String name, Long budgetId){
+        return categoryRepository.findByName(name, budgetId);
+    }
+
 
     public void saveCategory(Category category){
         categoryRepository.save(category);
