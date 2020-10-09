@@ -1,19 +1,18 @@
 package com.example.budgetary.controller;
 
 import com.example.budgetary.entity.Budget;
-import com.example.budgetary.entity.Category;
 import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.User;
-import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
-import com.example.budgetary.service.CategoryService;
+import com.example.budgetary.service.TransactionService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -25,9 +24,11 @@ import java.util.*;
 public class BudgetController {
 
     private final BudgetService budgetService;
+    private final TransactionService transactionService;
 
-    public BudgetController(BudgetService budgetService) {
+    public BudgetController(BudgetService budgetService, TransactionService transactionService) {
         this.budgetService = budgetService;
+        this.transactionService = transactionService;
     }
 
 
@@ -35,13 +36,6 @@ public class BudgetController {
     public String displayBudgets(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
         getBudgets(currentUser.getUser(), model);
         return "budgets";
-    }
-
-    @GetMapping("/form")
-    public String displayBudgetForm(Model model) {
-        Budget budget = new Budget();
-        model.addAttribute("budget", budget);
-        return "budget-form";
     }
 
     @PostMapping("")
@@ -66,15 +60,28 @@ public class BudgetController {
     public String displayBudgetById(@PathVariable Long id, Model model) {
         Budget budget = budgetService.findById(id);
         BigDecimal allExpenses = countAllExpenses(budget);
-        BigDecimal allCategoryBudgets = sumUpCategoryBudgets(budget);
-        CategoryDto categoryDto = new CategoryDto();
+        TransactionDto transactionDto = new TransactionDto();
+        if (!model.containsAttribute("transactionDto")) {
+            model.addAttribute("transactionDto", transactionDto);
+        }
         model.addAttribute("budget", budget);
         model.addAttribute("allExpenses", allExpenses);
-        model.addAttribute("allCategoryBudgets", allCategoryBudgets);
-        if (!model.containsAttribute("categoryDto")) {
-            model.addAttribute("categoryDto", categoryDto);
-        }
         return "budget";
+    }
+
+    @PostMapping("/{id}")
+    public String saveBudgetTransaction(@ModelAttribute @Valid TransactionDto transactionDto,
+                                        BindingResult bindingResult, RedirectAttributes attr,
+                                        @AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long id,
+                                        Model model){
+        if (!bindingResult.hasErrors()){
+            Budget budget = budgetService.findById(id);
+            transactionService.makeTransactionOnBudget(transactionDto, currentUser.getUser(), budget);
+        } else {
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.transactionDto", bindingResult);
+            attr.addFlashAttribute("transactionDto", transactionDto);
+        }
+        return "redirect:/auth/budgets/{id}";
     }
 
 
@@ -85,11 +92,6 @@ public class BudgetController {
         model.addAttribute("noOfBudgets", noOfBudgets);
     }
 
-    private BigDecimal sumUpCategoryBudgets(Budget budget) {
-        return budget.getCategories().stream()
-                .map(Category::getCategoryBudget)
-                .reduce(new BigDecimal(0), BigDecimal::add);
-    }
 
     private BigDecimal countAllExpenses(Budget budget) {
         return budget.getCategories().stream()
@@ -106,23 +108,9 @@ public class BudgetController {
         return currentUser.getUser();
     }
 
-    @ModelAttribute("catName")
-    public Map<String, String> categories() {
-        Map<String, String> catNames = new LinkedHashMap<>();
-        catNames.put("Home Expenses", "<i class='fas fa-file-invoice'></i>");
-        catNames.put("Supermarket", "<i class='fas fa-shopping-cart'></i>");
-        catNames.put("Public Transport", "<i class='fas fa-bus-alt'></i>");
-        catNames.put("Vehicle", "<i class='fas fa-car'></i>");
-        catNames.put("Health", "<i class='fas fa-tablets'></i>");
-        catNames.put("Gym", "<i class='fas fa-dumbbell'></i>");
-        catNames.put("Going Out", "<i class='fas fa-glass-cheers'></i>");
-        catNames.put("Shopping", "<i class='fas fa-shopping-bag'></i>");
-        catNames.put("Personal Care", "<i class='fas fa-magic'></i>");
-        catNames.put("Travel", "<i class='fas fa-plane'></i>");
-        catNames.put("Other", "<i class='fas fa-atom'></i>");
-        catNames.put("Savings", "<i class='fas fa-piggy-bank'></i>");
-        catNames.put("Unexpected", "<i class='fas fa-exclamation-triangle'></i>");
-        return catNames;
+    @ModelAttribute("transactionType")
+    public List<String> chooseTransactionType() {
+        return Arrays.asList("Income", "Expense");
     }
 
 

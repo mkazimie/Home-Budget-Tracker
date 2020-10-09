@@ -51,40 +51,37 @@ public class TransactionController {
         return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
     }
 
-    @GetMapping("/transfer")
-    public String displayMoneyForm(@PathVariable Long budgetId,
-                                   Model model) {
-        Budget budget = getBudgetById(budgetId);
-        TransactionDto transactionDto = new TransactionDto();
-        model.addAttribute("transactionDto", transactionDto);
-        model.addAttribute("budget", budget);
-        return "transaction-form";
-    }
+//    @GetMapping("/transfer")
+//    public String displayMoneyForm(@PathVariable Long budgetId,
+//                                   Model model) {
+//        Budget budget = getBudgetById(budgetId);
+//        TransactionDto transactionDto = new TransactionDto();
+//        model.addAttribute("transactionDto", transactionDto);
+//        model.addAttribute("budget", budget);
+//        return "transaction-form";
+//    }
+//
+//    @PostMapping("/transfer")
+//    public String addIncome(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto,
+//                            BindingResult bindingResult,
+//                            @AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long budgetId,
+//                            Model model) {
+//        if (!bindingResult.hasErrors()) {
+//            Budget budget = getBudgetById(budgetId);
+//            SortedSet<Transaction> moneyTransfers = transactionService.makeTransactionOnBudget(transactionDto,
+//                    currentUser.getUser(), budget);
+//            model.addAttribute("moneyTransfers", moneyTransfers);
+//        } else {
+//            return "transaction-form";
+//        }
+//        return "redirect:/auth/budgets/{budgetId}/transfer";
+//    }
 
-    @PostMapping("/transfer")
-    public String addIncome(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto,
-                            BindingResult bindingResult,
-                            @AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long budgetId,
-                            Model model) {
-        if (!bindingResult.hasErrors()) {
-            Budget budget = getBudgetById(budgetId);
-            SortedSet<Transaction> moneyTransfers = transactionService.makeTransactionOnBudget(transactionDto,
-                    currentUser.getUser(), budget);
-            model.addAttribute("moneyTransfers", moneyTransfers);
-        } else {
-            return "transaction-form";
-        }
-        return "redirect:/auth/budgets/{budgetId}/transfer";
-    }
+//    private Budget getBudgetById(Long budgetId) {
+//        return budgetService.findById(budgetId);
+//    }
 
-    private Budget getBudgetById(Long budgetId) {
-        return budgetService.findById(budgetId);
-    }
 
-    @ModelAttribute("transactionType")
-    public List<String> chooseTransactionType() {
-        return Arrays.asList("Income", "Expense");
-    }
 
 
 }

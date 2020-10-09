@@ -54,7 +54,7 @@ public class TransactionService {
         return transactionCategory.getTransactions();
     }
 
-    public SortedSet<Transaction> makeTransactionOnBudget(TransactionDto transactionDto, User user, Budget budget) {
+    public void makeTransactionOnBudget(TransactionDto transactionDto, User user, Budget budget) {
         Transaction transaction = setNewTransaction(transactionDto, user);
         transaction.setBudget(budget);
         saveTransaction(transaction);
@@ -81,7 +81,6 @@ public class TransactionService {
         transaction.setCurrentBalance(budget.getMoneyLeft());
         transaction.setDate(LocalDate.now());
         addTransactionToBudget(transaction, budget);
-        return budget.getTransactions();
     }
 
     public void saveTransaction(Transaction transaction) {

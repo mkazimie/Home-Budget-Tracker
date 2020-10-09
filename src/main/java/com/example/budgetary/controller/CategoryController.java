@@ -2,7 +2,6 @@ package com.example.budgetary.controller;
 
 import com.example.budgetary.entity.Budget;
 import com.example.budgetary.entity.Category;
-import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.service.BudgetService;
@@ -30,10 +29,27 @@ public class CategoryController {
         this.budgetService = budgetService;
     }
 
+    @GetMapping("")
+    public String displayCategories(@PathVariable Long budgetId, Model model){
+        Budget budget = findBudget(budgetId);
+        BigDecimal allCategoryBudgets = sumUpCategoryBudgets(budget);
+        CategoryDto categoryDto = new CategoryDto();
+        model.addAttribute("budget", budget);
+        model.addAttribute("allCategoryBudgets", allCategoryBudgets);
+        if (!model.containsAttribute("categoryDto")) {
+            model.addAttribute("categoryDto", categoryDto);
+        }
+        return "categories";
+    }
+
     @PostMapping("")
-    public String addCategory(@ModelAttribute("newCategory") @Valid CategoryDto categoryDto, BindingResult bindingResult,
+    public String addCategory(@ModelAttribute("categoryDto") @Valid CategoryDto categoryDto,
+                              BindingResult bindingResult,
                               Model model, @PathVariable Long budgetId, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
+            if (categoryDto.getSelectedName().equals("customized") && categoryDto.getOwnName().trim().isEmpty()){
+                attr.addFlashAttribute("error", "Please name your customized category");
+            }
             Budget budget = findBudget(budgetId);
             SortedSet<Category> budgetCategories = categoryService.addNewCategory(categoryDto, budget);
             model.addAttribute("budgetCategories", budgetCategories);
@@ -42,30 +58,20 @@ public class CategoryController {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.categoryDto", bindingResult);
             attr.addFlashAttribute("categoryDto", categoryDto);
         }
-        return "redirect:/auth/budgets/{budgetId}";
+        return "redirect:/auth/budgets/{budgetId}/categories";
     }
 
     @GetMapping("/{categoryId}")
     public String displayCategory(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model) {
         Category category = categoryService.findCategoryById(categoryId);
         Budget budget = findBudget(budgetId);
-//        BigDecimal sumOfCategoryExpenses = countCategoryExpenses(category);
-//        model.addAttribute("sumOfCategoryTransactions", sumOfCategoryExpenses);
         model.addAttribute("category", category);
         model.addAttribute("budget", budget);
         if (!model.containsAttribute("transactionDto")) {
             model.addAttribute("transactionDto", new TransactionDto());
         }
         return "category";
-
     }
-
-//    public BigDecimal countCategoryExpenses(Category category) {
-//        Set<Transaction> categoryTransactions = category.getTransactions();
-//        return categoryTransactions.stream()
-//                .map(Transaction::getSum)
-//                .reduce(new BigDecimal(0), BigDecimal::add);
-//    }
 
 
     public Budget findBudget(@PathVariable Long budgetId) {
@@ -73,8 +79,33 @@ public class CategoryController {
     }
 
 
+    private BigDecimal sumUpCategoryBudgets(Budget budget) {
+        return budget.getCategories().stream()
+                .map(Category::getCategoryBudget)
+                .reduce(new BigDecimal(0), BigDecimal::add);
+    }
+
     @ModelAttribute("transactionType")
     public List<String> status() {
         return Arrays.asList("Income", "Expense");
+    }
+
+    @ModelAttribute("catName")
+    public Map<String, String> categories() {
+        Map<String, String> catNames = new LinkedHashMap<>();
+        catNames.put("Home Expenses", "<i class='fas fa-file-invoice'></i>");
+        catNames.put("Supermarket", "<i class='fas fa-shopping-cart'></i>");
+        catNames.put("Public Transport", "<i class='fas fa-bus-alt'></i>");
+        catNames.put("Vehicle", "<i class='fas fa-car'></i>");
+        catNames.put("Health", "<i class='fas fa-tablets'></i>");
+        catNames.put("Gym", "<i class='fas fa-dumbbell'></i>");
+        catNames.put("Going Out", "<i class='fas fa-glass-cheers'></i>");
+        catNames.put("Shopping", "<i class='fas fa-shopping-bag'></i>");
+        catNames.put("Personal Care", "<i class='fas fa-magic'></i>");
+        catNames.put("Travel", "<i class='fas fa-plane'></i>");
+        catNames.put("Other", "<i class='fas fa-atom'></i>");
+        catNames.put("Savings", "<i class='fas fa-piggy-bank'></i>");
+        catNames.put("Unexpected", "<i class='fas fa-exclamation-triangle'></i>");
+        return catNames;
     }
 }
