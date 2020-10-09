@@ -120,11 +120,12 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <button class="btn-lg btn-circle btn-primary">
-                                            <a href="/auth/budgets/${budget.id}/categories">
-                                                <i class="fas fa-angle-double-right text-gray-300"></i>
-                                            </a>
-                                        </button>
+                                        <%--                                        <button class="btn-lg btn-circle btn-primary">--%>
+                                        <a href="/auth/budgets/${budget.id}/categories"
+                                           class="btn-lg btn-circle btn-primary">
+                                            <i class="fas fa-angle-double-right text-gray-300"></i>
+                                        </a>
+                                        <%--                                        </button>--%>
                                     </div>
                                 </div>
                             </div>
@@ -138,11 +139,12 @@
                 <div class="row">
 
                     <!-- Form for adding NEW Budget TRANSACTION -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow py-2">
-                            <div class="card-header">
-                                <h5 class="card-title text-warning font-weight-bold text-center"> New Transaction
+                    <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="card border-left-warning shadow">
+                            <div class="card-header bg-warning">
+                                <h5 class="card-title text-white font-weight-bold text-center"> Deposit / Withdrawal
                                 </h5>
+                                <div class="text-center">Directly to / from your budget</div>
                             </div>
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center justify-content-center">
@@ -180,22 +182,29 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button class="btn btn-warning btn-user btn-block" type="submit"> Save
+                                <button class="btn btn-warning font-weight-bolder btn-user btn-block" type="submit">
+                                    Save
                                 </button>
+                                <div class="mt-2 text-center">
+                                    <a href="/auth/budgets/${budget.id}/categories"
+                                       class="text-primary font-weight-light">
+                                        Register a Category Expense
+                                    </a>
+                                </div>
+
                                 </form:form>
                             </div>
                         </div>
                     </div>
 
-                    <%--                    --%>
 
                     <!-- LIST of Latest BUDGET TRANSACTIONS -->
-                    <div class="col-xl-9 col-md-6 mb-4 ">
-                        <div class="card border-left-primary shadow h-100 py-2">
-                            <div class="card-header">
-                                <div class="row">
-                                    <h5 class="m-0 font-weight-bold text-primary text-center col-10"> Budget
-                                        Transactions </h5>
+                    <div class="col-xl-8 col-md-6 mb-4 ">
+                        <div class="card border-left-primary shadow h-100">
+                            <div class="card-header bg-primary">
+                                <h5 class="font-weight-bold text-white text-center col-12"> Budget
+                                    Transactions </h5>
+                                <div class="text-center text-secondary">${budget.transactions.size()} transactions
                                 </div>
                             </div>
                             <div class="card-body">
@@ -203,12 +212,12 @@
                                     <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                         <tr class="text-center">
-                                            <th>Date</th>
-                                            <th>Title</th>
+                                            <th> Date</th>
+                                            <th> Title</th>
                                             <th><strong>€</strong></th>
                                             <th> Category</th>
-                                            <th>User</th>
-                                            <th>Balance</th>
+                                            <th> User</th>
+                                            <th> Balance</th>
 
                                         </tr>
                                         </thead>
@@ -220,8 +229,8 @@
                                                 <td class="align-middle">${transaction.title}</td>
 
                                                 <c:choose>
-                                                    <c:when test="${transaction.type.equals('Expense')}">
-                                                        <td class="align-middle text-danger"> -${transaction.sum}</td>
+                                                    <c:when test="${transaction.type.equals('Withdrawal')}">
+                                                        <td class="align-middle text-danger"> - ${transaction.sum}</td>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <td class="align-middle text-success"> + ${transaction.sum}</td>
@@ -233,13 +242,15 @@
                                                         <td>${transaction.category.name}</td>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <td> -</td>
+                                                        <td> Main Budget</td>
                                                     </c:otherwise>
                                                 </c:choose>
 
 
                                                 <td class="align-middle">${transaction.user.username}</td>
-                                                <td class="align-middle">${transaction.currentBalance}</td>
+                                                <td
+                                                        class="align-middle
+                                                        text-secondary">${transaction.currentBalance}</td>
                                             </tr>
                                         </c:forEach>
                                         </tbody>

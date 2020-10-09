@@ -39,7 +39,7 @@ public class TransactionService {
         BigDecimal transactionSum = transaction.getSum();
         BigDecimal moneyLeft = transactionCategory.getMoneyLeft();
         Budget budget = transactionCategory.getBudget();
-        if (transaction.getType().equals("Expense")) {
+        if (transaction.getType().equals("Withdrawal")) {
             transactionCategory.setMoneyLeft(moneyLeft.subtract(transactionSum));
             budget.setMoneyLeft(budget.getMoneyLeft().subtract(transactionSum));
         } else {

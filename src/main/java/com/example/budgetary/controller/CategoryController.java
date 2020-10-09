@@ -2,6 +2,7 @@ package com.example.budgetary.controller;
 
 import com.example.budgetary.entity.Budget;
 import com.example.budgetary.entity.Category;
+import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.service.BudgetService;
@@ -13,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
@@ -31,10 +33,11 @@ public class CategoryController {
     }
 
     @GetMapping("")
-    public String displayCategories(@PathVariable Long budgetId, Model model){
+    public String displayCategories(@PathVariable Long budgetId, Model model, HttpServletRequest request){
         Budget budget = findBudget(budgetId);
         BigDecimal allCategoryBudgets = sumUpCategoryBudgets(budget);
         CategoryDto categoryDto = new CategoryDto();
+        model.addAttribute("allExpenses", request.getSession().getAttribute("allExpenses"));
         model.addAttribute("budget", budget);
         model.addAttribute("allCategoryBudgets", allCategoryBudgets);
         if (!model.containsAttribute("categoryDto")) {
@@ -86,6 +89,7 @@ public class CategoryController {
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
+
     private boolean checkIfCategoryNameIsValid (CategoryDto categoryDto, RedirectAttributes attr, Long budgetId){
         boolean isValid;
         String selectedName = categoryDto.getSelectedName();
@@ -104,7 +108,7 @@ public class CategoryController {
 
     @ModelAttribute("transactionType")
     public List<String> status() {
-        return Arrays.asList("Income", "Expense");
+        return Arrays.asList("Deposit", "Withdrawal");
     }
 
     @ModelAttribute("catName")

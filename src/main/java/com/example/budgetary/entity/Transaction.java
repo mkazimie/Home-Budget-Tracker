@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -42,7 +43,6 @@ public class Transaction implements Comparable<Transaction> {
     private User user;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @PastOrPresent
     private LocalDate date;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
@@ -59,7 +59,7 @@ public class Transaction implements Comparable<Transaction> {
     public int compareTo(Transaction transaction) {
         int compareTo= 0;
         if (this.getId() != null && transaction.getId() != null){
-            compareTo = this.getId().compareTo(transaction.getId());
+            compareTo = this.getId().compareTo(transaction.getId()) * (-1);
         }
         return compareTo;
     }

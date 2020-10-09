@@ -3,6 +3,17 @@
     text-align: center;
 }
 
+a.btn-circle,
+a.btn-circle:hover {
+    text-decoration: none;
+}
+
+.card-header{
+    height: 80px;
+}
+
+
+
 /*.css-serial {*/
 /*    counter-reset: serial-number;  !* Set the serial number counter to 0 *!*/
 /*}*/

@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -64,9 +65,10 @@ public class BudgetController {
     }
 
     @GetMapping("/{id}")
-    public String displayBudgetById(@PathVariable Long id, Model model) {
+    public String displayBudgetById(@PathVariable Long id, Model model, HttpServletRequest request) {
         Budget budget = budgetService.findById(id);
         BigDecimal allExpenses = countAllExpenses(budget);
+        request.getSession().setAttribute("allExpenses", allExpenses);
         TransactionDto transactionDto = new TransactionDto();
         if (!model.containsAttribute("transactionDto")) {
             model.addAttribute("transactionDto", transactionDto);
@@ -103,7 +105,7 @@ public class BudgetController {
     private BigDecimal countAllExpenses(Budget budget) {
         return budget.getCategories().stream()
                 .flatMap(category -> category.getTransactions().stream())
-                .filter(transaction -> transaction.getType().equals("Expense"))
+                .filter(transaction -> transaction.getType().equals("Withdrawal"))
                 .map(Transaction::getSum)
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
@@ -117,7 +119,7 @@ public class BudgetController {
 
     @ModelAttribute("transactionType")
     public List<String> chooseTransactionType() {
-        return Arrays.asList("Income", "Expense");
+        return Arrays.asList("Deposit", "Withdrawal");
     }
 
 

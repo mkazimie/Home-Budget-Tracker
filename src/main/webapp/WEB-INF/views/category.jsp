@@ -50,7 +50,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Budget
+                                            ${category.name} Budget
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-white">${category.categoryBudget}
                                             €</div>
@@ -71,7 +71,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Available
+                                            ${category.name} Balance
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-white">${category.moneyLeft} €</div>
                                     </div>
@@ -91,7 +91,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Spendings
+                                            ${category.name} Expenses
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-white">${category.categoryBudget
                                                 - category.moneyLeft} €</div>
@@ -112,9 +112,9 @@
 
                 <!-- Form for adding NEW TRANSACTION -->
                 <div class="col-xl-4 col-md-6 mb-4 ">
-                    <div class="card border-left-info h-100 shadow py-2">
+                    <div class="card border-left-warning h-100 shadow">
                         <div class="card-header">
-                            <h5 class="card-title text-primary font-weight-bold text-center"> Add Expense </h5>
+                            <h5 class="card-title text-warning font-weight-bold text-center"> Register Expense </h5>
                         </div>
                         <div class="card-body">
                             <div class="row no-gutters align-items-center justify-content-center">
@@ -159,9 +159,9 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <button class="btn btn-info btn-user btn-block" type="submit"> Save
+                            <button class="btn btn-warning btn-user btn-block" type="submit"> Save
                             </button>
-                            <form:hidden path = "type" value = "Expense"/>
+                            <form:hidden path = "type" value = "Withdrawal"/>
                         </form:form>
                         </div>
                     </div>
@@ -193,12 +193,14 @@
                                     <c:forEach items="${category.transactions}" var="transaction">
                                         <tr class="text-center">
                                             <td class="align-middle">${transaction.title}</td>
-                                            <c:if test="${transaction.type.equals('Expense')}">
-                                                <td class="align-middle text-danger"> -${transaction.sum}</td>
-                                            </c:if>
-                                            <c:if test="${transaction.type.equals('Income')}">
-                                                <td class="align-middle text-success"> + ${transaction.sum}</td>
-                                            </c:if>
+                                            <c:choose>
+                                                <c:when test="${transaction.type.equals('Withdrawal')}">
+                                                    <td class="align-middle text-danger"> -${transaction.sum}</td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td class="align-middle text-success"> +${transaction.sum}</td>
+                                                </c:otherwise>
+                                            </c:choose>
                                             <td class="align-middle">${transaction.user.username}</td>
                                             <td class="align-middle">${transaction.date}</td>
                                         </tr>

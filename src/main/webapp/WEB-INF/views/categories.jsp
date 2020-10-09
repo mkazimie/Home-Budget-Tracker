@@ -36,18 +36,89 @@
                 <div class="d-sm-flex align-items-baseline justify-content-between mb-4">
                     <a href="/auth/budgets/${budget.id}"
                        class="btn btn-primary"><i class="fas fa-angle-double-left"></i></a>
-                    <h1 class="col-10 h3 mb-0 text-info font-weight-bolder">${budget.name} Budget Categories </h1>
+                    <h1 class="col-10 h3 mb-0 text-primary font-weight-bolder">${budget.name} Budget Categories </h1>
                 </div>
 
                 <!-- Content Row -->
                 <div class="row">
 
+
+                    <!-- BUDGET -->
+
+                    <div class="col-xl-3 col-md-6 mb-4 ">
+                        <div class="card h-100 shadow py-2 bg-gradient-info ">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
+                                            Budget
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-white">${budget.budgetMoney} €
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-coins fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- AVAILABLE -->
+                    <div class="col-xl-3 col-md-6 mb-4 ">
+                        <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
+                        <div class="card h-100 shadow py-2 bg-gradient-success ">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
+                                            Available
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-white">${budget.moneyLeft} €</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SPENDINGS -->
+                    <div class="col-xl-3 col-md-6 mb-4 ">
+                        <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
+                        <div class="card h-100 shadow py-2 bg-gradient-warning ">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
+                                            Expenses
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold
+                                        text-white"> ${allExpenses} €</div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                    <!-- Content Row -->
+                <div class="row">
+
                     <!-- Form for adding NEW CATEGORY -->
                     <div class="col-xl-4 col-md-6 mb-4 ">
-                        <div class="card border-left-info shadow py-2">
-                            <div class="card-header">
-                                <h5 class="card-title font-weight-bold text-center text-primary">Add
-                                    Category</h5>
+                        <div class="card border-left-info shadow">
+                            <div class="card-header bg-info d-table">
+                                <div class="d-table-cell align-middle">
+                                    <h5 class="card-title font-weight-bold text-center text-white">Add
+                                        Category</h5>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center justify-content-center">
@@ -119,13 +190,14 @@
                     <!-- Table displaying ALL CATEGORIES for this budget -->
 
                     <div class="col-xl-7 col-md-6 mb-4 ">
-                        <div class="card border-left-primary shadow h-100 py-2">
-                            <div class="card-header">
-                                <div class="row">
-                                    <h5 class="m-0 font-weight-bold text-primary col-10 text-center"> Budget
-                                        Categories </h5>
+                        <div class="card border-left-primary shadow h-100">
+                            <div class="card-header bg-primary d-table">
+                                <div class="d-table-cell align-middle">
+                                    <h5 class="card-title font-weight-bold text-center text-white">Budget
+                                        Categories</h5>
                                 </div>
                             </div>
+
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
