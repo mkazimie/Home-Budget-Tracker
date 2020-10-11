@@ -96,7 +96,8 @@
                                             Expenses
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold
-                                        text-white"> ${allExpenses} €</div>
+                                        text-white"> ${allExpenses} €
+                                        </div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
@@ -108,7 +109,7 @@
 
                 </div>
 
-                    <!-- Content Row -->
+                <!-- Content Row -->
                 <div class="row">
 
                     <!-- Form for adding NEW CATEGORY -->
@@ -207,6 +208,7 @@
                                             <th>Name</th>
                                             <th><strong>Budget</strong></th>
                                             <th><strong>Available</strong></th>
+                                            <th> Options</th>
                                         </tr>
                                         </thead>
 
@@ -216,7 +218,8 @@
                                                 <td class="align-middle"><a
                                                         href="/auth/budgets/${budget.id}/categories/${category.id}"
                                                         class="btn btn-primary"><i
-                                                        class="fas fa-angle-double-right"></i></a></td>
+                                                        class="fas fa-angle-double-right"></i></a>
+                                                </td>
                                                 <td
                                                         class="align-middle">
                                                     <c:choose>
@@ -229,11 +232,74 @@
                                                     &nbsp;&nbsp; ${category.name}
                                                 </td>
                                                 <td class="align-middle">${category.categoryBudget} €</td>
-                                                <td class="align-middle text-success">${category.moneyLeft} €</td>
+                                                <td class="align-middle text-success">${category.moneyLeft} €
+                                                </td>
+                                                <td class="align-middle">
+                                                    <button id="editBtn" data-toggle="modal" data-target="#editModal"
+                                                            data-name="${category.name}"
+                                                            data-budget="${category.categoryBudget}"
+                                                            data-available="${budget.budgetMoney - allCategoryBudgets}"
+                                                            class="btn-circle btn-sm btn-warning"><i
+                                                            class="far fa-edit"></i></button>
+                                                    <button id="deleteBtn"
+                                                            class="btn-circle btn-sm btn-danger"><i
+                                                            class="far fa-trash-alt"></i></button>
+                                                </td>
+
                                             </tr>
                                         </c:forEach>
                                         </tbody>
                                     </table>
+
+
+                                    <!--MODAL FORM to update Budget Category -->
+                                    <div id="editModal" class="modal" tabindex="-1" role="dialog">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-primary d-table justify-content-between">
+                                                    <div class="d-table-cell align-middle">
+                                                        <h5 class="modal-title text-white font-weight-bolder text-center">
+                                                            Edit category</h5>
+                                                    </div>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="addAlert"></div>
+                                                    <form method="post" action="/auth/budgets">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label text-primary">
+                                                                Name:</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" id="nameInput" class="form-control"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group align-items-center">
+                                                            <div class='alert alert-warning text-center'
+                                                                 role='alert'></div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label text-primary">
+                                                                Budget:</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="number" id="budgetInput"
+                                                                       class="form-control"/>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -282,6 +348,24 @@
                 $("#selectCat option:selected").prop("selected", false);
             }
         });
+
+        $('#editModal').on('show.bs.modal', function (event) {
+            let button = $(event.relatedTarget)
+            let categoryName = button.data('name');
+            let categoryBudget = button.data('budget');
+            let availableBudget = button.data('available');
+            let modal = $(this)
+            modal.find('#nameInput').val(categoryName);
+            let budgetInput = modal.find('#budgetInput');
+            budgetInput.val(categoryBudget);
+
+            budgetInput.attr({
+                "max": availableBudget
+            });
+            modal.find(".alert-warning").text(availableBudget + " € Available");
+        })
+
+
     </script>
 
 

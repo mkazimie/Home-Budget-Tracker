@@ -12,6 +12,10 @@ a.btn-circle:hover {
     height: 80px;
 }
 
+.close {
+    color: #fff;
+    opacity: 1;
+}
 
 
 /*.css-serial {*/
