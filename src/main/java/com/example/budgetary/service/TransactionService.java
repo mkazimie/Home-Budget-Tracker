@@ -62,7 +62,7 @@ public class TransactionService {
         BigDecimal transactionSum = transaction.getSum();
         SortedSet<Category> budgetCategories = budget.getCategories();
 
-        if (transaction.getType().equals("Expense")) {
+        if (transaction.getType().equals("Withdrawal")) {
             budget.setBudgetMoney(budget.getBudgetMoney().subtract(transactionSum));
             budget.setMoneyLeft(budget.getMoneyLeft().subtract(transactionSum));
             int numberOfCategories = budgetCategories.size();

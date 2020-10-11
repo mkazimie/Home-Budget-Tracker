@@ -7,6 +7,7 @@ import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.service.BudgetService;
 import com.example.budgetary.service.CategoryService;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -14,9 +15,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.ManyToOne;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -33,9 +34,12 @@ public class CategoryController {
     }
 
     @GetMapping("")
-    public String displayCategories(@PathVariable Long budgetId, Model model, HttpServletRequest request){
+    public String displayCategories(@PathVariable Long budgetId, Model model, HttpServletRequest request) {
         Budget budget = findBudget(budgetId);
         BigDecimal allCategoryBudgets = sumUpCategoryBudgets(budget);
+        Map<String, BigDecimal> categoryBalanceMap = balanceMap(budget);
+        model.addAttribute("categoryBalanceMap", categoryBalanceMap);
+        request.getSession().setAttribute("allCategoryBudgets", allCategoryBudgets);
         CategoryDto categoryDto = new CategoryDto();
         model.addAttribute("allExpenses", request.getSession().getAttribute("allExpenses"));
         model.addAttribute("budget", budget);
@@ -66,15 +70,38 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
-    public String displayCategory(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model) {
+    public String displayCategory(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model,
+                                  HttpServletRequest request) {
         Category category = categoryService.findCategoryById(categoryId);
         Budget budget = findBudget(budgetId);
+        model.addAttribute("allCategoryExpenses", countCategoryExpenses(category));
         model.addAttribute("category", category);
         model.addAttribute("budget", budget);
+        model.addAttribute("allCategoryBudgets", request.getSession().getAttribute("allCategoryBudgets"));
         if (!model.containsAttribute("transactionDto")) {
             model.addAttribute("transactionDto", new TransactionDto());
         }
+        if (!model.containsAttribute("category")) {
+            model.addAttribute("category", new Category());
+        }
         return "category";
+    }
+
+    @PostMapping("/{categoryId}")
+    public String updateCategory(@ModelAttribute @Valid Category category,
+                                 BindingResult bindingResult, @PathVariable Long categoryId,
+                                 @PathVariable Long budgetId,
+                                 Model model, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
+            Category categoryById = categoryService.findCategoryById(categoryId);
+            categoryById.setName(category.getName());
+            categoryById.setCategoryBudget(category.getCategoryBudget());
+            categoryService.saveCategory(categoryById);
+        } else {
+            attr.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
+            attr.addFlashAttribute("category", category);
+        }
+        return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
     }
 
 
@@ -89,12 +116,19 @@ public class CategoryController {
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
+    public BigDecimal countCategoryExpenses(Category category) {
+        SortedSet<Transaction> transactions = category.getTransactions();
+        return transactions.stream()
+                .map(Transaction::getSum)
+                .reduce(new BigDecimal(0), BigDecimal::add);
+    }
 
-    private boolean checkIfCategoryNameIsValid (CategoryDto categoryDto, RedirectAttributes attr, Long budgetId){
+
+    private boolean checkIfCategoryNameIsValid(CategoryDto categoryDto, RedirectAttributes attr, Long budgetId) {
         boolean isValid;
         String selectedName = categoryDto.getSelectedName();
         String ownName = categoryDto.getOwnName();
-        if (categoryService.findByName(selectedName, budgetId) != null || ((ownName != null && categoryService.findByName(ownName, budgetId) != null)) ){
+        if (categoryService.findByName(selectedName, budgetId) != null || ((ownName != null && categoryService.findByName(ownName, budgetId) != null))) {
             attr.addFlashAttribute("error", "Such category already exists in your budget");
             isValid = false;
         } else if (selectedName.equals("customized") && ownName.trim().isEmpty()) {
@@ -104,6 +138,17 @@ public class CategoryController {
             isValid = true;
         }
         return isValid;
+    }
+
+
+    private Map<String, BigDecimal> balanceMap(Budget budget) {
+        Map<String, BigDecimal> balanceMap = new HashMap<>();
+        SortedSet<Category> categories = budget.getCategories();
+        for (Category category : categories) {
+            balanceMap.put(category.getName(),
+                    category.getCategoryBudget().subtract(countCategoryExpenses(category)));
+        }
+        return balanceMap;
     }
 
     @ModelAttribute("transactionType")
@@ -129,4 +174,5 @@ public class CategoryController {
         catNames.put("Unexpected", "<i class='fas fa-exclamation-triangle'></i>");
         return catNames;
     }
+
 }

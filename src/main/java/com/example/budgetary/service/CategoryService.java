@@ -2,6 +2,7 @@ package com.example.budgetary.service;
 
 import com.example.budgetary.entity.Budget;
 import com.example.budgetary.entity.Category;
+import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.exception.NoRecordFoundException;
 import com.example.budgetary.repository.BudgetRepository;
@@ -23,8 +24,6 @@ public class CategoryService {
         this.budgetService = budgetService;
     }
 
-
-
     public SortedSet<Category> addNewCategory(CategoryDto categoryDto, Budget budget){
         Category category = new Category();
         String categoryDtoName = categoryDto.getSelectedName();
@@ -44,6 +43,8 @@ public class CategoryService {
         return budgetCategories;
     }
 
+
+
     public Category findCategoryById(Long id){
         Optional<Category> category = categoryRepository.findById(id);
         return category.orElseThrow(() -> new NoRecordFoundException("No record found in our DB"));
@@ -57,4 +58,6 @@ public class CategoryService {
     public void saveCategory(Category category){
         categoryRepository.save(category);
     }
+
+
 }
