@@ -73,5 +73,11 @@ public class CategoryService {
         categoryRepository.save(category);
     }
 
+    public void deleteCategory(Long id){
+        Category categoryById = findCategoryById(id);
+        //to do: remove category from budget, transactions...
+        categoryRepository.delete(categoryById);
+    }
+
 
 }

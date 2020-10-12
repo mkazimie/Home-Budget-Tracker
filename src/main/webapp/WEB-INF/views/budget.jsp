@@ -142,7 +142,7 @@
                                         <div class="row no-gutters align-items-center justify-content-center">
                                             <a href="/auth/budgets/${budget.id}/categories"
                                                class="btn-success btn-circle btn-lg">
-                                                <i class="fas fa-angle-double-right text-gray-300"></i>
+                                                <i class="fas fa-angle-double-right text-gray-100"></i>
                                             </a>
 
                                             <!-- Pie Chart -->

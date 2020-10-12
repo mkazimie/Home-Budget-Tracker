@@ -208,59 +208,52 @@
                                             <th>Name</th>
                                             <th><strong>Budget</strong></th>
                                             <th><strong>Available</strong></th>
+                                            <th></th>
                                         </tr>
                                         </thead>
 
                                         <tbody>
                                         <c:forEach items="${budget.categories}" var="category">
-                                        <tr>
-                                            <td class="align-middle"><a
-                                                    href="/auth/budgets/${budget.id}/categories/${category.id}"
-                                                    class="btn btn-success"><i
-                                                    class="fas fa-angle-double-right"></i></a>
-                                            </td>
-                                            <td
-                                                    class="align-middle">
+                                            <tr>
+                                                <td class="align-middle"><a
+                                                        href="/auth/budgets/${budget.id}/categories/${category.id}"
+                                                        class="btn btn-success"><i
+                                                        class="fas fa-angle-double-right"></i></a>
+                                                </td>
+                                                <td
+                                                        class="align-middle">
+                                                    <c:choose>
+                                                        <c:when test="${empty catName.get(category.name)}">
+                                                            <i class="fas fa-ellipsis-h"></i> </c:when>
+                                                        <c:otherwise>
+                                                            ${catName.get(category.name)}
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    &nbsp;&nbsp; ${category.name}
+                                                </td>
+                                                <td class="align-middle">${category.categoryBudget} €</td>
+
                                                 <c:choose>
-                                                    <c:when test="${empty catName.get(category.name)}">
-                                                        <i class="fas fa-ellipsis-h"></i> </c:when>
+                                                    <c:when test="${categoryBalanceMap.get(category.name) > 0}">
+                                                        <td class="align-middle
+                                                     text-success">${categoryBalanceMap.get(category.name)} €
+                                                        </td>
+                                                    </c:when>
                                                     <c:otherwise>
-                                                        ${catName.get(category.name)}
+                                                        <td class="align-middle
+                                                     text-danger">${categoryBalanceMap.get(category.name)} €
+                                                        </td>
                                                     </c:otherwise>
                                                 </c:choose>
-                                                &nbsp;&nbsp; ${category.name}
-                                            </td>
-                                            <td class="align-middle">${category.categoryBudget} €</td>
-
-                                            <c:choose>
-                                                <c:when test="${categoryBalanceMap.get(category.name) > 0}">
-                                                    <td class="align-middle
-                                                     text-success">${categoryBalanceMap.get(category.name)} €
-                                                    </td>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <td class="align-middle
-                                                     text-danger">${categoryBalanceMap.get(category.name)} €
-                                                    </td>
-                                                </c:otherwise>
-                                            </c:choose>
-
-                                            <%--                                                <td class="align-middle--%>
-                                            <%--                                                text-success">${category.moneyLeft}} €--%>
-                                            <%--                                                </td>--%>
-                                            <%--                                                <td class="align-middle">--%>
-                                            <%--                                                    <button id="editBtn" data-toggle="modal" data-target="#editModal"--%>
-                                            <%--                                                            data-name="${category.name}"--%>
-                                            <%--                                                            data-budget="${category.categoryBudget}"--%>
-                                            <%--                                                            data-available="${budget.budgetMoney - allCategoryBudgets}"--%>
-                                            <%--                                                            class="btn-circle btn-sm btn-warning"><i--%>
-                                            <%--                                                            class="far fa-edit"></i></button>--%>
-                                            <%--                                                    <button id="deleteBtn"--%>
-                                            <%--                                                            class="btn-circle btn-sm btn-danger"><i--%>
-                                            <%--                                                            class="far fa-trash-alt"></i></button>--%>
-                                            <%--                                                </td>--%>
-
-                                        </tr>
+                                                <td>
+                                                    <button id="deleteBtn" data-toggle="modal"
+                                                            data-target="#deleteModal"
+                                                            data-name="${category.name}"
+                                                            data-id="${category.id}"
+                                                            class="btn-circle btn-secondary btn-sm"><i
+                                                            class="far fa-trash-alt"></i></button>
+                                                </td>
+                                            </tr>
                                         </c:forEach>
                                         </tbody>
                                     </table>
@@ -268,6 +261,38 @@
 
                                 </div>
                             </div>
+
+                            <!--MODAL to CONFIRM and EXECUTE DELETE operation -->
+                            <div id="deleteModal" class="modal" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary d-table justify-content-between">
+                                            <div class="d-table-cell align-middle">
+                                                <h5 class="modal-title text-white font-weight-bolder text-center">
+                                                    Delete category</h5>
+                                            </div>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="addAlert"></div>
+                                            <p class="text-center text-primary">Are you sure you want to delete
+                                                category<strong></strong>?</p>
+                                            <div class="btn-wrapper text-center">
+                                                <a href="" class="btn btn-primary"> Yes
+                                                </a>
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal"> No
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
 
@@ -314,6 +339,15 @@
                 $("#selectCat option:selected").prop("selected", false);
             }
         });
+
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            let button = $(event.relatedTarget) // Button that triggered the modal
+            let categoryName = button.data('name') // Extract info from data-* attributes
+            let categoryId = button.data('id') // Extract info from data-* attributes
+            let modal = $(this)
+            modal.find('.modal-body a').attr("href", "/auth/budgets/${budget.id}/categories/" + categoryId + "/delete");
+            modal.find('.modal-body strong').text(" " + categoryName);
+        })
 
     </script>
 

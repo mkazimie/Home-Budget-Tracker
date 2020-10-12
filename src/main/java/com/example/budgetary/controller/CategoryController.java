@@ -96,6 +96,13 @@ public class CategoryController {
         return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
     }
 
+    @GetMapping("/{categoryId}/delete")
+    public String deleteCategory(@PathVariable Long categoryId, Model model){
+        categoryService.deleteCategory(categoryId);
+        return "redirect:/auth/budgets/{budgetId}/categories/";
+    }
+
+
 
     public Budget findBudget(@PathVariable Long budgetId) {
         return budgetService.findById(budgetId);

@@ -44,10 +44,9 @@
                             data-budget="${category.categoryBudget}"
                             class="btn-circle btn-warning"><i
                             class="far fa-edit"></i></button>
-                    <button id="deleteBtn"
+                    <button id="deleteBtn" data-toggle="modal" data-target="#deleteModal"
                             class="btn-circle btn-danger"><i
                             class="far fa-trash-alt"></i></button>
-
                 </div>
 
                 <!-- Content Row -->
@@ -68,7 +67,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fas fa-coins fa-2x text-gray-300"></i>
+                                        <i class="fas fa-coins fa-2x text-gray-400"></i>
                                     </div>
                                 </div>
                             </div>
@@ -107,7 +106,7 @@
                                         </c:choose>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>
+                                        <i class="fas fa-hand-holding-usd fa-2x text-gray-400"></i>
                                     </div>
                                 </div>
                             </div>
@@ -128,7 +127,7 @@
                                         </div>
                                     </div>
                                     <div class="col-auto">
-                                        <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
+                                        <i class="fas fa-file-invoice-dollar fa-2x text-gray-400"></i>
                                     </div>
                                 </div>
                             </div>
@@ -239,10 +238,10 @@
                                                 <td class="align-middle">${transaction.title}</td>
                                                 <c:choose>
                                                     <c:when test="${transaction.type.equals('Withdrawal')}">
-                                                        <td class="align-middle text-danger"> -${transaction.sum}</td>
+                                                        <td class="align-middle text-danger"> -${transaction.sum}€</td>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <td class="align-middle text-success"> +${transaction.sum}</td>
+                                                        <td class="align-middle text-success"> +${transaction.sum}€</td>
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <td class="align-middle">${transaction.user.username}</td>
@@ -323,6 +322,38 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!--MODAL to CONFIRM and EXECUTE DELETE operation -->
+                            <div id="deleteModal" class="modal" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary d-table justify-content-between">
+                                            <div class="d-table-cell align-middle">
+                                                <h5 class="modal-title text-white font-weight-bolder text-center">
+                                                    Delete category</h5>
+                                            </div>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="addAlert"></div>
+                                            <p class="text-center text-primary">Are you sure you want to delete category
+                                               <strong>${category.name}? </strong> </p>
+                                            <div class="btn-wrapper text-center">
+                                                <a href="/auth/budgets/${budget.id}/categories/${category.id}/delete"
+                                                   class="btn btn-primary"> Yes
+                                                </a>
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal"> No
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
