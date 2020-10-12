@@ -37,18 +37,18 @@
                                             placeholder="ex. May, 2021..."/>
                                 <form:errors path="name" cssClass="errorMessage"/>
                             </div>
-                            <div class="form-group">
-                                <form:label path="budgetMoney" cssClass="text-primary"> Budget </form:label>
-                                <div class="input-group">
-                                    <form:input path="budgetMoney" type="number" min="1"
-                                                class="form-control"
-                                                placeholder=""/>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">€</span>
-                                    </div>
-                                </div>
-                                <form:errors path="budgetMoney" cssClass="errorMessage"/>
-                            </div>
+<%--                            <div class="form-group">--%>
+<%--                                <form:label path="budgetMoney" cssClass="text-primary"> Budget </form:label>--%>
+<%--                                <div class="input-group">--%>
+<%--                                    <form:input path="budgetMoney" type="number" min="1"--%>
+<%--                                                class="form-control"--%>
+<%--                                                placeholder=""/>--%>
+<%--                                    <div class="input-group-append">--%>
+<%--                                        <span class="input-group-text">€</span>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                                <form:errors path="budgetMoney" cssClass="errorMessage"/>--%>
+<%--                            </div>--%>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <form:label path="startDate" cssClass="text-primary"> From </form:label>

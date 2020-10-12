@@ -8,6 +8,7 @@ import com.example.budgetary.repository.BudgetRepository;
 import org.springframework.stereotype.Service;
 
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -25,7 +26,8 @@ public class BudgetService {
 
     public void createBudget(User user, Budget budget) {
         budget.setUsers(new HashSet<>(Arrays.asList(user)));
-        budget.setMoneyLeft(budget.getBudgetMoney());
+        budget.setBudgetMoney(BigDecimal.ZERO);
+        budget.setMoneyLeft(BigDecimal.ZERO);
         saveBudget(budget);
     }
 

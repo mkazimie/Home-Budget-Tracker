@@ -106,31 +106,31 @@
                         </div>
                     </div>
 
-                    <!-- GO TO CATEGORIES -->
-                    <div class="col-xl-3 col-md-6 mb-4 ">
-                        <div class="card h-100 shadow py-2 border-left-primary ">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            CATEGORIES
-                                        </div>
-                                        <div class="h5 mb-0 text-secondary">
-                                            ${budget.categories.size()} categories
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <%--                                        <button class="btn-lg btn-circle btn-primary">--%>
-                                        <a href="/auth/budgets/${budget.id}/categories"
-                                           class="btn-lg btn-circle btn-primary">
-                                            <i class="fas fa-angle-double-right text-gray-300"></i>
-                                        </a>
-                                        <%--                                        </button>--%>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <%--                    <!-- GO TO CATEGORIES -->--%>
+                    <%--                    <div class="col-xl-3 col-md-6 mb-4 ">--%>
+                    <%--                        <div class="card h-100 shadow py-2 border-left-primary ">--%>
+                    <%--                            <div class="card-body">--%>
+                    <%--                                <div class="row no-gutters align-items-center">--%>
+                    <%--                                    <div class="col mr-2">--%>
+                    <%--                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">--%>
+                    <%--                                            CATEGORIES--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <div class="h5 mb-0 text-secondary">--%>
+                    <%--                                            ${budget.categories.size()} categories--%>
+                    <%--                                        </div>--%>
+                    <%--                                    </div>--%>
+                    <%--                                    <div class="col-auto">--%>
+                    <%--                                        &lt;%&ndash;                                        <button class="btn-lg btn-circle btn-primary">&ndash;%&gt;--%>
+                    <%--                                        <a href="/auth/budgets/${budget.id}/categories"--%>
+                    <%--                                           class="btn-lg btn-circle btn-primary">--%>
+                    <%--                                            <i class="fas fa-angle-double-right text-gray-300"></i>--%>
+                    <%--                                        </a>--%>
+                    <%--                                        &lt;%&ndash;                                        </button>&ndash;%&gt;--%>
+                    <%--                                    </div>--%>
+                    <%--                                </div>--%>
+                    <%--                            </div>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
 
 
                 </div>
@@ -138,73 +138,124 @@
                 <!-- Content Row -->
                 <div class="row">
 
-                    <!-- Form for adding NEW Budget TRANSACTION -->
+                    <!-- Go To Categories -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow">
-                            <div class="card-header bg-warning">
-                                <h5 class="card-title text-white font-weight-bold text-center"> Deposit / Withdrawal
+                        <div class="card border-left-primary shadow">
+                            <div class="card-header bg-primary">
+                                <h5 class="card-title text-white font-weight-bold text-center"> Categories
                                 </h5>
-                                <div class="text-center">Directly to / from your budget</div>
+                                <div class="text-center">${budget.categories.size()} categories in this budget</div>
                             </div>
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center justify-content-center">
-                                    <form:form method="post"
-                                               action="/auth/budgets/${budget.id}"
-                                               modelAttribute="transactionDto">
-                                    <div class="form-group">
-                                        <form:label path="title" cssClass="text-primary"> Title </form:label>
-                                        <form:input path="title" type="text" class="form-control form-control-user"
-                                                    placeholder="" required="required"/>
-                                        <form:errors path="title" cssClass="errorMessage"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="type" cssClass="text-primary"> Type </form:label>
-                                        <form:select path="type" class="form-control">
-                                            <form:option value=" " label="--Select--" selected="selected"/>
-                                            <form:options items="${transactionType}"/>
-                                        </form:select>
-                                        <form:errors path="type" cssClass="errorMessage"/>
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <form:label path="sum" cssClass="text-primary"> Sum </form:label>
-                                        <div class="input-group">
-                                            <form:input path="sum" type="number" min="1" step=".01"
-                                                        class="form-control form-control-user"
-                                                        placeholder=""/>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">€</span>
-                                            </div>
-                                        </div>
-                                        <form:errors path="sum" cssClass="errorMessage"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button class="btn btn-warning font-weight-bolder btn-user btn-block" type="submit">
-                                    Save
-                                </button>
-                                <div class="mt-2 text-center">
                                     <a href="/auth/budgets/${budget.id}/categories"
-                                       class="text-primary font-weight-light">
-                                        Register a Category Expense
+                                       class="btn-primary btn-circle btn-lg">
+                                        <i class="fas fa-angle-double-right text-gray-300"></i>
                                     </a>
-                                </div>
 
-                                </form:form>
+                                    <!-- Pie Chart -->
+                                    <div class="chart-pie pt-4 pb-2">
+                                        <canvas id="myPieChart"></canvas>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                                        <span class="mr-2"><i class="fas fa-circle text-primary"></i> Direct</span>
+                                        <span class="mr-2"><i class="fas fa-circle text-success"></i> Social</span>
+                                        <span class="mr-2"><i class="fas fa-circle text-info"></i> Referral</span>
+                                    </div>
+
+                                    <%--                                    <c:if test="${budget.categories.size() > 0}">--%>
+                                    <%--                                        <table>--%>
+                                    <%--                                            <thead>--%>
+                                    <%--                                            <tr>--%>
+                                    <%--                                                <th> Name</th>--%>
+                                    <%--                                                <th> Budget</th>--%>
+                                    <%--                                                <th> Available</th>--%>
+                                    <%--                                            </tr>--%>
+                                    <%--                                            </thead>--%>
+                                    <%--                                            <tbody>--%>
+                                    <%--                                            <c:forEach items="${budget.categories}" var="category">--%>
+                                    <%--                                                <tr>--%>
+                                    <%--                                                    <td>${category.name}</td>--%>
+                                    <%--                                                    <td>${category.budget}</td>--%>
+                                    <%--                                                    <td>${category.moneyLeft}</td>--%>
+                                    <%--                                                </tr>--%>
+                                    <%--                                            </c:forEach>--%>
+                                    <%--                                            </tbody>--%>
+                                    <%--                                        </table>--%>
+                                    <%--                                    </c:if>--%>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <%--                    <!-- Form for adding NEW Budget TRANSACTION -->--%>
+                    <%--                    <div class="col-xl-4 col-md-6 mb-4">--%>
+                    <%--                        <div class="card border-left-warning shadow">--%>
+                    <%--                            <div class="card-header bg-warning">--%>
+                    <%--                                <h5 class="card-title text-white font-weight-bold text-center"> Deposit / Withdrawal--%>
+                    <%--                                </h5>--%>
+                    <%--                                <div class="text-center">Directly to / from your budget</div>--%>
+                    <%--                            </div>--%>
+                    <%--                            <div class="card-body">--%>
+                    <%--                                <div class="row no-gutters align-items-center justify-content-center">--%>
+                    <%--                                    <form:form method="post"--%>
+                    <%--                                               action="/auth/budgets/${budget.id}"--%>
+                    <%--                                               modelAttribute="transactionDto">--%>
+                    <%--                                    <div class="form-group">--%>
+                    <%--                                        <form:label path="title" cssClass="text-primary"> Title </form:label>--%>
+                    <%--                                        <form:input path="title" type="text" class="form-control form-control-user"--%>
+                    <%--                                                    placeholder="" required="required"/>--%>
+                    <%--                                        <form:errors path="title" cssClass="errorMessage"/>--%>
+                    <%--                                    </div>--%>
+                    <%--                                    <div class="form-group">--%>
+                    <%--                                        <form:label path="type" cssClass="text-primary"> Type </form:label>--%>
+                    <%--                                        <form:select path="type" class="form-control">--%>
+                    <%--                                            <form:option value=" " label="--Select--" selected="selected"/>--%>
+                    <%--                                            <form:options items="${transactionType}"/>--%>
+                    <%--                                        </form:select>--%>
+                    <%--                                        <form:errors path="type" cssClass="errorMessage"/>--%>
+                    <%--                                    </div>--%>
+
+
+                    <%--                                    <div class="form-group">--%>
+                    <%--                                        <form:label path="sum" cssClass="text-primary"> Sum </form:label>--%>
+                    <%--                                        <div class="input-group">--%>
+                    <%--                                            <form:input path="sum" type="number" min="1" step=".01"--%>
+                    <%--                                                        class="form-control form-control-user"--%>
+                    <%--                                                        placeholder=""/>--%>
+                    <%--                                            <div class="input-group-append">--%>
+                    <%--                                                <span class="input-group-text">€</span>--%>
+                    <%--                                            </div>--%>
+                    <%--                                        </div>--%>
+                    <%--                                        <form:errors path="sum" cssClass="errorMessage"/>--%>
+                    <%--                                    </div>--%>
+                    <%--                                </div>--%>
+                    <%--                            </div>--%>
+                    <%--                            <div class="card-footer">--%>
+                    <%--                                <button class="btn btn-warning font-weight-bolder btn-user btn-block" type="submit">--%>
+                    <%--                                    Save--%>
+                    <%--                                </button>--%>
+                    <%--                                <div class="mt-2 text-center">--%>
+                    <%--                                    <a href="/auth/budgets/${budget.id}/categories"--%>
+                    <%--                                       class="text-primary font-weight-light">--%>
+                    <%--                                        Register a Category Expense--%>
+                    <%--                                    </a>--%>
+                    <%--                                </div>--%>
+
+                    <%--                                </form:form>--%>
+                    <%--                            </div>--%>
+                    <%--                        </div>--%>
+                    <%--                    </div>--%>
 
 
                     <!-- LIST of Latest BUDGET TRANSACTIONS -->
                     <div class="col-xl-8 col-md-6 mb-4 ">
                         <div class="card border-left-primary shadow h-100">
                             <div class="card-header bg-primary">
-                                <h5 class="font-weight-bold text-white text-center col-12"> Budget
+                                <h5 class="font-weight-bold text-white text-center col-12">
                                     Transactions </h5>
-                                <div class="text-center text-secondary">${budget.transactions.size()} transactions
+                                <div class="text-center text-secondary">${budget.transactions.size()} transactions in
+                                    this budget
                                 </div>
                             </div>
                             <div class="card-body">
@@ -530,6 +581,23 @@
     <%@include file="fragment/core-js-plugins.jsp" %>
 </div>
 <!-- Page level plugins -->
+<script>
+    let ctxP = document.getElementById("myPieChart").getContext('2d');
+    let pieChart = new Chart(ctxP, {
+        type: 'pie',
+        data: {
+            labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
+            datasets: [{
+                data: [300, 50, 100, 40, 120],
+                backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+                hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+</script>
 
 <script src="/resources/static/vendor/chart.js/Chart.min.js"></script>
 <script src="/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>

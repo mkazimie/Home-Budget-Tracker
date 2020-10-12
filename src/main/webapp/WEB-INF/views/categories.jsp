@@ -37,7 +37,7 @@
                 <div class="d-sm-flex align-items-baseline justify-content-between mb-4">
                     <a href="/auth/budgets/${budget.id}"
                        class="btn btn-primary"><i class="fas fa-angle-double-left"></i></a>
-                    <h1 class="col-10 h3 mb-0 text-primary font-weight-bolder">${budget.name} Budget Categories </h1>
+                    <h1 class="col-10 h3 mb-0 text-primary font-weight-bolder">${budget.name} Categories </h1>
                 </div>
 
                 <!-- Content Row -->
