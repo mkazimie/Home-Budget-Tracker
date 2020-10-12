@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
 <html>
@@ -111,7 +112,8 @@
                                                     All Expenses
                                                 </div>
                                                 <div class="h5 mb-0 font-weight-bold text-warning">${allExpenses}
-                                                    €</div>
+                                                    €
+                                                </div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
@@ -258,39 +260,60 @@
                                                    cellspacing="0">
                                                 <thead>
                                                 <tr class="text-center">
-                                                    <th> Date</th>
+                                                    <th> Registered </th>
                                                     <th> Title</th>
-                                                    <th><strong>€</strong></th>
+                                                    <th><strong> Sum </strong></th>
+                                                    <th> Date</th>
                                                     <th> Category</th>
-                                                    <th> User</th>
+                                                    <th> Payee</th>
                                                     <th> Balance</th>
 
                                                 </tr>
                                                 </thead>
 
+
                                                 <tbody>
                                                 <c:forEach items="${budget.transactions}" var="transaction">
                                                     <tr class="text-center">
-                                                        <td class="align-middle">${transaction.date}</td>
+                                                        <fmt:parseDate value="${ transaction.dateTimeAdded }"
+                                                                       pattern="yyyy-MM-dd'T'HH:mm"
+                                                                       var="parsedDateTime" type="both"/>
+                                                        <td class="align-middle text-gray-800 font-sm">
+                                                            <fmt:formatDate
+                                                                    pattern="dd/MM/yyyy HH:mm"
+                                                                    value="${ parsedDateTime }"
+                                                            />
+                                                        </td>
                                                         <td class="align-middle">${transaction.title}</td>
 
                                                         <c:choose>
                                                             <c:when test="${transaction.type.equals('Withdrawal')}">
                                                                 <td class="align-middle text-danger">
-                                                                    - ${transaction.sum}</td>
+                                                                    -${transaction.sum}€</td>
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <td class="align-middle text-success">
-                                                                    + ${transaction.sum}</td>
+                                                                    +${transaction.sum}€</td>
                                                             </c:otherwise>
                                                         </c:choose>
 
+                                                        <fmt:parseDate value="${ transaction.date }"
+                                                                       pattern="yyyy-MM-dd"
+                                                                       var="parsedDate" type="both"/>
+                                                        <td class="align-middle">
+                                                            <fmt:formatDate
+                                                                    pattern="dd/MM/yyyy"
+                                                                    value="${ parsedDate }"
+                                                            />
+                                                        </td>
+
+
                                                         <c:choose>
                                                             <c:when test="${not empty transaction.category}">
-                                                                <td>${transaction.category.name}</td>
+                                                                <td class="align-middle">${transaction.category.name}</td>
                                                             </c:when>
                                                             <c:otherwise>
-                                                                <td> Main Budget</td>
+                                                                <td class="align-middle"> Main Budget</td>
                                                             </c:otherwise>
                                                         </c:choose>
 
@@ -562,33 +585,39 @@
 
                 </div>
                 <!-- End of Main Content -->
-
-
-                <%@include file="fragment/footer.jsp" %>
-
             </div>
-            <!-- End of Content Wrapper -->
-
         </div>
-        <!-- End of Page Wrapper -->
 
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
 
-        <div>
-            <%@include file="fragment/core-js-plugins.jsp" %>
-        </div>
-        <!-- Page level plugins -->
+        <%@include file="fragment/footer.jsp" %>
 
-        <script src="/resources/static/vendor/chart.js/Chart.min.js"></script>
-        <script src="/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    </div>
+    <!-- End of Content Wrapper -->
 
-        <!-- Page level custom scripts -->
-        <script src="/resources/static/js/demo/chart-area-demo.js"></script>
-        <script src="/resources/static/js/demo/datatables-demo.js"></script>
-        <script src="/resources/static/js/demo/chart-pie-demo.js"></script>
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<div>
+    <%@include file="fragment/core-js-plugins.jsp" %>
+</div>
+
+
+<!-- Page level plugins -->
+
+<script src="${pageContext.request.contextPath}/resources/static/vendor/chart.js/Chart.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/jqueryDoc.js"></script>
+
+
+<!-- Page level custom scripts -->
+<script src="${pageContext.request.contextPath}/resources/static/js/demo/chart-area-demo.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/demo/datatables-demo.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/demo/chart-pie-demo.js"></script>
 </body>
 </html>

@@ -49,7 +49,7 @@ public class Budget {
     private SortedSet<Category> categories = new TreeSet<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "budget")
-    @OrderBy
+    @OrderBy("dateTimeAdded DESC")
     private SortedSet<Transaction> transactions = new TreeSet<>();
 
 }

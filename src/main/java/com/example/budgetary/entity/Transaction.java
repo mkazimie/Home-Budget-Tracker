@@ -53,19 +53,13 @@ public class Transaction implements Comparable<Transaction> {
         dateTimeAdded = LocalDateTime.now();
     }
 
-//    private String formattedDateTime;
-
     @Override
     public int compareTo(Transaction transaction) {
-        int compareTo= 0;
-        if (this.getId() != null && transaction.getId() != null){
-            compareTo = this.getId().compareTo(transaction.getId()) * (-1);
+        int compareTo = 0;
+        if (this.getDateTimeAdded() != null && transaction.getDateTimeAdded() != null) {
+            compareTo = this.getDateTimeAdded().compareTo(transaction.getDateTimeAdded());
         }
-        return compareTo;
+        return compareTo * -1;
     }
 
-//    public void setFormattedDateTime(LocalDateTime dateAdded) {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-//        this.formattedDateTime = dateAdded.format(formatter);
-//    }
 }

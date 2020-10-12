@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
 <html>
@@ -214,10 +215,11 @@
                                     <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                         <tr class="text-center">
-                                            <th>Title</th>
-                                            <th><strong>€</strong></th>
-                                            <th>User</th>
-                                            <th>Date</th>
+                                            <th> Added</th>
+                                            <th> Title</th>
+                                            <th><strong> € </strong></th>
+                                            <th> User</th>
+                                            <th> Transaction Date</th>
 
                                         </tr>
                                         </thead>
@@ -225,6 +227,15 @@
                                         <tbody>
                                         <c:forEach items="${category.transactions}" var="transaction">
                                             <tr class="text-center">
+                                                <fmt:parseDate value="${ transaction.dateTimeAdded }"
+                                                               pattern="yyyy-MM-dd'T'HH:mm"
+                                                               var="parsedDateTime" type="both"/>
+                                                <td class="align-middle text-gray-800 font-sm">
+                                                    <fmt:formatDate
+                                                            pattern="dd/MM/yyyy HH:mm"
+                                                            value="${ parsedDateTime }"
+                                                    />
+                                                </td>
                                                 <td class="align-middle">${transaction.title}</td>
                                                 <c:choose>
                                                     <c:when test="${transaction.type.equals('Withdrawal')}">
@@ -235,7 +246,15 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <td class="align-middle">${transaction.user.username}</td>
-                                                <td class="align-middle">${transaction.date}</td>
+                                                <fmt:parseDate value="${ transaction.date }"
+                                                               pattern="yyyy-MM-dd"
+                                                               var="parsedDate" type="both"/>
+                                                <td class="align-middle">
+                                                    <fmt:formatDate
+                                                            pattern="dd/MM/yyyy"
+                                                            value="${ parsedDate }"
+                                                    />
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                         <%--                                        <c:forEach items="${budget.transactions}" var="budgetTransaction">--%>
@@ -342,12 +361,15 @@
         modal.find('#nameInput').val(categoryName);
         modal.find('#budgetInput').val(categoryBudget);
     })
+
+
 </script>
 
 <!-- Page level plugins -->
 <script src="/resources/static/vendor/chart.js/Chart.min.js"></script>
 <script src="/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="/resources/static/js/jqueryDoc.js"></script>
 
 <!-- Page level custom scripts -->
 <script src="/resources/static/js/demo/chart-area-demo.js"></script>

@@ -11,18 +11,21 @@
     <title>Title</title>
 </head>
 <body>
+<!-- Custom js & jquery files-->
+<script src="${pageContext.request.contextPath}/resources/static/js/customizedFn.js"></script>
+<script src="/resources/static/js/jqueryDoc.js"></script>
+
 <!-- Bootstrap core JavaScript-->
-<script src="/resources/static/vendor/jquery/jquery.min.js"></script>
-<script src="/resources/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/vendor/jquery/jquery.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="/resources/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="/resources/static/js/sb-admin-2.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/sb-admin-2.min.js"></script>
 
-<!-- Custom js file-->
-<script src="/resources/static/js/customizedFn.js"></script>
+
 
 </body>
 </html>
