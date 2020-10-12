@@ -54,14 +54,15 @@
 
                     <!-- BUDGET -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
-                        <div class="card h-100 shadow py-2 bg-gradient-info ">
+                        <div class="card h-100 shadow py-2 border-left-info">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
                                             ${category.name} Budget
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">${category.categoryBudget}
+                                        <div class="h5 mb-0 font-weight-bold
+                                                text-primary">${category.categoryBudget}
                                             €
                                         </div>
                                     </div>
@@ -76,16 +77,33 @@
                     <!-- AVAILABLE -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
-                        <div class="card h-100 shadow py-2 bg-gradient-success ">
+                        <div class="card h-100 shadow py-2 border-left-success">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
                                             ${category.name} Balance
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">${category.categoryBudget - allCategoryExpenses}
-                                            €
-                                        </div>
+                                        <c:choose>
+                                            <c:when test="${category.categoryBudget - allCategoryExpenses <= 0}">
+                                                <div class="h5 mb-0 font-weight-bold
+                                                text-danger">${category.categoryBudget - allCategoryExpenses}
+                                                    €
+                                                </div>
+                                            </c:when>
+                                            <c:when test="${category.categoryBudget - allCategoryExpenses <= 5}">
+                                                <div class="h5 mb-0 font-weight-bold
+                                                text-warning">${category.categoryBudget - allCategoryExpenses}
+                                                    €
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div class="h5 mb-0 font-weight-bold
+                                                text-success">${category.categoryBudget - allCategoryExpenses}
+                                                    €
+                                                </div>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>
@@ -98,14 +116,14 @@
                     <!-- EXPENSES -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
-                        <div class="card h-100 shadow py-2 bg-gradient-warning ">
+                        <div class="card h-100 shadow py-2 border-left-warning">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
                                             ${category.name} Expenses
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">${allCategoryExpenses} €
+                                        <div class="h5 mb-0 font-weight-bold text-warning">${allCategoryExpenses} €
                                         </div>
                                     </div>
                                     <div class="col-auto">

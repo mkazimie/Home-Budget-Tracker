@@ -213,45 +213,54 @@
 
                                         <tbody>
                                         <c:forEach items="${budget.categories}" var="category">
-                                            <tr>
-                                                <td class="align-middle"><a
-                                                        href="/auth/budgets/${budget.id}/categories/${category.id}"
-                                                        class="btn btn-success"><i
-                                                        class="fas fa-angle-double-right"></i></a>
-                                                </td>
-                                                <td
-                                                        class="align-middle">
-                                                    <c:choose>
-                                                        <c:when test="${empty catName.get(category.name)}">
-                                                            <i class="fas fa-ellipsis-h"></i> </c:when>
-                                                        <c:otherwise>
-                                                            ${catName.get(category.name)}
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                    &nbsp;&nbsp; ${category.name}
-                                                </td>
-                                                <td class="align-middle">${category.categoryBudget} €</td>
+                                        <tr>
+                                            <td class="align-middle"><a
+                                                    href="/auth/budgets/${budget.id}/categories/${category.id}"
+                                                    class="btn btn-success"><i
+                                                    class="fas fa-angle-double-right"></i></a>
+                                            </td>
+                                            <td
+                                                    class="align-middle">
+                                                <c:choose>
+                                                    <c:when test="${empty catName.get(category.name)}">
+                                                        <i class="fas fa-ellipsis-h"></i> </c:when>
+                                                    <c:otherwise>
+                                                        ${catName.get(category.name)}
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                &nbsp;&nbsp; ${category.name}
+                                            </td>
+                                            <td class="align-middle">${category.categoryBudget} €</td>
 
-                                                <td class="align-middle
-                                                text-success">${categoryBalanceMap.get(category.name)} €
-                                                </td>
+                                            <c:choose>
+                                                <c:when test="${categoryBalanceMap.get(category.name) > 0}">
+                                                    <td class="align-middle
+                                                     text-success">${categoryBalanceMap.get(category.name)} €
+                                                    </td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td class="align-middle
+                                                     text-danger">${categoryBalanceMap.get(category.name)} €
+                                                    </td>
+                                                </c:otherwise>
+                                            </c:choose>
 
-                                                    <%--                                                <td class="align-middle--%>
-                                                    <%--                                                text-success">${category.moneyLeft}} €--%>
-                                                    <%--                                                </td>--%>
-                                                    <%--                                                <td class="align-middle">--%>
-                                                    <%--                                                    <button id="editBtn" data-toggle="modal" data-target="#editModal"--%>
-                                                    <%--                                                            data-name="${category.name}"--%>
-                                                    <%--                                                            data-budget="${category.categoryBudget}"--%>
-                                                    <%--                                                            data-available="${budget.budgetMoney - allCategoryBudgets}"--%>
-                                                    <%--                                                            class="btn-circle btn-sm btn-warning"><i--%>
-                                                    <%--                                                            class="far fa-edit"></i></button>--%>
-                                                    <%--                                                    <button id="deleteBtn"--%>
-                                                    <%--                                                            class="btn-circle btn-sm btn-danger"><i--%>
-                                                    <%--                                                            class="far fa-trash-alt"></i></button>--%>
-                                                    <%--                                                </td>--%>
+                                            <%--                                                <td class="align-middle--%>
+                                            <%--                                                text-success">${category.moneyLeft}} €--%>
+                                            <%--                                                </td>--%>
+                                            <%--                                                <td class="align-middle">--%>
+                                            <%--                                                    <button id="editBtn" data-toggle="modal" data-target="#editModal"--%>
+                                            <%--                                                            data-name="${category.name}"--%>
+                                            <%--                                                            data-budget="${category.categoryBudget}"--%>
+                                            <%--                                                            data-available="${budget.budgetMoney - allCategoryBudgets}"--%>
+                                            <%--                                                            class="btn-circle btn-sm btn-warning"><i--%>
+                                            <%--                                                            class="far fa-edit"></i></button>--%>
+                                            <%--                                                    <button id="deleteBtn"--%>
+                                            <%--                                                            class="btn-circle btn-sm btn-danger"><i--%>
+                                            <%--                                                            class="far fa-trash-alt"></i></button>--%>
+                                            <%--                                                </td>--%>
 
-                                            </tr>
+                                        </tr>
                                         </c:forEach>
                                         </tbody>
                                     </table>
