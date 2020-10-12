@@ -55,12 +55,12 @@ public class TransactionService {
     }
 
     public void makeTransactionOnBudget(TransactionDto transactionDto, User user, Budget budget) {
+        SortedSet<Category> budgetCategories = budget.getCategories();
         Transaction transaction = setNewTransaction(transactionDto, user);
         transaction.setBudget(budget);
         saveTransaction(transaction);
 
         BigDecimal transactionSum = transaction.getSum();
-        SortedSet<Category> budgetCategories = budget.getCategories();
 
         if (transaction.getType().equals("Withdrawal")) {
             budget.setBudgetMoney(budget.getBudgetMoney().subtract(transactionSum));
@@ -96,13 +96,13 @@ public class TransactionService {
         return transaction;
     }
 
-    private void addTransactionToBudget(Transaction transaction, Budget budget){
+    private void addTransactionToBudget(Transaction transaction, Budget budget) {
         SortedSet<Transaction> budgetTransactions = budget.getTransactions();
         budgetTransactions.add(transaction);
         budgetService.saveBudget(budget);
     }
 
-    private void addTransactionToCategory(Transaction transaction, Category category){
+    private void addTransactionToCategory(Transaction transaction, Category category) {
         SortedSet<Transaction> categoryTransactions = category.getTransactions();
         categoryTransactions.add(transaction);
         category.setTransactions(categoryTransactions);

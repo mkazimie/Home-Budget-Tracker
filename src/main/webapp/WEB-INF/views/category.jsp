@@ -85,7 +85,8 @@
                                             ${category.name} Balance
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-white">${category.categoryBudget -
-                                        allCategoryExpenses} €</div>
+                                                allCategoryExpenses} €
+                                        </div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>
@@ -139,19 +140,20 @@
                                                     placeholder="" required="required"/>
                                         <form:errors path="title" cssClass="errorMessage"/>
                                     </div>
-                                        <%--                                <div class="form-group">--%>
-                                        <%--                                    <form:label path="type" cssClass="text-primary"> Type </form:label>--%>
-                                        <%--                                    <form:select path="type" class="form-control">--%>
-                                        <%--                                        <form:option value="Expense" label="--Select--" selected="selected"/>--%>
-                                        <%--                                        <form:options items="${transactionType}"/>--%>
-                                        <%--                                    </form:select>--%>
-                                        <%--                                    <form:errors path="type" cssClass="errorMessage"/>--%>
-                                        <%--                                </div>--%>
+<%--                                        <div class="form-group">--%>
+<%--                                            <form:label path="type" cssClass="text-primary"> Type </form:label>--%>
+<%--                                            <form:select path="type" class="form-control">--%>
+<%--                                                <form:option value="Expense" label="--Select--" selected="selected"/>--%>
+<%--                                                <form:options items="${transactionType}"/>--%>
+<%--                                            </form:select>--%>
+<%--                                            <form:errors path="type" cssClass="errorMessage"/>--%>
+<%--                                        </div>--%>
                                     <div class="form-group">
                                         <form:label path="sum" cssClass="text-primary"> Sum </form:label>
                                         <div class="input-group">
                                             <form:input path="sum" type="number" min="1"
-                                                        max="${category.categoryBudget - allCategoryExpenses}" step=".01"
+                                                        max="${category.categoryBudget - allCategoryExpenses}"
+                                                        step=".01"
                                                         class="form-control form-control-user"
                                                         placeholder=""/>
                                             <div class="input-group-append">
@@ -216,6 +218,18 @@
                                                 <td class="align-middle">${transaction.user.username}</td>
                                                 <td class="align-middle">${transaction.date}</td>
                                             </tr>
+                                        </c:forEach>
+                                        <c:forEach items="${budget.transactions}" var="budgetTransaction">
+                                            <c:if test="${budgetTransaction.type.equals('Withdrawal') &&
+                                            empty budgetTransaction.category}">
+                                                <tr class="text-center">
+                                                    <td class="align-middle">${budgetTransaction.title}</td>
+                                                    <td class="align-middle text-danger"> -
+                                                            ${budgetTransaction.sum / budget.categories.size()}</td>
+                                                    <td class="align-middle">${budgetTransaction.user.username}</td>
+                                                    <td class="align-middle">${budgetTransaction.dateTimeAdded}</td>
+                                                </tr>
+                                            </c:if>
                                         </c:forEach>
                                         </tbody>
                                     </table>
