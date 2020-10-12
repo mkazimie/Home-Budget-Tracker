@@ -41,7 +41,6 @@
                     <button id="editBtn" data-toggle="modal" data-target="#editModal"
                             data-name="${category.name}"
                             data-budget="${category.categoryBudget}"
-                            data-available="${budget.budgetMoney - allCategoryBudgets}"
                             class="btn-circle btn-warning"><i
                             class="far fa-edit"></i></button>
                     <button id="deleteBtn"
@@ -84,8 +83,8 @@
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
                                             ${category.name} Balance
                                         </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">${category.categoryBudget -
-                                                allCategoryExpenses} €
+                                        <div class="h5 mb-0 font-weight-bold text-white">${category.categoryBudget - allCategoryExpenses}
+                                            €
                                         </div>
                                     </div>
                                     <div class="col-auto">
@@ -96,7 +95,7 @@
                         </div>
                     </div>
 
-                    <!-- SPENDINGS -->
+                    <!-- EXPENSES -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
                         <div class="card h-100 shadow py-2 bg-gradient-warning ">
@@ -126,8 +125,11 @@
                     <!-- Form for adding NEW TRANSACTION -->
                     <div class="col-xl-4 col-md-6 mb-4 ">
                         <div class="card border-left-warning h-100 shadow">
-                            <div class="card-header">
-                                <h5 class="card-title text-warning font-weight-bold text-center"> Register Expense </h5>
+                            <div class="card-header bg-warning d-table">
+                                <div class="d-table-cell align-middle">
+                                    <h5 class="card-title text-white font-weight-bold text-center"> Add
+                                        Transaction </h5>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center justify-content-center">
@@ -140,19 +142,18 @@
                                                     placeholder="" required="required"/>
                                         <form:errors path="title" cssClass="errorMessage"/>
                                     </div>
-<%--                                        <div class="form-group">--%>
-<%--                                            <form:label path="type" cssClass="text-primary"> Type </form:label>--%>
-<%--                                            <form:select path="type" class="form-control">--%>
-<%--                                                <form:option value="Expense" label="--Select--" selected="selected"/>--%>
-<%--                                                <form:options items="${transactionType}"/>--%>
-<%--                                            </form:select>--%>
-<%--                                            <form:errors path="type" cssClass="errorMessage"/>--%>
-<%--                                        </div>--%>
+                                        <%--                                        <div class="form-group">--%>
+                                        <%--                                            <form:label path="type" cssClass="text-primary"> Type </form:label>--%>
+                                        <%--                                            <form:select path="type" class="form-control">--%>
+                                        <%--                                                <form:option value="Expense" label="--Select--" selected="selected"/>--%>
+                                        <%--                                                <form:options items="${transactionType}"/>--%>
+                                        <%--                                            </form:select>--%>
+                                        <%--                                            <form:errors path="type" cssClass="errorMessage"/>--%>
+                                        <%--                                        </div>--%>
                                     <div class="form-group">
                                         <form:label path="sum" cssClass="text-primary"> Sum </form:label>
                                         <div class="input-group">
                                             <form:input path="sum" type="number" min="1"
-                                                        max="${category.categoryBudget - allCategoryExpenses}"
                                                         step=".01"
                                                         class="form-control form-control-user"
                                                         placeholder=""/>
@@ -182,11 +183,11 @@
                     </div>
 
                     <!-- Table with list of transactions -->
-                    <div class="col-xl-6 col-md-6 mb-4 ">
-                        <div class="card border-left-primary shadow h-100 py-2">
-                            <div class="card-header">
-                                <div class="row">
-                                    <h5 class="m-0 font-weight-bold text-primary text-center col-10"> Latest
+                    <div class="col-xl-8 col-md-6 mb-4 ">
+                        <div class="card border-left-primary">
+                            <div class="card-header bg-primary d-table">
+                                <div class="d-table-cell align-middle">
+                                    <h5 class="font-weight-bold text-white text-center card-title"> Latest
                                         Transactions </h5>
                                 </div>
                             </div>
@@ -219,18 +220,18 @@
                                                 <td class="align-middle">${transaction.date}</td>
                                             </tr>
                                         </c:forEach>
-                                        <c:forEach items="${budget.transactions}" var="budgetTransaction">
-                                            <c:if test="${budgetTransaction.type.equals('Withdrawal') &&
-                                            empty budgetTransaction.category}">
-                                                <tr class="text-center">
-                                                    <td class="align-middle">${budgetTransaction.title}</td>
-                                                    <td class="align-middle text-danger"> -
-                                                            ${budgetTransaction.sum / budget.categories.size()}</td>
-                                                    <td class="align-middle">${budgetTransaction.user.username}</td>
-                                                    <td class="align-middle">${budgetTransaction.dateTimeAdded}</td>
-                                                </tr>
-                                            </c:if>
-                                        </c:forEach>
+                                        <%--                                        <c:forEach items="${budget.transactions}" var="budgetTransaction">--%>
+                                        <%--                                            <c:if test="${budgetTransaction.type.equals('Withdrawal') &&--%>
+                                        <%--                                            empty budgetTransaction.category}">--%>
+                                        <%--                                                <tr class="text-center">--%>
+                                        <%--                                                    <td class="align-middle">${budgetTransaction.title}</td>--%>
+                                        <%--                                                    <td class="align-middle text-danger"> ---%>
+                                        <%--                                                            ${budgetTransaction.sum / budget.categories.size()}</td>--%>
+                                        <%--                                                    <td class="align-middle">${budgetTransaction.user.username}</td>--%>
+                                        <%--                                                    <td class="align-middle">${budgetTransaction.dateTimeAdded}</td>--%>
+                                        <%--                                                </tr>--%>
+                                        <%--                                            </c:if>--%>
+                                        <%--                                        </c:forEach>--%>
                                         </tbody>
                                     </table>
                                 </div>
@@ -262,10 +263,6 @@
                                                     <form:input path="name" type="text" id="nameInput" name="catName"
                                                                 class="form-control"/>
                                                 </div>
-                                            </div>
-                                            <div class="form-group align-items-center">
-                                                <div class='alert alert-warning text-center'
-                                                     role='alert'></div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label text-primary">
@@ -323,16 +320,9 @@
         let button = $(event.relatedTarget)
         let categoryName = button.data('name');
         let categoryBudget = button.data('budget');
-        let availableBudget = button.data('available');
         let modal = $(this)
         modal.find('#nameInput').val(categoryName);
-        let budgetInput = modal.find('#budgetInput');
-        budgetInput.val(categoryBudget);
-
-        budgetInput.attr({
-            "max": availableBudget
-        });
-        modal.find(".alert-warning").text(availableBudget + " € Available");
+        modal.find('#budgetInput').val(categoryBudget);
     })
 </script>
 

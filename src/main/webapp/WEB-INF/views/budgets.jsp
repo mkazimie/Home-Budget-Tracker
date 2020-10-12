@@ -32,12 +32,6 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-
-                <%--                        <!-- Page Heading -->--%>
-                <%--                        <h1 class="h3 mb-2 text-gray-800">Budgets</h1>--%>
-                <%--                                        <p class="mb-4"> You currently have  ${noOfBudgets}--%>
-                <%--                                            Budgets </p>--%>
-
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
@@ -46,16 +40,23 @@
                             <a href="/auth/budgets/form" class="btn btn-primary"> <i class="fas fa-plus"></i> </a>
                         </div>
                         <div class="mt-2">
-                            <h6 class="card-subtitle mb-2 text-muted">You currently have <strong>${noOfBudgets}</strong>
-                                Budgets</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">You currently have
+                                <strong>${noOfBudgets}</strong>
+                                <c:choose>
+                                    <c:when test="${noOfBudgets == 1}">
+                                        Budget
+                                    </c:when>
+                                    <c:otherwise>
+                                        Budgets
+                                    </c:otherwise>
+                                </c:choose>
+                            </h6>
                         </div>
                     </div>
                     <div class="card-body">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">You currently have ${noOfBudgets} Budgets</li>
-                        </ul>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                            <table class="table table-bordered table-striped" id="dataTable" width="100%"
+                                   cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th></th>
@@ -71,18 +72,22 @@
                                 <c:forEach items="${budgets}" var="budget">
                                     <tr class="text-center">
                                         <td class="align-middle"><a href="/auth/budgets/${budget.id}"
-                                                                    class="btn btn-primary"><i class="fas fa-angle-double-right"></i></a></td>
+                                                                    class="btn btn-primary"><i
+                                                class="fas fa-angle-double-right"></i></a></td>
                                         <td class="align-middle">${budget.name}</td>
                                         <td class="align-middle">
                                             <c:forEach items="${budget.users}" var="user">
-                                                ${user.username}
+                                                * ${user.username}
                                             </c:forEach>
                                         </td>
                                         <td class="align-middle">${budget.startDate}</td>
                                         <td class="align-middle">${budget.endDate}</td>
-                                        <td class="align-middle">${budget.budgetMoney} €</td>
+<%--                                        <td class="align-middle">${allCategoryBudgets} € </td>--%>
+<%--                                        <td class="align-middle text-success font-weight-bolder">${allCategoriesBalance}--%>
+                                        <td class="align-middle">${budget.budgetMoney} € </td>
                                         <td class="align-middle text-success font-weight-bolder">${budget.moneyLeft}
-                                            €</td>
+                                            €
+                                        </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>

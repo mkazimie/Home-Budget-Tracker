@@ -24,7 +24,7 @@ public class CategoryService {
         this.budgetService = budgetService;
     }
 
-    public SortedSet<Category> addNewCategory(CategoryDto categoryDto, Budget budget){
+    public SortedSet<Category> addNewCategory(CategoryDto categoryDto, Budget budget) {
         Category category = new Category();
         String categoryDtoName = categoryDto.getSelectedName();
         if (categoryDtoName.equals("customized")) {
@@ -36,26 +36,40 @@ public class CategoryService {
         category.setMoneyLeft(categoryDto.getCategoryMoney());
         category.setBudget(budget);
         saveCategory(category);
+        BigDecimal budgetMoney = budget.getBudgetMoney();
+        BigDecimal moneyLeftInBudget = budget.getMoneyLeft();
+        budget.setBudgetMoney(budgetMoney.add(category.getCategoryBudget()));
+        budget.setMoneyLeft(moneyLeftInBudget.add(category.getMoneyLeft()));
         SortedSet<Category> budgetCategories = budget.getCategories();
-        budgetCategories.add(category);
-        budget.setCategories(budgetCategories);
         budgetService.saveBudget(budget);
         return budgetCategories;
     }
 
+    public void updateCategory(Category updatedCategory, Category originalCategory, Budget budget){
+        BigDecimal updatedCatBudget = updatedCategory.getCategoryBudget();
+        BigDecimal originalCatBudget = originalCategory.getCategoryBudget();
+        BigDecimal catBudgetDifference = updatedCatBudget.subtract(originalCatBudget);
+
+        originalCategory.setName(updatedCategory.getName());
+        originalCategory.setCategoryBudget(updatedCategory.getCategoryBudget());
+        saveCategory(originalCategory);
+        budget.setMoneyLeft(budget.getMoneyLeft().add(catBudgetDifference));
+        budget.setBudgetMoney(budget.getBudgetMoney().add(catBudgetDifference));
+        budgetService.saveBudget(budget);
+    }
 
 
-    public Category findCategoryById(Long id){
+    public Category findCategoryById(Long id) {
         Optional<Category> category = categoryRepository.findById(id);
         return category.orElseThrow(() -> new NoRecordFoundException("No record found in our DB"));
     }
 
-    public Category findByName(String name, Long budgetId){
+    public Category findByName(String name, Long budgetId) {
         return categoryRepository.findByName(name, budgetId);
     }
 
 
-    public void saveCategory(Category category){
+    public void saveCategory(Category category) {
         categoryRepository.save(category);
     }
 

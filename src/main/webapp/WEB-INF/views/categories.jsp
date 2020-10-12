@@ -40,83 +40,87 @@
                     <h1 class="col-10 h3 mb-0 text-primary font-weight-bolder">${budget.name} Categories </h1>
                 </div>
 
-                <!-- Content Row -->
-                <div class="row">
+                <%--                <!-- Content Row -->--%>
+                <%--                <div class="row">--%>
 
 
-                    <!-- BUDGET -->
+                <%--                    <!-- BUDGET -->--%>
 
-                    <div class="col-xl-3 col-md-6 mb-4 ">
-                        <div class="card h-100 shadow py-2 bg-gradient-info ">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Budget
-                                        </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">${budget.budgetMoney} €
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-coins fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <%--                    <div class="col-xl-3 col-md-6 mb-4 ">--%>
+                <%--                        <div class="card h-100 shadow py-2 bg-gradient-info ">--%>
+                <%--                            <div class="card-body">--%>
+                <%--                                <div class="row no-gutters align-items-center">--%>
+                <%--                                    <div class="col mr-2">--%>
+                <%--                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">--%>
+                <%--                                            Budget--%>
+                <%--                                        </div>--%>
+                <%--                                        <div class="h5 mb-0 font-weight-bold text-white">${budget.budgetMoney} €--%>
+                <%--                                            &lt;%&ndash;                                        <div class="h5 mb-0 font-weight-bold text-white">${allCategoryBudgets} €&ndash;%&gt;--%>
+
+                <%--                                        </div>--%>
+                <%--                                    </div>--%>
+                <%--                                    <div class="col-auto">--%>
+                <%--                                        <i class="fas fa-coins fa-2x text-gray-300"></i>--%>
+                <%--                                    </div>--%>
+                <%--                                </div>--%>
+                <%--                            </div>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
 
 
-                    <!-- AVAILABLE -->
-                    <div class="col-xl-3 col-md-6 mb-4 ">
-                        <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
-                        <div class="card h-100 shadow py-2 bg-gradient-success ">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Available
-                                        </div>
-                                        <div class="h5 mb-0 font-weight-bold text-white">${budget.moneyLeft} €</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <%--                    <!-- AVAILABLE -->--%>
+                <%--                    <div class="col-xl-3 col-md-6 mb-4 ">--%>
+                <%--                        &lt;%&ndash;                    <div class="card border-left-primary h-100 shadow py-2">&ndash;%&gt;--%>
+                <%--                        <div class="card h-100 shadow py-2 bg-gradient-success ">--%>
+                <%--                            <div class="card-body">--%>
+                <%--                                <div class="row no-gutters align-items-center">--%>
+                <%--                                    <div class="col mr-2">--%>
+                <%--                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">--%>
+                <%--                                            Available--%>
+                <%--                                        </div>--%>
+                <%--                                        <div class="h5 mb-0 font-weight-bold text-white">${budget.moneyLeft} €</div>--%>
+                <%--                                        &lt;%&ndash;                                        <div class="h5 mb-0 font-weight-bold text-white">${allCategoriesBalance} €</div>&ndash;%&gt;--%>
 
-                    <!-- SPENDINGS -->
-                    <div class="col-xl-3 col-md-6 mb-4 ">
-                        <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
-                        <div class="card h-100 shadow py-2 bg-gradient-warning ">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Expenses
-                                        </div>
-                                        <div class="h5 mb-0 font-weight-bold
-                                        text-white"> ${allExpenses} €
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <%--                                    </div>--%>
+                <%--                                    <div class="col-auto">--%>
+                <%--                                        <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>--%>
+                <%--                                    </div>--%>
+                <%--                                </div>--%>
+                <%--                            </div>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
 
-                </div>
+                <%--                    <!-- SPENDINGS -->--%>
+                <%--                    <div class="col-xl-3 col-md-6 mb-4 ">--%>
+                <%--                        &lt;%&ndash;                    <div class="card border-left-primary h-100 shadow py-2">&ndash;%&gt;--%>
+                <%--                        <div class="card h-100 shadow py-2 bg-gradient-warning ">--%>
+                <%--                            <div class="card-body">--%>
+                <%--                                <div class="row no-gutters align-items-center">--%>
+                <%--                                    <div class="col mr-2">--%>
+                <%--                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">--%>
+                <%--                                            Expenses--%>
+                <%--                                        </div>--%>
+                <%--                                        <div class="h5 mb-0 font-weight-bold--%>
+                <%--                                        text-white"> ${allExpenses} €--%>
+                <%--                                        </div>--%>
+                <%--                                    </div>--%>
+                <%--                                    <div class="col-auto">--%>
+                <%--                                        <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>--%>
+                <%--                                    </div>--%>
+                <%--                                </div>--%>
+                <%--                            </div>--%>
+                <%--                        </div>--%>
+                <%--                    </div>--%>
+
+                <%--                </div>--%>
 
                 <!-- Content Row -->
                 <div class="row">
 
                     <!-- Form for adding NEW CATEGORY -->
                     <div class="col-xl-4 col-md-6 mb-4 ">
-                        <div class="card border-left-info shadow">
-                            <div class="card-header bg-info d-table">
+                        <div class="card border-left-primary shadow">
+                            <div class="card-header bg-primary d-table">
                                 <div class="d-table-cell align-middle">
                                     <h5 class="card-title font-weight-bold text-center text-white">Add
                                         Category</h5>
@@ -163,13 +167,8 @@
                                     <div class="form-group">
                                         <form:label path="categoryMoney"
                                                     cssClass="text-primary"> Budget </form:label>
-                                        <div id="alert-available" class="alert alert-warning"
-                                             role="alert">${budget.budgetMoney -
-                                                allCategoryBudgets}€ Available
-                                        </div>
                                         <div class="input-group">
-                                            <form:input path="categoryMoney" type="number" min="1" step=".01"
-                                                        max="${budget.budgetMoney - allCategoryBudgets}"
+                                            <form:input path="categoryMoney" type="number" min="1" step=".1"
                                                         class="form-control form-control-user"
                                                         placeholder="" required="required"/>
                                             <div class="input-group-append">
@@ -182,7 +181,7 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button class="btn btn-info btn-user btn-block" type="submit"> Save
+                                <button class="btn btn-success btn-user btn-block" type="submit"> Save
                                 </button>
                                 </form:form>
                             </div>
@@ -195,7 +194,7 @@
                         <div class="card border-left-primary shadow h-100">
                             <div class="card-header bg-primary d-table">
                                 <div class="d-table-cell align-middle">
-                                    <h5 class="card-title font-weight-bold text-center text-white">Budget
+                                    <h5 class="card-title font-weight-bold text-center text-white">
                                         Categories</h5>
                                 </div>
                             </div>
@@ -217,7 +216,7 @@
                                             <tr>
                                                 <td class="align-middle"><a
                                                         href="/auth/budgets/${budget.id}/categories/${category.id}"
-                                                        class="btn btn-primary"><i
+                                                        class="btn btn-success"><i
                                                         class="fas fa-angle-double-right"></i></a>
                                                 </td>
                                                 <td
@@ -236,73 +235,27 @@
                                                 <td class="align-middle
                                                 text-success">${categoryBalanceMap.get(category.name)} €
                                                 </td>
-<%--                                                <td class="align-middle">--%>
-<%--                                                    <button id="editBtn" data-toggle="modal" data-target="#editModal"--%>
-<%--                                                            data-name="${category.name}"--%>
-<%--                                                            data-budget="${category.categoryBudget}"--%>
-<%--                                                            data-available="${budget.budgetMoney - allCategoryBudgets}"--%>
-<%--                                                            class="btn-circle btn-sm btn-warning"><i--%>
-<%--                                                            class="far fa-edit"></i></button>--%>
-<%--                                                    <button id="deleteBtn"--%>
-<%--                                                            class="btn-circle btn-sm btn-danger"><i--%>
-<%--                                                            class="far fa-trash-alt"></i></button>--%>
-<%--                                                </td>--%>
+
+                                                    <%--                                                <td class="align-middle--%>
+                                                    <%--                                                text-success">${category.moneyLeft}} €--%>
+                                                    <%--                                                </td>--%>
+                                                    <%--                                                <td class="align-middle">--%>
+                                                    <%--                                                    <button id="editBtn" data-toggle="modal" data-target="#editModal"--%>
+                                                    <%--                                                            data-name="${category.name}"--%>
+                                                    <%--                                                            data-budget="${category.categoryBudget}"--%>
+                                                    <%--                                                            data-available="${budget.budgetMoney - allCategoryBudgets}"--%>
+                                                    <%--                                                            class="btn-circle btn-sm btn-warning"><i--%>
+                                                    <%--                                                            class="far fa-edit"></i></button>--%>
+                                                    <%--                                                    <button id="deleteBtn"--%>
+                                                    <%--                                                            class="btn-circle btn-sm btn-danger"><i--%>
+                                                    <%--                                                            class="far fa-trash-alt"></i></button>--%>
+                                                    <%--                                                </td>--%>
 
                                             </tr>
                                         </c:forEach>
                                         </tbody>
                                     </table>
 
-
-<%--                                    <!--MODAL FORM to update Budget Category -->--%>
-<%--                                    <div id="editModal" class="modal" tabindex="-1" role="dialog">--%>
-<%--                                        <div class="modal-dialog" role="document">--%>
-<%--                                            <div class="modal-content">--%>
-<%--                                                <div class="modal-header bg-primary d-table justify-content-between">--%>
-<%--                                                    <div class="d-table-cell align-middle">--%>
-<%--                                                        <h5 class="modal-title text-white font-weight-bolder text-center">--%>
-<%--                                                            Edit category</h5>--%>
-<%--                                                    </div>--%>
-<%--                                                    <button type="button" class="close" data-dismiss="modal"--%>
-<%--                                                            aria-label="Close">--%>
-<%--                                                        <span aria-hidden="true">&times;</span>--%>
-<%--                                                    </button>--%>
-<%--                                                </div>--%>
-<%--                                                <div class="modal-body">--%>
-<%--                                                    <div class="addAlert"></div>--%>
-<%--                                                    <form method="post"--%>
-<%--                                                          action="/auth/budgets/${budgetId}/categories/update}">--%>
-<%--                                                        <div class="form-group row">--%>
-<%--                                                            <label class="col-sm-2 col-form-label text-primary">--%>
-<%--                                                                Name:</label>--%>
-<%--                                                            <div class="col-sm-10">--%>
-<%--                                                                <input type="text" id="nameInput" name="catName"--%>
-<%--                                                                        class="form-control"/>--%>
-<%--                                                            </div>--%>
-<%--                                                        </div>--%>
-<%--                                                        <div class="form-group align-items-center">--%>
-<%--                                                            <div class='alert alert-warning text-center'--%>
-<%--                                                                 role='alert'></div>--%>
-<%--                                                        </div>--%>
-<%--                                                        <div class="form-group row">--%>
-<%--                                                            <label class="col-sm-2 col-form-label text-primary">--%>
-<%--                                                                Budget:</label>--%>
-<%--                                                            <div class="col-sm-10">--%>
-<%--                                                                <input type="number" id="budgetInput" name="catBudget"--%>
-<%--                                                                       class="form-control"/>--%>
-<%--                                                            </div>--%>
-<%--                                                        </div>--%>
-<%--                                                    </form>--%>
-<%--                                                </div>--%>
-<%--                                                <div class="modal-footer">--%>
-<%--                                                    <button type="button" class="btn btn-primary">Save changes</button>--%>
-<%--                                                    <button type="button" class="btn btn-secondary"--%>
-<%--                                                            data-dismiss="modal">Close--%>
-<%--                                                    </button>--%>
-<%--                                                </div>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-<%--                                    </div>--%>
 
                                 </div>
                             </div>
@@ -352,23 +305,6 @@
                 $("#selectCat option:selected").prop("selected", false);
             }
         });
-
-        // $('#editModal').on('show.bs.modal', function (event) {
-        //     let button = $(event.relatedTarget)
-        //     let categoryName = button.data('name');
-        //     let categoryBudget = button.data('budget');
-        //     let availableBudget = button.data('available');
-        //     let modal = $(this)
-        //     modal.find('#nameInput').val(categoryName);
-        //     let budgetInput = modal.find('#budgetInput');
-        //     budgetInput.val(categoryBudget);
-        //
-        //     budgetInput.attr({
-        //         "max": availableBudget
-        //     });
-        //     modal.find(".alert-warning").text(availableBudget + " € Available");
-        // })
-
 
     </script>
 

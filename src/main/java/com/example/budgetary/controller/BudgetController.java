@@ -6,13 +6,11 @@ import com.example.budgetary.entity.User;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
-import com.example.budgetary.service.TransactionService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -25,11 +23,9 @@ import java.util.*;
 public class BudgetController {
 
     private final BudgetService budgetService;
-    private final TransactionService transactionService;
 
-    public BudgetController(BudgetService budgetService, TransactionService transactionService) {
+    public BudgetController(BudgetService budgetService) {
         this.budgetService = budgetService;
-        this.transactionService = transactionService;
     }
 
 
@@ -69,6 +65,7 @@ public class BudgetController {
         Budget budget = budgetService.findById(id);
         BigDecimal allExpenses = countAllExpenses(budget);
         request.getSession().setAttribute("allExpenses", allExpenses);
+
         TransactionDto transactionDto = new TransactionDto();
         if (!model.containsAttribute("transactionDto")) {
             model.addAttribute("transactionDto", transactionDto);
@@ -76,21 +73,6 @@ public class BudgetController {
         model.addAttribute("budget", budget);
         model.addAttribute("allExpenses", allExpenses);
         return "budget";
-    }
-
-    @PostMapping("/{id}")
-    public String saveBudgetTransaction(@ModelAttribute @Valid TransactionDto transactionDto,
-                                        BindingResult bindingResult, RedirectAttributes attr,
-                                        @AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long id,
-                                        Model model){
-        if (!bindingResult.hasErrors()){
-            Budget budget = budgetService.findById(id);
-            transactionService.makeTransactionOnBudget(transactionDto, currentUser.getUser(), budget);
-        } else {
-            attr.addFlashAttribute("org.springframework.validation.BindingResult.transactionDto", bindingResult);
-            attr.addFlashAttribute("transactionDto", transactionDto);
-        }
-        return "redirect:/auth/budgets/{id}";
     }
 
 
@@ -111,15 +93,9 @@ public class BudgetController {
     }
 
 
-
     @ModelAttribute("currentUser")
     public User currentUser(@AuthenticationPrincipal CurrentUser currentUser) {
         return currentUser.getUser();
-    }
-
-    @ModelAttribute("transactionType")
-    public List<String> chooseTransactionType() {
-        return Arrays.asList("Deposit", "Withdrawal");
     }
 
 

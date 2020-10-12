@@ -26,12 +26,10 @@ public class TransactionController {
 
     private final TransactionService transactionService;
     private final CategoryService categoryService;
-    private final BudgetService budgetService;
 
-    public TransactionController(TransactionService transactionService, CategoryService categoryService, BudgetService budgetService) {
+    public TransactionController(TransactionService transactionService, CategoryService categoryService) {
         this.transactionService = transactionService;
         this.categoryService = categoryService;
-        this.budgetService = budgetService;
     }
 
     @PostMapping("/categories/{categoryId}/transactions")
@@ -41,7 +39,7 @@ public class TransactionController {
                                  Model model, @PathVariable Long budgetId, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
             Category transactionCategory = categoryService.findCategoryById(categoryId);
-            SortedSet<Transaction> categoryTransactions = transactionService.makeTransactionOnCategory(transactionDto,
+            SortedSet<Transaction> categoryTransactions = transactionService.addTransaction(transactionDto,
                     transactionCategory, currentUser.getUser());
             model.addAttribute("categoryTransactions", categoryTransactions);
         } else {

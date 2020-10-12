@@ -7,7 +7,6 @@ import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.service.BudgetService;
 import com.example.budgetary.service.CategoryService;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -15,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.persistence.ManyToOne;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -36,14 +34,10 @@ public class CategoryController {
     @GetMapping("")
     public String displayCategories(@PathVariable Long budgetId, Model model, HttpServletRequest request) {
         Budget budget = findBudget(budgetId);
-        BigDecimal allCategoryBudgets = sumUpCategoryBudgets(budget);
         Map<String, BigDecimal> categoryBalanceMap = balanceMap(budget);
         model.addAttribute("categoryBalanceMap", categoryBalanceMap);
-        request.getSession().setAttribute("allCategoryBudgets", allCategoryBudgets);
-        CategoryDto categoryDto = new CategoryDto();
-        model.addAttribute("allExpenses", request.getSession().getAttribute("allExpenses"));
         model.addAttribute("budget", budget);
-        model.addAttribute("allCategoryBudgets", allCategoryBudgets);
+        CategoryDto categoryDto = new CategoryDto();
         if (!model.containsAttribute("categoryDto")) {
             model.addAttribute("categoryDto", categoryDto);
         }
@@ -77,7 +71,6 @@ public class CategoryController {
         model.addAttribute("allCategoryExpenses", countCategoryExpenses(category));
         model.addAttribute("category", category);
         model.addAttribute("budget", budget);
-        model.addAttribute("allCategoryBudgets", request.getSession().getAttribute("allCategoryBudgets"));
         if (!model.containsAttribute("transactionDto")) {
             model.addAttribute("transactionDto", new TransactionDto());
         }
@@ -93,10 +86,9 @@ public class CategoryController {
                                  @PathVariable Long budgetId,
                                  Model model, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
+            Budget budget = budgetService.findById(budgetId);
             Category categoryById = categoryService.findCategoryById(categoryId);
-            categoryById.setName(category.getName());
-            categoryById.setCategoryBudget(category.getCategoryBudget());
-            categoryService.saveCategory(categoryById);
+            categoryService.updateCategory(category, categoryById, budget);
         } else {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
             attr.addFlashAttribute("category", category);
@@ -109,12 +101,6 @@ public class CategoryController {
         return budgetService.findById(budgetId);
     }
 
-
-    private BigDecimal sumUpCategoryBudgets(Budget budget) {
-        return budget.getCategories().stream()
-                .map(Category::getCategoryBudget)
-                .reduce(new BigDecimal(0), BigDecimal::add);
-    }
 
     public BigDecimal countCategoryExpenses(Category category) {
         SortedSet<Transaction> transactions = category.getTransactions();
@@ -159,7 +145,7 @@ public class CategoryController {
     @ModelAttribute("catName")
     public Map<String, String> categories() {
         Map<String, String> catNames = new LinkedHashMap<>();
-        catNames.put("Home Expenses", "<i class='fas fa-file-invoice'></i>");
+        catNames.put("Home", "<i class='fas fa-file-invoice'></i>");
         catNames.put("Supermarket", "<i class='fas fa-shopping-cart'></i>");
         catNames.put("Public Transport", "<i class='fas fa-bus-alt'></i>");
         catNames.put("Vehicle", "<i class='fas fa-car'></i>");

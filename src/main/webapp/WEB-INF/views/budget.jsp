@@ -52,8 +52,9 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Budget
+                                            My Budget
                                         </div>
+<%--                                        <div class="h5 mb-0 font-weight-bold text-white">${allCategoryBudgets} €--%>
                                         <div class="h5 mb-0 font-weight-bold text-white">${budget.budgetMoney} €
                                         </div>
                                     </div>
@@ -74,8 +75,9 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Available
+                                            Current Balance
                                         </div>
+<%--                                        <div class="h5 mb-0 font-weight-bold text-white">${allCategoriesBalance} €</div>--%>
                                         <div class="h5 mb-0 font-weight-bold text-white">${budget.moneyLeft} €</div>
                                     </div>
                                     <div class="col-auto">
@@ -86,7 +88,7 @@
                         </div>
                     </div>
 
-                    <!-- SPENDINGS -->
+                    <!-- EXPENSES -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
                         <div class="card h-100 shadow py-2 bg-gradient-warning ">
@@ -94,7 +96,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            Spendings
+                                            All Expenses
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-white">${allExpenses} €</div>
                                     </div>
@@ -106,31 +108,6 @@
                         </div>
                     </div>
 
-                    <%--                    <!-- GO TO CATEGORIES -->--%>
-                    <%--                    <div class="col-xl-3 col-md-6 mb-4 ">--%>
-                    <%--                        <div class="card h-100 shadow py-2 border-left-primary ">--%>
-                    <%--                            <div class="card-body">--%>
-                    <%--                                <div class="row no-gutters align-items-center">--%>
-                    <%--                                    <div class="col mr-2">--%>
-                    <%--                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">--%>
-                    <%--                                            CATEGORIES--%>
-                    <%--                                        </div>--%>
-                    <%--                                        <div class="h5 mb-0 text-secondary">--%>
-                    <%--                                            ${budget.categories.size()} categories--%>
-                    <%--                                        </div>--%>
-                    <%--                                    </div>--%>
-                    <%--                                    <div class="col-auto">--%>
-                    <%--                                        &lt;%&ndash;                                        <button class="btn-lg btn-circle btn-primary">&ndash;%&gt;--%>
-                    <%--                                        <a href="/auth/budgets/${budget.id}/categories"--%>
-                    <%--                                           class="btn-lg btn-circle btn-primary">--%>
-                    <%--                                            <i class="fas fa-angle-double-right text-gray-300"></i>--%>
-                    <%--                                        </a>--%>
-                    <%--                                        &lt;%&ndash;                                        </button>&ndash;%&gt;--%>
-                    <%--                                    </div>--%>
-                    <%--                                </div>--%>
-                    <%--                            </div>--%>
-                    <%--                        </div>--%>
-                    <%--                    </div>--%>
 
 
                 </div>
@@ -149,7 +126,7 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center justify-content-center">
                                     <a href="/auth/budgets/${budget.id}/categories"
-                                       class="btn-primary btn-circle btn-lg">
+                                       class="btn-success btn-circle btn-lg">
                                         <i class="fas fa-angle-double-right text-gray-300"></i>
                                     </a>
 
@@ -581,23 +558,6 @@
     <%@include file="fragment/core-js-plugins.jsp" %>
 </div>
 <!-- Page level plugins -->
-<script>
-    let ctxP = document.getElementById("myPieChart").getContext('2d');
-    let pieChart = new Chart(ctxP, {
-        type: 'pie',
-        data: {
-            labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
-            datasets: [{
-                data: [300, 50, 100, 40, 120],
-                backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
-                hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
-            }]
-        },
-        options: {
-            responsive: true
-        }
-    });
-</script>
 
 <script src="/resources/static/vendor/chart.js/Chart.min.js"></script>
 <script src="/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
