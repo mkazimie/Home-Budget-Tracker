@@ -41,6 +41,7 @@
                     <h1 class="col-10 h3 mb-0 text-primary font-weight-bolder">${category.name} </h1>
                     <button id="editBtn" data-toggle="modal" data-target="#editModal"
                             data-name="${category.name}"
+                            data-budget="${category.categoryBudget}"
                             class="btn-circle btn-warning"><i
                             class="far fa-edit"></i></button>
                     <button id="deleteBtn" data-toggle="modal" data-target="#deleteModal"

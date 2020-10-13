@@ -260,7 +260,7 @@
                                                    cellspacing="0">
                                                 <thead>
                                                 <tr class="text-center">
-                                                    <th> Registered </th>
+                                                    <th> Registered</th>
                                                     <th> Title</th>
                                                     <th><strong> Sum </strong></th>
                                                     <th> Date</th>
@@ -289,11 +289,16 @@
                                                         <c:choose>
                                                             <c:when test="${transaction.type.equals('Withdrawal')}">
                                                                 <td class="align-middle text-danger">
-                                                                    -${transaction.sum}€</td>
+                                                                    <c:if test="${transaction.sum > 0}">
+                                                                        -
+                                                                    </c:if>
+                                                                        ${transaction.sum}€
+                                                                </td>
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <td class="align-middle text-success">
-                                                                    +${transaction.sum}€</td>
+                                                                    +${transaction.sum}€
+                                                                </td>
                                                             </c:otherwise>
                                                         </c:choose>
 

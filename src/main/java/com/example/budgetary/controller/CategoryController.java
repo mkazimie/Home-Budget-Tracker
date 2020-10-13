@@ -5,8 +5,10 @@ import com.example.budgetary.entity.Category;
 import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.entity.dto.TransactionDto;
+import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
 import com.example.budgetary.service.CategoryService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
@@ -45,14 +47,15 @@ public class CategoryController {
     }
 
     @PostMapping("")
-    public String addCategory(@ModelAttribute("categoryDto") @Valid CategoryDto categoryDto,
+    public String addCategory(@AuthenticationPrincipal CurrentUser currentUser,
+                              @ModelAttribute("categoryDto") @Valid CategoryDto categoryDto,
                               BindingResult bindingResult,
                               Model model, @PathVariable Long budgetId, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
             boolean categoryNameValid = checkIfCategoryNameIsValid(categoryDto, attr, budgetId);
             if (categoryNameValid) {
                 Budget budget = findBudget(budgetId);
-                SortedSet<Category> budgetCategories = categoryService.addNewCategory(categoryDto, budget);
+                SortedSet<Category> budgetCategories = categoryService.addNewCategory(categoryDto, budget, currentUser.getUser());
                 model.addAttribute("budgetCategories", budgetCategories);
                 model.addAttribute("budget", budget);
             }
@@ -81,14 +84,15 @@ public class CategoryController {
     }
 
     @PostMapping("/{categoryId}")
-    public String updateCategory(@ModelAttribute @Valid Category category,
+    public String updateCategory(@AuthenticationPrincipal CurrentUser currentUser,
+                                 @ModelAttribute @Valid Category category,
                                  BindingResult bindingResult, @PathVariable Long categoryId,
                                  @PathVariable Long budgetId,
                                  Model model, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
             Budget budget = budgetService.findById(budgetId);
             Category categoryById = categoryService.findCategoryById(categoryId);
-            categoryService.updateCategory(category, categoryById, budget);
+            categoryService.updateCategory(category, categoryById, budget, currentUser.getUser());
         } else {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
             attr.addFlashAttribute("category", category);
