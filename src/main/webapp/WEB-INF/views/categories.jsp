@@ -247,9 +247,10 @@
                                                 </c:choose>
                                                 <td>
                                                     <button id="deleteBtn" data-toggle="modal"
-                                                            data-target="#deleteModal"
+                                                            data-target="#deleteFromAllModal"
                                                             data-name="${category.name}"
                                                             data-id="${category.id}"
+                                                            data-budget="${budget.id}"
                                                             class="btn-circle btn-secondary btn-sm"><i
                                                             class="far fa-trash-alt"></i></button>
                                                 </td>
@@ -262,8 +263,9 @@
                                 </div>
                             </div>
 
+
                             <!--MODAL to CONFIRM and EXECUTE DELETE operation -->
-                            <div id="deleteModal" class="modal" tabindex="-1" role="dialog">
+                            <div id="deleteFromAllModal" class="modal" tabindex="-1" role="dialog">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header bg-primary d-table justify-content-between">
@@ -323,39 +325,13 @@
     <div>
         <%@include file="fragment/core-js-plugins.jsp" %>
     </div>
-    <script>
-        $("#selectCat").change(function () {
-            if ($(this).val() === "customized") {
-                $("#selectInput").addClass("d-none");
-                $("#ownInput").removeClass("d-none");
-            }
-        });
-
-        $("#getCatList").change(function () {
-            if ($("#getCatList").is(':checked')) {
-                $("#selectInput").removeClass("d-none");
-                $("#ownInput").addClass("d-none");
-                this.checked = false;
-                $("#selectCat option:selected").prop("selected", false);
-            }
-        });
-
-        $('#deleteModal').on('show.bs.modal', function (event) {
-            let button = $(event.relatedTarget) // Button that triggered the modal
-            let categoryName = button.data('name') // Extract info from data-* attributes
-            let categoryId = button.data('id') // Extract info from data-* attributes
-            let modal = $(this)
-            modal.find('.modal-body a').attr("href", "/auth/budgets/${budget.id}/categories/" + categoryId + "/delete");
-            modal.find('.modal-body strong').text(" " + categoryName);
-        })
-
-    </script>
 
 
     <!-- Page level plugins -->
     <script src="/resources/static/vendor/chart.js/Chart.min.js"></script>
     <script src="/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="/resources/static/js/customizedJquery.js"></script>
 
     <!-- Page level custom scripts -->
     <script src="/resources/static/js/demo/chart-area-demo.js"></script>

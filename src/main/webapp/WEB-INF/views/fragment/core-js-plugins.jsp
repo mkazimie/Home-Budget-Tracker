@@ -11,10 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-<!-- Custom js & jquery files-->
-<script src="${pageContext.request.contextPath}/resources/static/js/customizedFn.js"></script>
-<script src="/resources/static/js/jqueryDoc.js"></script>
-
 <!-- Bootstrap core JavaScript-->
 <script src="${pageContext.request.contextPath}/resources/static/vendor/jquery/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

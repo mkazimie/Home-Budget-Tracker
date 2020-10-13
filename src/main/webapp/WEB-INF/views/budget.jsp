@@ -612,7 +612,7 @@
 <script src="${pageContext.request.contextPath}/resources/static/vendor/chart.js/Chart.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/jqueryDoc.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/customizedJquery.js"></script>
 
 
 <!-- Page level custom scripts -->

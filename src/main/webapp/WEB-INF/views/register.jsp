@@ -77,5 +77,8 @@
 <div>
     <%@include file="fragment/core-js-plugins.jsp" %>
 </div>
+<!-- Page level plugins -->
+<script src="${pageContext.request.contextPath}/resources/static/js/customizedJquery.js"></script>
+
 </body>
 </html>

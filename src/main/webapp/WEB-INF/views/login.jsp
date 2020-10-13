@@ -76,11 +76,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
-
 </div>
 <div>
     <%@include file="fragment/core-js-plugins.jsp" %>

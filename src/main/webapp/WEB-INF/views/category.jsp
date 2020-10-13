@@ -41,7 +41,6 @@
                     <h1 class="col-10 h3 mb-0 text-primary font-weight-bolder">${category.name} </h1>
                     <button id="editBtn" data-toggle="modal" data-target="#editModal"
                             data-name="${category.name}"
-                            data-budget="${category.categoryBudget}"
                             class="btn-circle btn-warning"><i
                             class="far fa-edit"></i></button>
                     <button id="deleteBtn" data-toggle="modal" data-target="#deleteModal"
@@ -383,24 +382,11 @@
     <%@include file="fragment/core-js-plugins.jsp" %>
 </div>
 
-<script>
-    $('#editModal').on('show.bs.modal', function (event) {
-        let button = $(event.relatedTarget)
-        let categoryName = button.data('name');
-        let categoryBudget = button.data('budget');
-        let modal = $(this)
-        modal.find('#nameInput').val(categoryName);
-        modal.find('#budgetInput').val(categoryBudget);
-    })
-
-
-</script>
-
 <!-- Page level plugins -->
 <script src="/resources/static/vendor/chart.js/Chart.min.js"></script>
 <script src="/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="/resources/static/js/jqueryDoc.js"></script>
+<script src="/resources/static/js/customizedJquery.js"></script>
 
 <!-- Page level custom scripts -->
 <script src="/resources/static/js/demo/chart-area-demo.js"></script>
