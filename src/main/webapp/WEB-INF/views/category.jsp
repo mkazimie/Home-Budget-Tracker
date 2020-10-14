@@ -298,6 +298,14 @@
                                                             data-budget="${budget.id}"
                                                             class="btn-circle btn-danger btn-sm"><i
                                                             class="far fa-trash-alt"></i></button>
+                                                    <button id="editTransactionBtn" data-toggle="modal"
+                                                            data-target="#editTransactionModal"
+                                                            data-title="${transaction.title}"
+                                                            data-id="${transaction.id}"
+                                                            data-category="${category.id}"
+                                                            data-budget="${budget.id}"
+                                                            class="btn-circle btn-warning btn-sm"><i
+                                                            class="far fa-edit"></i></button>
                                                 </td>
                                             </tr>
                                         </c:forEach>
