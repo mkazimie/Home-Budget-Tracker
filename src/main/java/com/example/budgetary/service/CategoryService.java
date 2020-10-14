@@ -80,7 +80,8 @@ public class CategoryService {
         BigDecimal catBudgetDifference = updatedCatBudget.subtract(originalCatBudget);
 
         originalCategory.setName(updatedCategory.getName());
-        originalCategory.setCategoryBudget(updatedCategory.getCategoryBudget());
+        originalCategory.setCategoryBudget(updatedCatBudget);
+        originalCategory.setMoneyLeft(originalCategory.getMoneyLeft().add(catBudgetDifference));
         saveCategory(originalCategory);
         budget.setMoneyLeft(budget.getMoneyLeft().add(catBudgetDifference));
         budget.setBudgetMoney(budget.getBudgetMoney().add(catBudgetDifference));

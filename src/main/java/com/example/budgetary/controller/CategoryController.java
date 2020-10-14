@@ -173,10 +173,6 @@ public class CategoryController {
         return catNames;
     }
 
-//    @ModelAttribute("allBudgets")
-//    public Set<Budget> getAllBudgets(@AuthenticationPrincipal CurrentUser currentUser) {
-//        return currentUser.getUser().getBudgets();
-//    }
 
     @ModelAttribute("currentUser")
     public User currentUser(@AuthenticationPrincipal CurrentUser currentUser) {
