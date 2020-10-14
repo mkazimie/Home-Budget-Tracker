@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 @Service
 public class CategoryService {
@@ -28,6 +29,24 @@ public class CategoryService {
         this.budgetService = budgetService;
         this.transactionService = transactionService;
     }
+
+    public Category findCategoryById(Long id) {
+        Optional<Category> category = categoryRepository.findById(id);
+        return category.orElseThrow(() -> new NoRecordFoundException("No record found in our DB"));
+    }
+
+    public Category findByName(String name, Long budgetId) {
+        return categoryRepository.findByName(name, budgetId);
+    }
+
+    public void saveCategory(Category category) {
+        categoryRepository.save(category);
+    }
+
+    public void deleteCategory(Long id){
+        categoryRepository.delete(findCategoryById(id));
+    }
+
 
     public SortedSet<Category> addNewCategory(CategoryDto categoryDto, Budget budget, User user) {
         Category category = new Category();
@@ -45,7 +64,7 @@ public class CategoryService {
         BigDecimal moneyLeftInBudget = budget.getMoneyLeft();
         budget.setBudgetMoney(budgetMoney.add(category.getCategoryBudget()));
         budget.setMoneyLeft(moneyLeftInBudget.add(category.getMoneyLeft()));
-        Transaction transaction = createTransaction(category, user);
+        Transaction transaction = createTransaction(budget, user);
         transaction.setType("Deposit");
         transaction.setTitle("Add " + category.getName() + " budget");
         transaction.setSum(category.getCategoryBudget());
@@ -55,7 +74,7 @@ public class CategoryService {
         return budgetCategories;
     }
 
-    public void updateCategory(Category updatedCategory, Category originalCategory, Budget budget, User user){
+    public void updateCategory(Category updatedCategory, Category originalCategory, Budget budget, User user) {
         BigDecimal updatedCatBudget = updatedCategory.getCategoryBudget();
         BigDecimal originalCatBudget = originalCategory.getCategoryBudget();
         BigDecimal catBudgetDifference = updatedCatBudget.subtract(originalCatBudget);
@@ -65,10 +84,10 @@ public class CategoryService {
         saveCategory(originalCategory);
         budget.setMoneyLeft(budget.getMoneyLeft().add(catBudgetDifference));
         budget.setBudgetMoney(budget.getBudgetMoney().add(catBudgetDifference));
-        Transaction transaction = createTransaction(originalCategory, user);
+        Transaction transaction = createTransaction(budget, user);
         transaction.setTitle("Modify " + originalCategory.getName() + " budget");
         transaction.setSum(catBudgetDifference);
-        if (catBudgetDifference.compareTo(BigDecimal.ZERO) > 0){
+        if (catBudgetDifference.compareTo(BigDecimal.ZERO) > 0) {
             transaction.setType("Deposit");
         } else {
             transaction.setType("Withdrawal");
@@ -78,36 +97,34 @@ public class CategoryService {
     }
 
 
-    public Category findCategoryById(Long id) {
-        Optional<Category> category = categoryRepository.findById(id);
-        return category.orElseThrow(() -> new NoRecordFoundException("No record found in our DB"));
-    }
 
-    public Category findByName(String name, Long budgetId) {
-        return categoryRepository.findByName(name, budgetId);
-    }
-
-    public void saveCategory(Category category) {
-        categoryRepository.save(category);
-    }
-
-    public void deleteCategory(Long id){
+    public void removeCategory(Long id, User user) {
         Category categoryById = findCategoryById(id);
-        //to do: remove category from budget, transactions...
-        categoryRepository.delete(categoryById);
+        BigDecimal categoryMoneyLeft = categoryById.getMoneyLeft();
+        Budget budget = categoryById.getBudget();
+
+        SortedSet<Transaction> categoryTransactions = categoryById.getTransactions();
+        if (categoryTransactions != null) {
+            categoryTransactions.forEach(transaction -> transaction.setCategory(null));
+        }
+        budget.setBudgetMoney(budget.getBudgetMoney().subtract(categoryById.getCategoryBudget()));
+        budget.setMoneyLeft(budget.getMoneyLeft().subtract(categoryMoneyLeft));
+        Transaction transaction = createTransaction(budget, user);
+        transaction.setTitle("Remove category " + categoryById.getName());
+        transaction.setType("Withdrawal");
+        transaction.setSum(categoryMoneyLeft);
+        transactionService.saveTransaction(transaction);
+        categoryById.setBudget(null);
+        deleteCategory(categoryById.getId());
     }
 
 
-    private Transaction createTransaction(Category category, User user){
-        Budget budget = category.getBudget();
+    private Transaction createTransaction(Budget budget, User user) {
         Transaction transaction = new Transaction();
-//        transaction.setTitle("Add " + category.getName() + " budget");
-//        transaction.setSum(category.getCategoryBudget());
         transaction.setBudget(budget);
         transaction.setCurrentBalance(budget.getMoneyLeft());
         transaction.setDate(LocalDate.now());
         transaction.setUser(user);
-//        transactionService.saveTransaction(transaction);
         return transaction;
     }
 

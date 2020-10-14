@@ -101,8 +101,8 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}/delete")
-    public String deleteCategory(@PathVariable Long categoryId, Model model){
-        categoryService.deleteCategory(categoryId);
+    public String deleteCategory(@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long categoryId){
+        categoryService.removeCategory(categoryId, currentUser.getUser());
         return "redirect:/auth/budgets/{budgetId}/categories/";
     }
 

@@ -326,7 +326,7 @@
                                                         <td class="align-middle">${transaction.user.username}</td>
                                                         <td
                                                                 class="align-middle
-                                                        text-secondary">${transaction.currentBalance}</td>
+                                                        text-secondary">${transaction.currentBalance}€</td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>

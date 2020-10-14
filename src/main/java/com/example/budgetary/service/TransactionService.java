@@ -5,10 +5,12 @@ import com.example.budgetary.entity.Category;
 import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.User;
 import com.example.budgetary.entity.dto.TransactionDto;
+import com.example.budgetary.exception.NoRecordFoundException;
 import com.example.budgetary.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.SortedSet;
 
 
@@ -62,4 +64,12 @@ public class TransactionService {
         return transaction;
     }
 
+    public Transaction findTransactionById(Long id) {
+        Optional<Transaction> transaction = transactionRepository.findById(id);
+        return transaction.orElseThrow(() -> new NoRecordFoundException("No record found in our DB"));
+    }
+
+    public void deleteTransaction(Long id) {
+        transactionRepository.delete(findTransactionById(id));
+    }
 }
