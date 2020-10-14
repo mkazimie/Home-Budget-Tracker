@@ -34,7 +34,7 @@ public class Category implements Comparable<Category> {
     @ManyToOne
     private Budget budget;
 
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "category")
+    @OneToMany(mappedBy = "category")
     @OrderBy("dateTimeAdded DESC")
     private SortedSet<Transaction> transactions = new TreeSet<>();
 

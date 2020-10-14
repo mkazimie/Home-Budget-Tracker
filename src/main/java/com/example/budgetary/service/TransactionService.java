@@ -24,6 +24,19 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
+    public Transaction findTransactionById(Long id) {
+        Optional<Transaction> transaction = transactionRepository.findById(id);
+        return transaction.orElseThrow(() -> new NoRecordFoundException("No record found in our DB"));
+    }
+
+    public void saveTransaction(Transaction transaction) {
+        transactionRepository.save(transaction);
+    }
+
+    public void deleteTransaction(long id) {
+        transactionRepository.delete(findTransactionById(id));
+    }
+
 
     public SortedSet<Transaction> addTransaction(TransactionDto transactionDto, Category category,
                                                             User user) {
@@ -42,17 +55,35 @@ public class TransactionService {
         } else {
             category.setMoneyLeft(moneyLeftInCategory.add(transactionSum));
             budget.setMoneyLeft(budget.getMoneyLeft().add(transactionSum));
-            category.setCategoryBudget(category.getCategoryBudget().add(transactionSum));
+//            category.setCategoryBudget(category.getCategoryBudget().add(transactionSum));
         }
         transaction.setCurrentBalance(budget.getMoneyLeft());
         saveTransaction(transaction);
         return category.getTransactions();
     }
 
-
-    public void saveTransaction(Transaction transaction) {
-        transactionRepository.save(transaction);
+    public void removeTransaction(Long transactionId){
+        Transaction transaction = findTransactionById(transactionId);
+        BigDecimal transactionSum = transaction.getSum();
+        Category transactionCategory = transaction.getCategory();
+        Budget budget = transaction.getBudget();
+        BigDecimal moneyLeftInBudget = budget.getMoneyLeft();
+        BigDecimal moneyLeftInCategory = transactionCategory.getMoneyLeft();
+        if (transaction.getType().equals("Withdrawal")) {
+            transactionCategory.setMoneyLeft(moneyLeftInCategory.add(transactionSum));
+            budget.setMoneyLeft(moneyLeftInBudget.add(transactionSum));
+        } else {
+            transactionCategory.setMoneyLeft(moneyLeftInCategory.subtract(transactionSum));
+            budget.setMoneyLeft(moneyLeftInBudget.subtract(transactionSum));
+//            category.setCategoryBudget(category.getCategoryBudget().add(transactionSum));
+        }
+        budget.getTransactions().remove(transaction);
+        transactionCategory.getTransactions().remove(transaction);
+        User user = transaction.getUser();
+        user.getTransactions().remove(transaction);
+        deleteTransaction(transactionId);
     }
+
 
     private Transaction setNewTransaction(TransactionDto transactionDto, User user) {
         Transaction transaction = new Transaction();
@@ -64,12 +95,6 @@ public class TransactionService {
         return transaction;
     }
 
-    public Transaction findTransactionById(Long id) {
-        Optional<Transaction> transaction = transactionRepository.findById(id);
-        return transaction.orElseThrow(() -> new NoRecordFoundException("No record found in our DB"));
-    }
 
-    public void deleteTransaction(Long id) {
-        transactionRepository.delete(findTransactionById(id));
-    }
+
 }

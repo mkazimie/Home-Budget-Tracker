@@ -44,7 +44,7 @@
                             data-budget="${category.categoryBudget}"
                             class="btn-circle btn-warning"><i
                             class="far fa-edit"></i></button>
-                    <button id="deleteBtn" data-toggle="modal" data-target="#deleteModal"
+                    <button id="deleteCategoryBtn" data-toggle="modal" data-target="#deleteCategoryModal"
                             class="btn-circle btn-danger"><i
                             class="far fa-trash-alt"></i></button>
                 </div>
@@ -219,6 +219,7 @@
                                             <th><strong> € </strong></th>
                                             <th> User</th>
                                             <th> Transaction Date</th>
+                                            <th> Actions </th>
 
                                         </tr>
                                         </thead>
@@ -253,6 +254,16 @@
                                                             pattern="dd/MM/yyyy"
                                                             value="${ parsedDate }"
                                                     />
+                                                </td>
+                                                <td class="align-middle">
+                                                <button id="deleteTransactionBtn" data-toggle="modal"
+                                                        data-target="#deleteTransactionModal"
+                                                        data-title="${transaction.title}"
+                                                        data-id="${transaction.id}"
+                                                        data-category="${category.id}"
+                                                        data-budget="${budget.id}"
+                                                        class="btn-circle btn-danger btn-sm"><i
+                                                        class="far fa-trash-alt"></i></button>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -323,8 +334,8 @@
                                 </div>
                             </div>
 
-                            <!--MODAL to CONFIRM and EXECUTE DELETE operation -->
-                            <div id="deleteModal" class="modal" tabindex="-1" role="dialog">
+                            <!--MODAL to CONFIRM and EXECUTE DELETE CATEGORY -->
+                            <div id="deleteCategoryModal" class="modal" tabindex="-1" role="dialog">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header bg-primary d-table justify-content-between">
@@ -353,6 +364,37 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!--MODAL to CONFIRM and EXECUTE DELETE TRANSACTION -->
+                            <div id="deleteTransactionModal" class="modal" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary d-table justify-content-between">
+                                            <div class="d-table-cell align-middle">
+                                                <h5 class="modal-title text-white font-weight-bolder text-center">
+                                                    Delete Transaction</h5>
+                                            </div>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="addAlert"></div>
+                                            <p class="text-center text-primary">Are you sure you want to delete
+                                                transaction
+                                                <strong></strong>?</p>
+                                            <div class="btn-wrapper text-center">
+                                                <a href="" class="btn btn-primary">Yes</a>
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal"> No
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                         </div>
                     </div>

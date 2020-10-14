@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.SortedSet;
@@ -46,6 +47,12 @@ public class TransactionController {
             attr.addFlashAttribute("org.springframework.validation.BindingResult.transactionDto", bindingResult);
             attr.addFlashAttribute("transactionDto", transactionDto);
         }
+        return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
+    }
+
+    @GetMapping("/categories/{categoryId}/transactions/{transactionId}")
+    public String deleteTransaction(@PathVariable Long categoryId, @PathVariable Long transactionId){
+        transactionService.removeTransaction(transactionId);
         return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
     }
 
