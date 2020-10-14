@@ -92,10 +92,14 @@ public class BudgetController {
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
+//    @ModelAttribute("allBudgets")
+//    public Set<Budget> getAllBudgets(@AuthenticationPrincipal CurrentUser currentUser) {
+//        return currentUser.getUser().getBudgets();
+//    }
 
     @ModelAttribute("currentUser")
     public User currentUser(@AuthenticationPrincipal CurrentUser currentUser) {
-        return currentUser.getUser();
+            return currentUser.getUser();
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.budgetary.controller;
 
+
 import com.example.budgetary.entity.dto.UserDto;
 import com.example.budgetary.exception.RecordAlreadyExistsException;
 import com.example.budgetary.security.CurrentUser;
@@ -28,15 +29,6 @@ public class HomeController {
         return "index";
     }
 
-//    @GetMapping(value = "/create-user", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseBody
-//    public String createUser(){
-//        User user = new User();
-//        user.setUsername("user1");
-//        user.setPassword("user1");
-//        userService.saveUser(user);
-//        return user.toString();
-//    }
 
     @GetMapping("/login")
     public String loginForm(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
@@ -72,7 +64,6 @@ public class HomeController {
         }
         return "register";
     }
-
 
 
 }

@@ -30,24 +30,55 @@
 
             <%@include file="fragment/topbar.jsp" %>
 
+            <!-- Bread Crumbs-->
+            <nav aria-label="breadcrumb bg-info">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item ml-3"><a href="/auth/budgets">
+                        <i class="fas fa-angle-double-left"></i>
+                        Home </a></li>
+                    <li class="breadcrumb-item">
+                        <a href="/auth/budgets/${budget.id}">
+                            <i class="fas fa-angle-double-left"></i>
+                            ${budget.name} Dashboard </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/auth/budgets/${budget.id}/categories">
+                            <i class="fas fa-angle-double-left"></i>
+                            ${budget.name} Categories </a>
+                    </li>
+                </ol>
+            </nav>
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <div class="d-sm-flex align-items-baseline justify-content-between mb-4">
-                    <a href="/auth/budgets/${budget.id}/categories"
-                       class="btn btn-primary"><i class="fas fa-angle-double-left"></i></a>
-                    <h1 class="col-10 h3 mb-0 text-primary font-weight-bolder">${category.name} </h1>
-                    <button id="editBtn" data-toggle="modal" data-target="#editModal"
-                            data-name="${category.name}"
-                            data-budget="${category.categoryBudget}"
-                            class="btn-circle btn-warning"><i
-                            class="far fa-edit"></i></button>
-                    <button id="deleteCategoryBtn" data-toggle="modal" data-target="#deleteCategoryModal"
-                            class="btn-circle btn-danger"><i
-                            class="far fa-trash-alt"></i></button>
+
+                <div class="container-fluid p-0 mb-4">
+                    <div class="text-center">
+                        <h2 class="d-inline text-primary font-weight-bolder">
+                            ${category.name}
+                            <c:choose>
+                                <c:when test="${empty catName.get(category.name)}">
+                                    <i class="fas fa-ellipsis-h"></i></c:when>
+                                <c:otherwise>
+                                    ${catName.get(category.name)}
+                                </c:otherwise>
+                            </c:choose>
+                        </h2>
+                        <div class="btn-wrapper d-inline float-right">
+                            <button id="editBtn" data-toggle="modal" data-target="#editModal"
+                                    data-name="${category.name}"
+                                    data-budget="${category.categoryBudget}"
+                                    class="btn-circle btn-warning"><i
+                                    class="far fa-edit"></i></button>
+                            <button id="deleteCategoryBtn" data-toggle="modal" data-target="#deleteCategoryModal"
+                                    class="btn-circle btn-danger"><i
+                                    class="far fa-trash-alt"></i></button>
+                        </div>
+                    </div>
                 </div>
+
 
                 <!-- Content Row -->
                 <div class="row">
@@ -219,7 +250,7 @@
                                             <th><strong> € </strong></th>
                                             <th> User</th>
                                             <th> Transaction Date</th>
-                                            <th> Actions </th>
+                                            <th> Actions</th>
 
                                         </tr>
                                         </thead>
@@ -239,10 +270,13 @@
                                                 <td class="align-middle">${transaction.title}</td>
                                                 <c:choose>
                                                     <c:when test="${transaction.type.equals('Withdrawal')}">
-                                                        <td class="align-middle text-danger"> -${transaction.sum}€</td>
+                                                        <td class="align-middle text-danger"> -${transaction.sum}€
+                                                        </td>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <td class="align-middle text-success"> +${transaction.sum}€</td>
+                                                        <td class="align-middle text-success">
+                                                            +${transaction.sum}€
+                                                        </td>
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <td class="align-middle">${transaction.user.username}</td>
@@ -256,14 +290,14 @@
                                                     />
                                                 </td>
                                                 <td class="align-middle">
-                                                <button id="deleteTransactionBtn" data-toggle="modal"
-                                                        data-target="#deleteTransactionModal"
-                                                        data-title="${transaction.title}"
-                                                        data-id="${transaction.id}"
-                                                        data-category="${category.id}"
-                                                        data-budget="${budget.id}"
-                                                        class="btn-circle btn-danger btn-sm"><i
-                                                        class="far fa-trash-alt"></i></button>
+                                                    <button id="deleteTransactionBtn" data-toggle="modal"
+                                                            data-target="#deleteTransactionModal"
+                                                            data-title="${transaction.title}"
+                                                            data-id="${transaction.id}"
+                                                            data-category="${category.id}"
+                                                            data-budget="${budget.id}"
+                                                            class="btn-circle btn-danger btn-sm"><i
+                                                            class="far fa-trash-alt"></i></button>
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -307,7 +341,8 @@
                                                 <label class="col-sm-2 col-form-label text-primary">
                                                     Name:</label>
                                                 <div class="col-sm-10">
-                                                    <form:input path="name" type="text" id="nameInput" name="catName"
+                                                    <form:input path="name" type="text" id="nameInput"
+                                                                name="catName"
                                                                 class="form-control"/>
                                                 </div>
                                             </div>
@@ -350,8 +385,9 @@
                                         </div>
                                         <div class="modal-body">
                                             <div class="addAlert"></div>
-                                            <p class="text-center text-primary">Are you sure you want to delete category
-                                               <strong>${category.name}? </strong> </p>
+                                            <p class="text-center text-primary">Are you sure you want to delete
+                                                category
+                                                <strong>${category.name}? </strong></p>
                                             <div class="btn-wrapper text-center">
                                                 <a href="/auth/budgets/${budget.id}/categories/${category.id}/delete"
                                                    class="btn btn-primary"> Yes
@@ -394,8 +430,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>

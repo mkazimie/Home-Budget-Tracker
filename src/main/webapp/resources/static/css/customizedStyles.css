@@ -8,7 +8,7 @@ a.btn-circle:hover {
     text-decoration: none;
 }
 
-.card-header{
+.card-header {
     height: 80px;
 }
 
@@ -17,10 +17,13 @@ a.btn-circle:hover {
     opacity: 1;
 }
 
-.font-sm{
+.font-sm {
     font-size: 12px;
 }
 
+.breadcrumb a {
+    text-decoration: none;
+}
 
 
 /*.css-serial {*/

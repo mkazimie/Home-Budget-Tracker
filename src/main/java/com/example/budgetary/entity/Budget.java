@@ -20,7 +20,7 @@ import java.util.TreeSet;
 @AllArgsConstructor
 @Entity
 @Table(name = "budgets")
-public class Budget {
+public class Budget implements Comparable<Budget> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,4 +52,12 @@ public class Budget {
     @OrderBy("dateTimeAdded DESC")
     private SortedSet<Transaction> transactions = new TreeSet<>();
 
+    @Override
+    public int compareTo(Budget budget) {
+        int compareTo=0;
+        if(this.getId() != null && budget.getId()!= null){
+            compareTo = this.getId().compareTo(budget.getId());
+        }
+        return compareTo * (-1);
+    }
 }

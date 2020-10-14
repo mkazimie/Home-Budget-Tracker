@@ -28,17 +28,53 @@
         <!-- Main Content -->
         <div id="content">
 
+
             <%@include file="fragment/topbar.jsp" %>
 
+
+            <!-- Bread Crumbs-->
+            <nav aria-label="breadcrumb bg-info">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item ml-3"><a href="/auth/budgets">
+                        <i class="fas fa-angle-double-left"></i>
+                        Home </a></li>
+                </ol>
+            </nav>
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <div class="d-sm-flex align-items-baseline justify-content-between mb-4">
-                    <a href="/auth/budgets" class="btn btn-primary"><i class="fas fa-angle-double-left"></i></a>
-                    <h1 class="col-10 h3 mb-0 text-primary font-weight-bolder">${budget.name} Budget Dashboard </h1>
+                <div class="d-sm-flex align-items-baseline justify-content-center mb-4">
+                    <h2 class="mb-0 text-center text-primary font-weight-bolder">${budget.name} Budget Dashboard
+                    </h2>
                 </div>
+
+                <%--                //<div class="d-sm-flex align-items-baseline justify-content-between mb-4">--%>
+                <%--                <a href="/auth/budgets/${budget.id}/categories"--%>
+                <%--                   class="btn btn-primary"><i class="fas fa-angle-double-left"></i></a>--%>
+                <%--                <h2 class="mb-0 text-primary font-weight-bolder">--%>
+                <%--                    ${category.name}--%>
+                <%--                    <c:choose>--%>
+                <%--                        <c:when test="${empty catName.get(category.name)}">--%>
+                <%--                            <i class="fas fa-ellipsis-h"></i></c:when>--%>
+                <%--                        <c:otherwise>--%>
+                <%--                            ${catName.get(category.name)}--%>
+                <%--                        </c:otherwise>--%>
+                <%--                    </c:choose>--%>
+                <%--                </h2>--%>
+                <%--                <div class="btn-wrapper">--%>
+                <%--                    <button id="editBtn" data-toggle="modal" data-target="#editModal"--%>
+                <%--                            data-name="${category.name}"--%>
+                <%--                            data-budget="${category.categoryBudget}"--%>
+                <%--                            class="btn-circle btn-warning"><i--%>
+                <%--                            class="far fa-edit"></i></button>--%>
+                <%--                    <button id="deleteCategoryBtn" data-toggle="modal" data-target="#deleteCategoryModal"--%>
+                <%--                            class="btn-circle btn-danger"><i--%>
+                <%--                            class="far fa-trash-alt"></i></button>--%>
+                <%--                </div>--%>
+
+                <%--            </div>--%>
 
 
                 <!-- Content Row -->
@@ -315,10 +351,22 @@
 
                                                         <c:choose>
                                                             <c:when test="${not empty transaction.category}">
-                                                                <td class="align-middle">${transaction.category.name}</td>
+                                                                <td class="align-middle">
+                                                                    <a
+                                                                            href="/auth/budgets/${budget.id}/categories/${transaction.category.id}"
+                                                                            class="btn btn-primary font-weight-bolder">
+                                                                            ${transaction.category.name}
+                                                                    </a>
+                                                                </td>
                                                             </c:when>
                                                             <c:otherwise>
-                                                                <td class="align-middle"> Main Budget</td>
+                                                                <td class="align-middle">
+                                                                    <button
+                                                                            class="btn btn-secondary font-weight-bolder"
+                                                                            disabled>Main
+                                                                        Budget
+                                                                    </button>
+                                                                </td>
                                                             </c:otherwise>
                                                         </c:choose>
 
@@ -326,7 +374,8 @@
                                                         <td class="align-middle">${transaction.user.username}</td>
                                                         <td
                                                                 class="align-middle
-                                                        text-secondary">${transaction.currentBalance}€</td>
+                                                        text-secondary">${transaction.currentBalance}€
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>

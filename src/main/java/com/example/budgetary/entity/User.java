@@ -28,7 +28,8 @@ public class User {
     private Set<Transaction> transactions = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
-    private Set<Budget> budgets = new HashSet<>();
+    @OrderBy
+    private SortedSet<Budget> budgets = new TreeSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "users_authorities", joinColumns = @JoinColumn(name = "user_id"),

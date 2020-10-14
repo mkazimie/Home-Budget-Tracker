@@ -29,90 +29,31 @@
 
             <%@include file="fragment/topbar.jsp" %>
 
+            <!-- Bread Crumbs-->
+            <nav aria-label="breadcrumb bg-info">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item ml-3"><a href="/auth/budgets">
+                        <i class="fas fa-angle-double-left"></i>
+                        Home </a></li>
+                    <li class="breadcrumb-item">
+                        <a href="/auth/budgets/${budget.id}">
+                            <i class="fas fa-angle-double-left"></i>
+                            ${budget.name} Dashboard </a>
+                    </li>
+                </ol>
+            </nav>
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
+
                 <!-- Page Heading -->
-                <div class="d-sm-flex align-items-baseline justify-content-between mb-4">
-                    <a href="/auth/budgets/${budget.id}"
-                       class="btn btn-primary"><i class="fas fa-angle-double-left"></i></a>
-                    <h1 class="col-10 h3 mb-0 text-primary font-weight-bolder">${budget.name} Categories </h1>
+                <div class="d-sm-flex align-items-baseline justify-content-center mb-4">
+                    <h2 class="mb-0 text-center text-primary font-weight-bolder">${budget.name} Categories
+                    </h2>
                 </div>
 
-                <%--                <!-- Content Row -->--%>
-                <%--                <div class="row">--%>
 
-
-                <%--                    <!-- BUDGET -->--%>
-
-                <%--                    <div class="col-xl-3 col-md-6 mb-4 ">--%>
-                <%--                        <div class="card h-100 shadow py-2 bg-gradient-info ">--%>
-                <%--                            <div class="card-body">--%>
-                <%--                                <div class="row no-gutters align-items-center">--%>
-                <%--                                    <div class="col mr-2">--%>
-                <%--                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">--%>
-                <%--                                            Budget--%>
-                <%--                                        </div>--%>
-                <%--                                        <div class="h5 mb-0 font-weight-bold text-white">${budget.budgetMoney} €--%>
-                <%--                                            &lt;%&ndash;                                        <div class="h5 mb-0 font-weight-bold text-white">${allCategoryBudgets} €&ndash;%&gt;--%>
-
-                <%--                                        </div>--%>
-                <%--                                    </div>--%>
-                <%--                                    <div class="col-auto">--%>
-                <%--                                        <i class="fas fa-coins fa-2x text-gray-300"></i>--%>
-                <%--                                    </div>--%>
-                <%--                                </div>--%>
-                <%--                            </div>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
-
-
-                <%--                    <!-- AVAILABLE -->--%>
-                <%--                    <div class="col-xl-3 col-md-6 mb-4 ">--%>
-                <%--                        &lt;%&ndash;                    <div class="card border-left-primary h-100 shadow py-2">&ndash;%&gt;--%>
-                <%--                        <div class="card h-100 shadow py-2 bg-gradient-success ">--%>
-                <%--                            <div class="card-body">--%>
-                <%--                                <div class="row no-gutters align-items-center">--%>
-                <%--                                    <div class="col mr-2">--%>
-                <%--                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">--%>
-                <%--                                            Available--%>
-                <%--                                        </div>--%>
-                <%--                                        <div class="h5 mb-0 font-weight-bold text-white">${budget.moneyLeft} €</div>--%>
-                <%--                                        &lt;%&ndash;                                        <div class="h5 mb-0 font-weight-bold text-white">${allCategoriesBalance} €</div>&ndash;%&gt;--%>
-
-                <%--                                    </div>--%>
-                <%--                                    <div class="col-auto">--%>
-                <%--                                        <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>--%>
-                <%--                                    </div>--%>
-                <%--                                </div>--%>
-                <%--                            </div>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
-
-                <%--                    <!-- SPENDINGS -->--%>
-                <%--                    <div class="col-xl-3 col-md-6 mb-4 ">--%>
-                <%--                        &lt;%&ndash;                    <div class="card border-left-primary h-100 shadow py-2">&ndash;%&gt;--%>
-                <%--                        <div class="card h-100 shadow py-2 bg-gradient-warning ">--%>
-                <%--                            <div class="card-body">--%>
-                <%--                                <div class="row no-gutters align-items-center">--%>
-                <%--                                    <div class="col mr-2">--%>
-                <%--                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">--%>
-                <%--                                            Expenses--%>
-                <%--                                        </div>--%>
-                <%--                                        <div class="h5 mb-0 font-weight-bold--%>
-                <%--                                        text-white"> ${allExpenses} €--%>
-                <%--                                        </div>--%>
-                <%--                                    </div>--%>
-                <%--                                    <div class="col-auto">--%>
-                <%--                                        <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>--%>
-                <%--                                    </div>--%>
-                <%--                                </div>--%>
-                <%--                            </div>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
-
-                <%--                </div>--%>
 
                 <!-- Content Row -->
                 <div class="row">

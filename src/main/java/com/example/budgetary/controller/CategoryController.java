@@ -3,6 +3,7 @@ package com.example.budgetary.controller;
 import com.example.budgetary.entity.Budget;
 import com.example.budgetary.entity.Category;
 import com.example.budgetary.entity.Transaction;
+import com.example.budgetary.entity.User;
 import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.security.CurrentUser;
@@ -171,5 +172,18 @@ public class CategoryController {
         catNames.put("Unexpected", "<i class='fas fa-exclamation-triangle'></i>");
         return catNames;
     }
+
+//    @ModelAttribute("allBudgets")
+//    public Set<Budget> getAllBudgets(@AuthenticationPrincipal CurrentUser currentUser) {
+//        return currentUser.getUser().getBudgets();
+//    }
+
+    @ModelAttribute("currentUser")
+    public User currentUser(@AuthenticationPrincipal CurrentUser currentUser) {
+        return currentUser.getUser();
+    }
+
+
+
 
 }
