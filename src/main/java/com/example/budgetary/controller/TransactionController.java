@@ -1,11 +1,9 @@
 package com.example.budgetary.controller;
 
-import com.example.budgetary.entity.Budget;
 import com.example.budgetary.entity.Category;
 import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.security.CurrentUser;
-import com.example.budgetary.service.BudgetService;
 import com.example.budgetary.service.CategoryService;
 import com.example.budgetary.service.TransactionService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,6 +31,7 @@ public class TransactionController {
         this.categoryService = categoryService;
     }
 
+
     @PostMapping("/categories/{categoryId}/transactions")
     public String addTransaction(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto,
                                  BindingResult bindingResult, @AuthenticationPrincipal CurrentUser currentUser,
@@ -40,7 +39,7 @@ public class TransactionController {
                                  Model model, @PathVariable Long budgetId, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
             Category transactionCategory = categoryService.findCategoryById(categoryId);
-            SortedSet<Transaction> categoryTransactions = transactionService.addTransaction(transactionDto,
+            SortedSet<Transaction> categoryTransactions = transactionService.addTransactionToCategory(transactionDto,
                     transactionCategory, currentUser.getUser());
             model.addAttribute("categoryTransactions", categoryTransactions);
         } else {
@@ -56,6 +55,12 @@ public class TransactionController {
         return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
     }
 
+    @GetMapping("/transactions/{transactionId}")
+    public String deleteTransactionFromBudget(@PathVariable Long transactionId){
+        transactionService.removeTransaction(transactionId);
+        return "redirect:/auth/budgets/{budgetId}";
+    }
+
     @PostMapping("/categories/{categoryId}/transactions/{transactionId}/update")
     public String updateTransaction(@PathVariable Long categoryId, @PathVariable Long transactionId,
                                     Model model, @RequestParam String title, @RequestParam BigDecimal sum,
@@ -64,6 +69,8 @@ public class TransactionController {
 
         return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
     }
+
+
 
 
 }

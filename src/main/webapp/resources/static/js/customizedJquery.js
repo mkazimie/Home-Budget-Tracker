@@ -45,7 +45,7 @@ $('#deleteFromAllModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body strong').text(" " + categoryName);
 })
 
-// Delete from Transactions Modal
+// Delete Transaction from Category Modal
 $('#deleteTransactionModal').on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget) // Button that triggered the modal
     let transactionTitle = button.data('title') // Extract info from data-* attributes
@@ -55,6 +55,17 @@ $('#deleteTransactionModal').on('show.bs.modal', function (event) {
     let modal = $(this)
     modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/categories/" + categoryId +
         "/transactions/" + transactionId);
+    modal.find('.modal-body strong').text(" " + transactionTitle);
+})
+
+// Delete Transaction from Budget Modal
+$('#deleteTransactionFromBudgetModal').on('show.bs.modal', function (event) {
+    let button = $(event.relatedTarget) // Button that triggered the modal
+    let transactionTitle = button.data('title') // Extract info from data-* attributes
+    let transactionId = button.data('id') // Extract info from data-* attributes
+    let budgetId = button.data('budget') // Extract info from data-* attributes
+    let modal = $(this)
+    modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/transactions/" + transactionId);
     modal.find('.modal-body strong').text(" " + transactionTitle);
 })
 

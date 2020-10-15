@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.SortedSet;
 
@@ -45,8 +46,8 @@ public class TransactionService {
     }
 
 
-    public SortedSet<Transaction> addTransaction(TransactionDto transactionDto, Category category,
-                                                 User user) {
+    public SortedSet<Transaction> addTransactionToCategory(TransactionDto transactionDto, Category category,
+                                                           User user) {
         Budget budget = category.getBudget();
 
         Transaction transaction = setNewTransaction(transactionDto, user);
@@ -89,23 +90,25 @@ public class TransactionService {
 
     public void removeTransaction(Long transactionId) {
         Transaction transaction = findTransactionById(transactionId);
-        BigDecimal transactionSum = transaction.getSum();
-        Category transactionCategory = transaction.getCategory();
         Budget budget = transaction.getBudget();
-        BigDecimal moneyLeftInBudget = budget.getMoneyLeft();
-        BigDecimal moneyLeftInCategory = transactionCategory.getMoneyLeft();
-        if (transaction.getType().equals("Withdrawal")) {
-            transactionCategory.setMoneyLeft(moneyLeftInCategory.add(transactionSum));
-            budget.setMoneyLeft(moneyLeftInBudget.add(transactionSum));
-        } else {
-            transactionCategory.setMoneyLeft(moneyLeftInCategory.subtract(transactionSum));
-            budget.setMoneyLeft(moneyLeftInBudget.subtract(transactionSum));
+        if (transaction.getCategory() != null){
+            BigDecimal transactionSum = transaction.getSum();
+            Category transactionCategory = transaction.getCategory();
+            BigDecimal moneyLeftInBudget = budget.getMoneyLeft();
+            BigDecimal moneyLeftInCategory = transactionCategory.getMoneyLeft();
+            if (transaction.getType().equals("Withdrawal")) {
+                transactionCategory.setMoneyLeft(moneyLeftInCategory.add(transactionSum));
+                budget.setMoneyLeft(moneyLeftInBudget.add(transactionSum));
+            } else {
+                transactionCategory.setMoneyLeft(moneyLeftInCategory.subtract(transactionSum));
+                budget.setMoneyLeft(moneyLeftInBudget.subtract(transactionSum));
 //            category.setCategoryBudget(category.getCategoryBudget().add(transactionSum));
+            }
+            transactionCategory.getTransactions().remove(transaction);
         }
-        budget.getTransactions().remove(transaction);
-        transactionCategory.getTransactions().remove(transaction);
         User user = transaction.getUser();
         user.getTransactions().remove(transaction);
+        budget.getTransactions().remove(transaction);
         deleteTransaction(transactionId);
     }
 
@@ -119,7 +122,5 @@ public class TransactionService {
         transaction.setDate(transactionDto.getDate());
         return transaction;
     }
-
-
 
 }

@@ -66,7 +66,7 @@ public class CategoryService {
         budget.setMoneyLeft(moneyLeftInBudget.add(category.getMoneyLeft()));
         Transaction transaction = createTransaction(budget, user);
         transaction.setType("Deposit");
-        transaction.setTitle("Add " + category.getName() + " budget");
+        transaction.setTitle("New Category " + category.getName());
         transaction.setSum(category.getCategoryBudget());
         transactionService.saveTransaction(transaction);
         SortedSet<Category> budgetCategories = budget.getCategories();
@@ -86,7 +86,7 @@ public class CategoryService {
         budget.setMoneyLeft(budget.getMoneyLeft().add(catBudgetDifference));
         budget.setBudgetMoney(budget.getBudgetMoney().add(catBudgetDifference));
         Transaction transaction = createTransaction(budget, user);
-        transaction.setTitle("Modify " + originalCategory.getName() + " budget");
+        transaction.setTitle("Modify Category " + originalCategory.getName() + " budget");
         transaction.setSum(catBudgetDifference);
         if (catBudgetDifference.compareTo(BigDecimal.ZERO) > 0) {
             transaction.setType("Deposit");
@@ -111,7 +111,7 @@ public class CategoryService {
         budget.setBudgetMoney(budget.getBudgetMoney().subtract(categoryById.getCategoryBudget()));
         budget.setMoneyLeft(budget.getMoneyLeft().subtract(categoryMoneyLeft));
         Transaction transaction = createTransaction(budget, user);
-        transaction.setTitle("Remove category " + categoryById.getName());
+        transaction.setTitle("Remove Category " + categoryById.getName());
         transaction.setType("Withdrawal");
         transaction.setSum(categoryMoneyLeft);
         transactionService.saveTransaction(transaction);

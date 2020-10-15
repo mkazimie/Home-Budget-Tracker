@@ -194,94 +194,15 @@
                                                         class="fas fa-circle text-info"></i> Referral</span>
                                             </div>
 
-                                            <%--                                    <c:if test="${budget.categories.size() > 0}">--%>
-                                            <%--                                        <table>--%>
-                                            <%--                                            <thead>--%>
-                                            <%--                                            <tr>--%>
-                                            <%--                                                <th> Name</th>--%>
-                                            <%--                                                <th> Budget</th>--%>
-                                            <%--                                                <th> Available</th>--%>
-                                            <%--                                            </tr>--%>
-                                            <%--                                            </thead>--%>
-                                            <%--                                            <tbody>--%>
-                                            <%--                                            <c:forEach items="${budget.categories}" var="category">--%>
-                                            <%--                                                <tr>--%>
-                                            <%--                                                    <td>${category.name}</td>--%>
-                                            <%--                                                    <td>${category.budget}</td>--%>
-                                            <%--                                                    <td>${category.moneyLeft}</td>--%>
-                                            <%--                                                </tr>--%>
-                                            <%--                                            </c:forEach>--%>
-                                            <%--                                            </tbody>--%>
-                                            <%--                                        </table>--%>
-                                            <%--                                    </c:if>--%>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <%--                    <!-- Form for adding NEW Budget TRANSACTION -->--%>
-                            <%--                    <div class="col-xl-4 col-md-6 mb-4">--%>
-                            <%--                        <div class="card border-left-warning shadow">--%>
-                            <%--                            <div class="card-header bg-warning">--%>
-                            <%--                                <h5 class="card-title text-white font-weight-bold text-center"> Deposit / Withdrawal--%>
-                            <%--                                </h5>--%>
-                            <%--                                <div class="text-center">Directly to / from your budget</div>--%>
-                            <%--                            </div>--%>
-                            <%--                            <div class="card-body">--%>
-                            <%--                                <div class="row no-gutters align-items-center justify-content-center">--%>
-                            <%--                                    <form:form method="post"--%>
-                            <%--                                               action="/auth/budgets/${budget.id}"--%>
-                            <%--                                               modelAttribute="transactionDto">--%>
-                            <%--                                    <div class="form-group">--%>
-                            <%--                                        <form:label path="title" cssClass="text-primary"> Title </form:label>--%>
-                            <%--                                        <form:input path="title" type="text" class="form-control form-control-user"--%>
-                            <%--                                                    placeholder="" required="required"/>--%>
-                            <%--                                        <form:errors path="title" cssClass="errorMessage"/>--%>
-                            <%--                                    </div>--%>
-                            <%--                                    <div class="form-group">--%>
-                            <%--                                        <form:label path="type" cssClass="text-primary"> Type </form:label>--%>
-                            <%--                                        <form:select path="type" class="form-control">--%>
-                            <%--                                            <form:option value=" " label="--Select--" selected="selected"/>--%>
-                            <%--                                            <form:options items="${transactionType}"/>--%>
-                            <%--                                        </form:select>--%>
-                            <%--                                        <form:errors path="type" cssClass="errorMessage"/>--%>
-                            <%--                                    </div>--%>
-
-
-                            <%--                                    <div class="form-group">--%>
-                            <%--                                        <form:label path="sum" cssClass="text-primary"> Sum </form:label>--%>
-                            <%--                                        <div class="input-group">--%>
-                            <%--                                            <form:input path="sum" type="number" min="1" step=".01"--%>
-                            <%--                                                        class="form-control form-control-user"--%>
-                            <%--                                                        placeholder=""/>--%>
-                            <%--                                            <div class="input-group-append">--%>
-                            <%--                                                <span class="input-group-text">€</span>--%>
-                            <%--                                            </div>--%>
-                            <%--                                        </div>--%>
-                            <%--                                        <form:errors path="sum" cssClass="errorMessage"/>--%>
-                            <%--                                    </div>--%>
-                            <%--                                </div>--%>
-                            <%--                            </div>--%>
-                            <%--                            <div class="card-footer">--%>
-                            <%--                                <button class="btn btn-warning font-weight-bolder btn-user btn-block" type="submit">--%>
-                            <%--                                    Save--%>
-                            <%--                                </button>--%>
-                            <%--                                <div class="mt-2 text-center">--%>
-                            <%--                                    <a href="/auth/budgets/${budget.id}/categories"--%>
-                            <%--                                       class="text-primary font-weight-light">--%>
-                            <%--                                        Register a Category Expense--%>
-                            <%--                                    </a>--%>
-                            <%--                                </div>--%>
-
-                            <%--                                </form:form>--%>
-                            <%--                            </div>--%>
-                            <%--                        </div>--%>
-                            <%--                    </div>--%>
-
-
                             <!-- LIST of Latest BUDGET TRANSACTIONS -->
                             <div class="col-xl-8 col-md-6 mb-4 ">
-                                <div class="card border-left-primary shadow h-100">
+                                <div class="card border-left-primary border-bottom-primary shadow h-100">
+
                                     <div class="card-header bg-primary">
                                         <h5 class="font-weight-bold text-white text-center col-12">
                                             Transactions </h5>
@@ -290,6 +211,8 @@
                                             this budget
                                         </div>
                                     </div>
+
+
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="dataTable" width="100%"
@@ -303,6 +226,7 @@
                                                     <th> Category</th>
                                                     <th> Payee</th>
                                                     <th> Balance</th>
+                                                    <th> Actions</th>
 
                                                 </tr>
                                                 </thead>
@@ -325,10 +249,8 @@
                                                         <c:choose>
                                                             <c:when test="${transaction.type.equals('Withdrawal')}">
                                                                 <td class="align-middle text-danger">
-                                                                    <c:if test="${transaction.sum > 0}">
-                                                                        -
-                                                                    </c:if>
-                                                                        ${transaction.sum}€
+                                                                    <c:if test="${transaction.sum > 0}">-</c:if>${transaction.sum}
+                                                                    €
                                                                 </td>
                                                             </c:when>
                                                             <c:otherwise>
@@ -338,7 +260,7 @@
                                                             </c:otherwise>
                                                         </c:choose>
 
-                                                        <fmt:parseDate value="${ transaction.date }"
+                                                        <fmt:parseDate value="${transaction.date }"
                                                                        pattern="yyyy-MM-dd"
                                                                        var="parsedDate" type="both"/>
                                                         <td class="align-middle">
@@ -376,6 +298,25 @@
                                                                 class="align-middle
                                                         text-secondary">${transaction.currentBalance}€
                                                         </td>
+                                                        <td class="align-middle">
+                                                            <button id="deleteTransactionBtn"
+                                                                    data-toggle="modal"
+                                                                    data-target="#deleteTransactionFromBudgetModal"
+                                                                    data-title="${transaction.title}"
+                                                                    data-id="${transaction.id}"
+                                                                    data-budget="${budget.id}"
+                                                                    <c:choose>
+                                                                        <c:when test="${not empty transaction.category}">
+                                                                            class="btn-circle btn-danger btn-sm">
+                                                                            <i class="far fa-trash-alt"></i>
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            class="btn-circle btn-secondary btn-sm">
+                                                                            <i class="fas fa-eraser"></i>
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                            </button>
+                                                        </td>
                                                     </tr>
                                                 </c:forEach>
                                                 </tbody>
@@ -388,6 +329,42 @@
                         </div>
 
                         <div class="row">
+
+
+                            <!--MODAL to CONFIRM and EXECUTE DELETE TRANSACTION -->
+                            <div id="deleteTransactionFromBudgetModal" class="modal" tabindex="-1" role="dialog">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-warning d-table justify-content-between">
+                                            <div class="d-table-cell align-middle">
+                                                <h5 class="modal-title text-white font-weight-bolder text-center">
+                                                    Delete Transaction</h5>
+                                            </div>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="addAlert"></div>
+                                            <p class="text-center text-primary">Are you sure you want to delete
+                                                <strong></strong> record?</p>
+                                            <p class="additional-warning text-center text-secondary font-weight-bolder">
+                                                Transactions
+                                                belonging to a specific category will be removed permanently. This
+                                                will affect your current balance.
+                                            </p>
+                                            <div class="btn-wrapper text-center">
+                                                <a href=""
+                                                   class="btn btn-primary">Yes</a>
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal"> No
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <!-- Area Chart -->
                             <div class="col-xl-8 col-lg-7">

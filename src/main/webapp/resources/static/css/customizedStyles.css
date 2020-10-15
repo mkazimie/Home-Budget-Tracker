@@ -25,7 +25,10 @@ a.btn-circle:hover {
     text-decoration: none;
 }
 
+.deleteAllIcon:hover {
+    cursor: pointer;
 
+}
 /*.css-serial {*/
 /*    counter-reset: serial-number;  !* Set the serial number counter to 0 *!*/
 /*}*/
