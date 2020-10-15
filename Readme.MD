@@ -3,7 +3,7 @@
 
 This app helps you keep track of your home expenses.
 
-####How does it work?
+#### How does it work?
 Create new budgets (weekly, monthly, or however you wish) and fill them with categories.
 Register your expenses for each category and get an overview of where your money is going.
 
@@ -39,5 +39,6 @@ Register your expenses for each category and get an overview of where your money
 
 #### Run:
 
-* Execute the `$ mvn spring-boot:run` command in our project root folder. The app will start running at http
-://localhost:8080.
+* Execute the `$ mvn spring-boot:run` command in our project root folder. 
+
+* The app will start running at http://localhost:8080.
