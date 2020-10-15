@@ -6,10 +6,13 @@ import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.User;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.exception.NoRecordFoundException;
+import com.example.budgetary.repository.BudgetRepository;
+import com.example.budgetary.repository.CategoryRepository;
 import com.example.budgetary.repository.TransactionRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.SortedSet;
 
@@ -18,10 +21,14 @@ import java.util.SortedSet;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
+    private final CategoryRepository categoryRepository;
+    private final BudgetRepository budgetRepository;
 
 
-    public TransactionService(TransactionRepository transactionRepository) {
+    public TransactionService(TransactionRepository transactionRepository, CategoryRepository categoryRepository, BudgetRepository budgetRepository) {
         this.transactionRepository = transactionRepository;
+        this.categoryRepository = categoryRepository;
+        this.budgetRepository = budgetRepository;
     }
 
     public Transaction findTransactionById(Long id) {
@@ -39,7 +46,7 @@ public class TransactionService {
 
 
     public SortedSet<Transaction> addTransaction(TransactionDto transactionDto, Category category,
-                                                            User user) {
+                                                 User user) {
         Budget budget = category.getBudget();
 
         Transaction transaction = setNewTransaction(transactionDto, user);
@@ -62,7 +69,25 @@ public class TransactionService {
         return category.getTransactions();
     }
 
-    public void removeTransaction(Long transactionId){
+    public void updateTransaction(Long transactionId, String title, BigDecimal sum,
+                                         LocalDate date) {
+        Transaction transaction = findTransactionById(transactionId);
+        Budget budget = transaction.getBudget();
+        Category category = transaction.getCategory();
+
+        BigDecimal originalSum = transaction.getSum();
+        BigDecimal transactionDifference = originalSum.subtract(sum);
+        budget.setMoneyLeft(budget.getMoneyLeft().add(transactionDifference));
+        budgetRepository.save(budget);
+        category.setMoneyLeft(category.getMoneyLeft().add(transactionDifference));
+        categoryRepository.save(category);
+        transaction.setTitle(title);
+        transaction.setSum(sum);
+        transaction.setDate(date);
+        saveTransaction(transaction);
+    }
+
+    public void removeTransaction(Long transactionId) {
         Transaction transaction = findTransactionById(transactionId);
         BigDecimal transactionSum = transaction.getSum();
         Category transactionCategory = transaction.getCategory();

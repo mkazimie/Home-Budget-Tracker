@@ -8,6 +8,7 @@ import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
 import com.example.budgetary.service.CategoryService;
 import com.example.budgetary.service.TransactionService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.SortedSet;
 
 @Controller
@@ -50,6 +53,15 @@ public class TransactionController {
     @GetMapping("/categories/{categoryId}/transactions/{transactionId}")
     public String deleteTransaction(@PathVariable Long categoryId, @PathVariable Long transactionId){
         transactionService.removeTransaction(transactionId);
+        return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
+    }
+
+    @PostMapping("/categories/{categoryId}/transactions/{transactionId}/update")
+    public String updateTransaction(@PathVariable Long categoryId, @PathVariable Long transactionId,
+                                    Model model, @RequestParam String title, @RequestParam BigDecimal sum,
+                                    @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date){
+        transactionService.updateTransaction(transactionId, title, sum, date);
+
         return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
     }
 

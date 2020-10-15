@@ -19,7 +19,8 @@ import java.util.List;
 public class TransactionDto {
 
 
-    @Pattern(regexp = "[A-Za-z0-9-_/ .]{1,20}", message = "* Please name your transaction (1-20 characters)")
+    @Pattern(regexp = "[A-Za-z0-9-_/ .]{1,30}", message = "* Please name your transaction (1-30 alphanumeric " +
+            "characters)")
     @NotBlank
     private String title;
 

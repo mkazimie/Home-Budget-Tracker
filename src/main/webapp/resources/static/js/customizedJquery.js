@@ -6,7 +6,7 @@ $(document).ready(function () {
 });
 
 
-// Edit modal
+// Edit modal for Categories
 $('#editModal').on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget)
     let categoryName = button.data('name');
@@ -14,6 +14,24 @@ $('#editModal').on('show.bs.modal', function (event) {
     let modal = $(this)
     modal.find('#nameInput').val(categoryName);
     modal.find('#budgetInput').val(categoryBudget);
+})
+
+// // Edit modal for Transactions
+$('#editTransactionModal').on('show.bs.modal', function (event) {
+    let button = $(event.relatedTarget)
+    let budgetId = button.data('budget');
+    let categoryId = button.data('category');
+    let transactionTitle = button.data('title');
+    let transactionId = button.data('id');
+    let transactionSum = button.data('sum');
+    let transactionDate = button.data('date');
+    let modal = $(this)
+    modal.find('form').attr("action", "/auth/budgets/" + budgetId + "/categories/" + categoryId + "/transactions/" +
+    transactionId + "/update");
+    modal.find('#transactionTitle').val(transactionTitle);
+    modal.find('#transactionSum').val(transactionSum);
+    modal.find('#transactionDate').val(transactionDate);
+    modal.find('#transactionId').val(transactionId);
 })
 
 //Delete From Categories Modal
