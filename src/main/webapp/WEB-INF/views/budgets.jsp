@@ -95,24 +95,22 @@
                                         </td>
                                         <td>
                                             <button
-                                                    id="editTransactionBtn"
+                                                    id="editBudgetBtn"
                                                     data-toggle="modal"
-                                                    data-target="#editTransactionModal"
-                                                    data-title="${transaction.title}"
-                                                    data-id="${transaction.id}"
-                                                    data-sum="${transaction.sum}"
-                                                    data-date="${transaction.date}"
-                                                    data-category="${category.id}"
-                                                    data-budget="${budget.id}"
+                                                    data-target="#editBudgetBtn"
+                                                    data-name="${budget.name}"
+                                                    data-id="${budget.id}"
+                                                    data-start="${budget.startDate}"
+                                                    data-end="${budget.endDate}"
                                                     class="btn-circle btn-primary btn-sm"><i
                                                     class="far fa-edit"></i></button>
 
-                                            <button id="deleteTransactionBtn" data-toggle="modal"
-                                                    data-target="#deleteTransactionModal"
-                                                    data-title="${transaction.title}"
-                                                    data-id="${transaction.id}"
-                                                    data-category="${category.id}"
-                                                    data-budget="${budget.id}"
+                                            <button id="deleteBudgetBtn" data-toggle="modal"
+                                                    data-target="#deleteBudgetModal"
+                                                    data-name="${budget.name}"
+                                                    data-id="${budget.id}"
+                                                    data-categories="${budget.categories.size()}"
+                                                    data-transactions="${budget.transactions.size()}"
                                                     class="btn-circle btn-secondary btn-sm"><i
                                                     class="far fa-trash-alt"></i></button>
                                         </td>
@@ -122,7 +120,41 @@
                             </table>
                         </div>
                     </div>
+
+
                 </div>
+
+                <!--MODAL to CONFIRM and EXECUTE DELETE TRANSACTION -->
+                <div id="deleteBudgetModal" class="modal" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-warning d-table justify-content-between">
+                                <div class="d-table-cell align-middle">
+                                    <h5 class="modal-title text-white font-weight-bolder text-center">
+                                        Delete Budget</h5>
+                                </div>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="addAlert"></div>
+                                <p class="text-center text-primary">Are you sure you want to delete
+                                    budget <strong></strong> with its <span id="catCount"></span> categories and
+                                    <span id="transCount"></span> transactions?</p>
+                                <p class="text-center font-weight-bolder text-warning">All records will be removed permanently.</p>
+                                <div class="btn-wrapper text-center">
+                                    <a href="" class="btn btn-primary">Yes</a>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal"> No
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
             </div>
             <!-- /.container-fluid -->
@@ -152,6 +184,7 @@
 <!-- Page level plugins -->
 <script src="/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="/resources/static/js/customizedJquery.js"></script>
 
 <!-- Page level custom scripts -->
 <script src="/resources/static/js/demo/datatables-demo.js"></script>

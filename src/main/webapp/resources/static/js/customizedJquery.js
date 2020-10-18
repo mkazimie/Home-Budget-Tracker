@@ -69,6 +69,23 @@ $('#deleteTransactionFromBudgetModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body strong').text(" " + transactionTitle);
 })
 
+
+// Delete Budget
+$('#deleteBudgetModal').on('show.bs.modal', function (event) {
+    let button = $(event.relatedTarget) // Button that triggered the modal
+    let budgetName = button.data('name') // Extract info from data-* attributes
+    let budgetId = button.data('id') // Extract info from data-* attributes
+    let categoriesCount = button.data('categories') // Extract info from data-* attributes
+    let transactionsCount = button.data('transactions') // Extract info from data-* attributes
+    let modal = $(this)
+    modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/delete");
+    modal.find('.modal-body strong').text(" " + budgetName);
+    modal.find('#catCount').text(" " + categoriesCount + " ")
+    modal.find('#transCount').text(" " + transactionsCount + " ")
+
+})
+
+
 // Add Own Input or Select From List while adding new category
 $("#selectCat").change(function () {
     if ($(this).val() === "customized") {
