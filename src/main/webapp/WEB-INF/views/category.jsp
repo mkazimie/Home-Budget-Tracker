@@ -59,10 +59,10 @@
                         <h2 class="d-inline text-primary font-weight-bolder">
                             ${category.name}
                             <c:choose>
-                                <c:when test="${empty catName.get(category.name)}">
+                                <c:when test="${empty categoriesIcons.get(category.name)}">
                                     <i class="fas fa-ellipsis-h"></i></c:when>
                                 <c:otherwise>
-                                    ${catName.get(category.name)}
+                                    ${categoriesIcons.get(category.name)}
                                 </c:otherwise>
                             </c:choose>
                         </h2>

@@ -66,14 +66,19 @@
                                     <th>End Date</th>
                                     <th><strong>Total Budget</strong></th>
                                     <th><strong>Available</strong></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <c:forEach items="${budgets}" var="budget">
                                     <tr class="text-center">
-                                        <td class="align-middle"><a href="/auth/budgets/${budget.id}"
-                                                                    class="btn btn-primary"><i
-                                                class="fas fa-angle-double-right"></i></a></td>
+                                        <td class="align-middle">
+
+                                            <a href="/auth/budgets/${budget.id}"
+                                                                    class="btn btn-success"><i
+                                                class="fas fa-angle-double-right"></i></a>
+
+                                        </td>
                                         <td class="align-middle">${budget.name}</td>
                                         <td class="align-middle">
                                             <c:forEach items="${budget.users}" var="user">
@@ -87,6 +92,29 @@
                                         <td class="align-middle">${budget.budgetMoney} € </td>
                                         <td class="align-middle text-success font-weight-bolder">${budget.moneyLeft}
                                             €
+                                        </td>
+                                        <td>
+                                            <button
+                                                    id="editTransactionBtn"
+                                                    data-toggle="modal"
+                                                    data-target="#editTransactionModal"
+                                                    data-title="${transaction.title}"
+                                                    data-id="${transaction.id}"
+                                                    data-sum="${transaction.sum}"
+                                                    data-date="${transaction.date}"
+                                                    data-category="${category.id}"
+                                                    data-budget="${budget.id}"
+                                                    class="btn-circle btn-primary btn-sm"><i
+                                                    class="far fa-edit"></i></button>
+
+                                            <button id="deleteTransactionBtn" data-toggle="modal"
+                                                    data-target="#deleteTransactionModal"
+                                                    data-title="${transaction.title}"
+                                                    data-id="${transaction.id}"
+                                                    data-category="${category.id}"
+                                                    data-budget="${budget.id}"
+                                                    class="btn-circle btn-secondary btn-sm"><i
+                                                    class="far fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
                                 </c:forEach>

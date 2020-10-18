@@ -80,7 +80,7 @@
                                         <form:select path="selectedName" class="form-control" id="selectCat">
                                             <form:option label="--Select--"
                                                          selected="selected" value=" "/>
-                                            <form:options items="${catName.keySet()}"/>
+                                            <form:options items="${categoriesIcons.keySet()}"/>
                                             <form:option value="customized"
                                                          label="Add your own"/>
                                         </form:select>
@@ -164,10 +164,10 @@
                                                 <td
                                                         class="align-middle">
                                                     <c:choose>
-                                                        <c:when test="${empty catName.get(category.name)}">
+                                                        <c:when test="${empty categoriesIcons.get(category.name)}">
                                                             <i class="fas fa-ellipsis-h"></i> </c:when>
                                                         <c:otherwise>
-                                                            ${catName.get(category.name)}
+                                                            ${categoriesIcons.get(category.name)}
                                                         </c:otherwise>
                                                     </c:choose>
                                                     &nbsp;&nbsp; ${category.name}

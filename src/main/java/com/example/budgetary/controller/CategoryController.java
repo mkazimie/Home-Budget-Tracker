@@ -154,23 +154,23 @@ public class CategoryController {
         return Arrays.asList("Deposit", "Withdrawal");
     }
 
-    @ModelAttribute("catName")
+    @ModelAttribute("categoriesIcons")
     public Map<String, String> categories() {
-        Map<String, String> catNames = new LinkedHashMap<>();
-        catNames.put("Home", "<i class='fas fa-file-invoice'></i>");
-        catNames.put("Supermarket", "<i class='fas fa-shopping-cart'></i>");
-        catNames.put("Public Transport", "<i class='fas fa-bus-alt'></i>");
-        catNames.put("Vehicle", "<i class='fas fa-car'></i>");
-        catNames.put("Health", "<i class='fas fa-tablets'></i>");
-        catNames.put("Gym", "<i class='fas fa-dumbbell'></i>");
-        catNames.put("Going Out", "<i class='fas fa-glass-cheers'></i>");
-        catNames.put("Shopping", "<i class='fas fa-shopping-bag'></i>");
-        catNames.put("Personal Care", "<i class='fas fa-magic'></i>");
-        catNames.put("Travel", "<i class='fas fa-plane'></i>");
-        catNames.put("Other", "<i class='fas fa-atom'></i>");
-        catNames.put("Savings", "<i class='fas fa-piggy-bank'></i>");
-        catNames.put("Unexpected", "<i class='fas fa-exclamation-triangle'></i>");
-        return catNames;
+        Map<String, String> catIcons = new LinkedHashMap<>();
+        catIcons.put("Home", "<i class='fas fa-file-invoice'></i>");
+        catIcons.put("Supermarket", "<i class='fas fa-shopping-cart'></i>");
+        catIcons.put("Public Transport", "<i class='fas fa-bus-alt'></i>");
+        catIcons.put("Vehicle", "<i class='fas fa-car'></i>");
+        catIcons.put("Health", "<i class='fas fa-tablets'></i>");
+        catIcons.put("Gym", "<i class='fas fa-dumbbell'></i>");
+        catIcons.put("Going Out", "<i class='fas fa-glass-cheers'></i>");
+        catIcons.put("Shopping", "<i class='fas fa-shopping-bag'></i>");
+        catIcons.put("Personal Care", "<i class='fas fa-magic'></i>");
+        catIcons.put("Travel", "<i class='fas fa-plane'></i>");
+        catIcons.put("Other", "<i class='fas fa-atom'></i>");
+        catIcons.put("Savings", "<i class='fas fa-piggy-bank'></i>");
+        catIcons.put("Unexpected", "<i class='fas fa-exclamation-triangle'></i>");
+        return catIcons;
     }
 
 

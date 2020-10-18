@@ -31,7 +31,7 @@ public class BudgetController {
 
     @GetMapping("")
     public String displayBudgets(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
-        getBudgets(currentUser.getUser(), model);
+        getAllUserBudgets(currentUser.getUser(), model);
         return "budgets";
     }
 
@@ -46,7 +46,7 @@ public class BudgetController {
                 return "budget-form";
             }
             budgetService.createBudget(currentUser.getUser(), budget);
-            getBudgets(currentUser.getUser(), model);
+            getAllUserBudgets(currentUser.getUser(), model);
             return "redirect:/auth/budgets";
         }
         model.addAttribute("error", "Please try again");
@@ -76,7 +76,7 @@ public class BudgetController {
     }
 
 
-    private void getBudgets(User user, Model model) {
+    private void getAllUserBudgets(User user, Model model) {
         Set<Budget> budgets = budgetService.getBudgets(user);
         int noOfBudgets = budgetService.countBudgetsByUser(user);
         model.addAttribute("budgets", budgets);
