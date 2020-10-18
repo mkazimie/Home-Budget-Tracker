@@ -1,7 +1,7 @@
 package com.example.budgetary.service;
 
 import com.example.budgetary.entity.Budget;
-import com.example.budgetary.entity.Category;
+
 import com.example.budgetary.entity.User;
 import com.example.budgetary.exception.NoRecordFoundException;
 import com.example.budgetary.repository.BudgetRepository;
@@ -10,14 +10,17 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BudgetService {
 
     private final BudgetRepository budgetRepository;
+    private final UserService userService;
 
-    public BudgetService(BudgetRepository budgetRepository) {
+    public BudgetService(BudgetRepository budgetRepository, UserService userService) {
         this.budgetRepository = budgetRepository;
+        this.userService = userService;
     }
 
     public Set<Budget> getBudgets(User user) {
@@ -48,7 +51,25 @@ public class BudgetService {
     }
 
 
-    public void deleteBudget(Long id){
+    public void removeBudget(Long id, User user) {
+        Budget budget = findById(id);
+        Set<User> budgetUsers = budget.getUsers();
+        if (budgetUsers.size() > 1) {
+            budgetUsers.remove(user);
+            budget.setUsers(budgetUsers);
+            saveBudget(budget);
+        } else {
+            budget.getUsers().forEach(user1 -> user1.getBudgets().remove(budget));
+            budget.setUsers(null);
+            budget.getTransactions().forEach(transaction -> transaction.setBudget(null));
+            budget.getCategories().forEach(category -> category.setBudget(null));
+            budget.setTransactions(null);
+            budget.setCategories(null);
+            deleteBudget(id);
+        }
+    }
+
+    public void deleteBudget(Long id) {
         budgetRepository.delete(findById(id));
     }
 }

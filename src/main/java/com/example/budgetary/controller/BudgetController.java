@@ -75,6 +75,12 @@ public class BudgetController {
         return "budget";
     }
 
+    @GetMapping("/{id}/delete")
+    public String deleteBudget(@PathVariable Long id, @AuthenticationPrincipal CurrentUser currentUser){
+        budgetService.removeBudget(id, currentUser.getUser());
+        return "redirect:/auth/budgets";
+    }
+
 
     private void getAllUserBudgets(User user, Model model) {
         Set<Budget> budgets = budgetService.getBudgets(user);
