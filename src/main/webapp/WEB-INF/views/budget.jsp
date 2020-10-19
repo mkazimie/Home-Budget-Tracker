@@ -45,36 +45,38 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <div class="d-sm-flex align-items-baseline justify-content-center mb-4">
-                    <h2 class="mb-0 text-center text-primary font-weight-bolder">${budget.name} Budget Dashboard
-                    </h2>
-                </div>
-
-                <%--                //<div class="d-sm-flex align-items-baseline justify-content-between mb-4">--%>
-                <%--                <a href="/auth/budgets/${budget.id}/categories"--%>
-                <%--                   class="btn btn-primary"><i class="fas fa-angle-double-left"></i></a>--%>
-                <%--                <h2 class="mb-0 text-primary font-weight-bolder">--%>
-                <%--                    ${category.name}--%>
-                <%--                    <c:choose>--%>
-                <%--                        <c:when test="${empty catName.get(category.name)}">--%>
-                <%--                            <i class="fas fa-ellipsis-h"></i></c:when>--%>
-                <%--                        <c:otherwise>--%>
-                <%--                            ${catName.get(category.name)}--%>
-                <%--                        </c:otherwise>--%>
-                <%--                    </c:choose>--%>
-                <%--                </h2>--%>
-                <%--                <div class="btn-wrapper">--%>
-                <%--                    <button id="editBtn" data-toggle="modal" data-target="#editModal"--%>
-                <%--                            data-name="${category.name}"--%>
-                <%--                            data-budget="${category.categoryBudget}"--%>
-                <%--                            class="btn-circle btn-warning"><i--%>
-                <%--                            class="far fa-edit"></i></button>--%>
-                <%--                    <button id="deleteCategoryBtn" data-toggle="modal" data-target="#deleteCategoryModal"--%>
-                <%--                            class="btn-circle btn-danger"><i--%>
-                <%--                            class="far fa-trash-alt"></i></button>--%>
+                <%--                <div class="d-sm-flex align-items-baseline justify-content-center mb-4">--%>
+                <%--                    <h2 class="mb-0 text-center text-primary font-weight-bolder">${budget.name} Budget Dashboard--%>
+                <%--                    </h2>--%>
                 <%--                </div>--%>
 
-                <%--            </div>--%>
+
+                <div class="container-fluid p-0 mb-4">
+                    <div class="text-center">
+                        <h2 class="d-inline text-primary font-weight-bolder">
+                            ${budget.name} Budget Dashboard
+                        </h2>
+                        <div class="btn-wrapper d-inline float-right">
+                            <button id="editBudgetBtn" data-toggle="modal" data-target="#editBudgetModal"
+                                    data-name="${budget.name}"
+                                    data-start="${budget.startDate}"
+                                    data-end="${budget.endDate}"
+                                    class="btn-circle btn-warning"><i
+                                    class="far fa-edit"></i></button>
+                            <button id="deleteBudgetBtn" data-toggle="modal"
+                                    data-target="#deleteBudgetModal"
+                                    data-name="${budget.name}"
+                                    data-id="${budget.id}"
+                                    data-categories="${budget.categories.size()}"
+                                    data-transactions="${budget.transactions.size()}"
+                                    class="btn-circle btn-danger"><i
+                                    class="far fa-trash-alt"></i></button>
+                            <%--                            <button id="deleteBudgetBtn" data-toggle="modal" data-target="#deleteThisBudgetModal"--%>
+                            <%--                                    class="btn-circle btn-danger"><i--%>
+                            <%--                                    class="far fa-trash-alt"></i></button>--%>
+                        </div>
+                    </div>
+                </div>
 
 
                 <!-- Content Row -->
@@ -301,7 +303,7 @@
                                                         <td class="align-middle">
                                                             <button id="deleteTransactionBtn"
                                                                     data-toggle="modal"
-                                                                    data-target="#deleteTransactionFromBudgetModal"
+                                                                    data-target="#deleteTransactionModal"
                                                                     data-title="${transaction.title}"
                                                                     data-id="${transaction.id}"
                                                                     data-budget="${budget.id}"
@@ -330,41 +332,6 @@
 
                         <div class="row">
 
-
-                            <!--MODAL to CONFIRM and EXECUTE DELETE TRANSACTION -->
-                            <div id="deleteTransactionFromBudgetModal" class="modal" tabindex="-1" role="dialog">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-warning d-table justify-content-between">
-                                            <div class="d-table-cell align-middle">
-                                                <h5 class="modal-title text-white font-weight-bolder text-center">
-                                                    Delete Transaction</h5>
-                                            </div>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="addAlert"></div>
-                                            <p class="text-center text-primary">Are you sure you want to delete
-                                                <strong></strong> record?</p>
-                                            <p class="additional-warning text-center text-secondary font-weight-bolder">
-                                                Transactions
-                                                belonging to a specific category will be removed permanently. This
-                                                will affect your current balance.
-                                            </p>
-                                            <div class="btn-wrapper text-center">
-                                                <a href=""
-                                                   class="btn btn-primary">Yes</a>
-                                                <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal"> No
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <!-- Area Chart -->
                             <div class="col-xl-8 col-lg-7">
@@ -611,6 +578,13 @@
                             </div>
                         </div>
 
+                        <!--Insert Modals -->
+                        <div>
+                            <jsp:include page="fragment/modals/editBudget.jsp"/>
+                            <jsp:include page="fragment/modals/deleteBudget.jsp"/>
+                            <jsp:include page="fragment/modals/deleteTransaction.jsp"/>
+                        </div>
+
                     </div>
                     <!-- /.container-fluid -->
 
@@ -618,7 +592,6 @@
                 <!-- End of Main Content -->
             </div>
         </div>
-
 
         <%@include file="fragment/footer.jsp" %>
 

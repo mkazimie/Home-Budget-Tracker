@@ -188,7 +188,7 @@
                                                 </c:choose>
                                                 <td>
                                                     <button id="deleteBtn" data-toggle="modal"
-                                                            data-target="#deleteFromAllModal"
+                                                            data-target="#deleteCategoryModal"
                                                             data-name="${category.name}"
                                                             data-id="${category.id}"
                                                             data-budget="${budget.id}"
@@ -205,36 +205,6 @@
                             </div>
 
 
-                            <!--MODAL to CONFIRM and EXECUTE DELETE operation -->
-                            <div id="deleteFromAllModal" class="modal" tabindex="-1" role="dialog">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-primary d-table justify-content-between">
-                                            <div class="d-table-cell align-middle">
-                                                <h5 class="modal-title text-white font-weight-bolder text-center">
-                                                    Delete category</h5>
-                                            </div>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="addAlert"></div>
-                                            <p class="text-center text-primary">Are you sure you want to delete
-                                                category<strong></strong>?</p>
-                                            <div class="btn-wrapper text-center">
-                                                <a href="" class="btn btn-primary"> Yes
-                                                </a>
-                                                <button type="button" class="btn btn-secondary"
-                                                        data-dismiss="modal"> No
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
 
                         </div>
                     </div>
@@ -246,7 +216,12 @@
 
                 <div class="row">
 
+                    <!--Insert Modals -->
+                    <div>
+                        <jsp:include page="fragment/modals/deleteCategory.jsp"/>
+                    </div>
                 </div>
+
                 <!-- /.container-fluid -->
 
             </div>

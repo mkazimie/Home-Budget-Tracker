@@ -81,10 +81,40 @@ public class BudgetController {
         return "redirect:/auth/budgets";
     }
 
+    @PostMapping("/{id}")
+    public String updateBudget(){
+        return "";
+    }
+
+
+    //    @PostMapping("/{categoryId}")
+    //    public String updateCategory(@AuthenticationPrincipal CurrentUser currentUser,
+    //                                 @ModelAttribute @Valid Category category,
+    //                                 BindingResult bindingResult, @PathVariable Long categoryId,
+    //                                 @PathVariable Long budgetId,
+    //                                 Model model, RedirectAttributes attr) {
+    //        if (!bindingResult.hasErrors()) {
+    //            Budget budget = budgetService.findById(budgetId);
+    //            Category categoryById = categoryService.findCategoryById(categoryId);
+    //            categoryService.updateCategory(category, categoryById, budget, currentUser.getUser());
+    //        } else {
+    //            attr.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
+    //            attr.addFlashAttribute("category", category);
+    //        }
+    //        return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
+    //    }
+    //
+    //    @GetMapping("/{categoryId}/delete")
+    //    public String deleteCategory(@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long categoryId){
+    //        categoryService.removeCategory(categoryId, currentUser.getUser());
+    //        return "redirect:/auth/budgets/{budgetId}/categories/";
+    //    }
+
 
     private void getAllUserBudgets(User user, Model model) {
         Set<Budget> budgets = budgetService.getBudgets(user);
         int noOfBudgets = budgetService.countBudgetsByUser(user);
+        model.addAttribute("now", LocalDate.now());
         model.addAttribute("budgets", budgets);
         model.addAttribute("noOfBudgets", noOfBudgets);
     }

@@ -72,48 +72,54 @@
                                 <tbody>
                                 <c:forEach items="${budgets}" var="budget">
                                     <tr class="text-center">
-                                        <td class="align-middle">
-
-                                            <a href="/auth/budgets/${budget.id}"
-                                                                    class="btn btn-success"><i
+                                    <c:choose>
+                                        <c:when test="${now >= budget.startDate && now <= budget.endDate}">
+                                        <td class="align-middle bg-success">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td class="align-middle">
+                                        </c:otherwise>
+                                    </c:choose>
+                                        <a href="/auth/budgets/${budget.id}"
+                                           class="btn btn-primary"><i
                                                 class="fas fa-angle-double-right"></i></a>
 
-                                        </td>
-                                        <td class="align-middle">${budget.name}</td>
-                                        <td class="align-middle">
-                                            <c:forEach items="${budget.users}" var="user">
-                                                * ${user.username}
-                                            </c:forEach>
-                                        </td>
-                                        <td class="align-middle">${budget.startDate}</td>
-                                        <td class="align-middle">${budget.endDate}</td>
-<%--                                        <td class="align-middle">${allCategoryBudgets} € </td>--%>
-<%--                                        <td class="align-middle text-success font-weight-bolder">${allCategoriesBalance}--%>
-                                        <td class="align-middle">${budget.budgetMoney} € </td>
-                                        <td class="align-middle text-success font-weight-bolder">${budget.moneyLeft}
-                                            €
-                                        </td>
-                                        <td>
-                                            <button
-                                                    id="editBudgetBtn"
-                                                    data-toggle="modal"
-                                                    data-target="#editBudgetBtn"
-                                                    data-name="${budget.name}"
-                                                    data-id="${budget.id}"
-                                                    data-start="${budget.startDate}"
-                                                    data-end="${budget.endDate}"
-                                                    class="btn-circle btn-primary btn-sm"><i
-                                                    class="far fa-edit"></i></button>
+                                    </td>
+                                    <td class="align-middle">${budget.name}</td>
+                                    <td class="align-middle">
+                                        <c:forEach items="${budget.users}" var="user">
+                                            * ${user.username}
+                                        </c:forEach>
+                                    </td>
+                                    <td class="align-middle">${budget.startDate}</td>
+                                    <td class="align-middle">${budget.endDate}</td>
+                                    <%--                                        <td class="align-middle">${allCategoryBudgets} € </td>--%>
+                                    <%--                                        <td class="align-middle text-success font-weight-bolder">${allCategoriesBalance}--%>
+                                    <td class="align-middle">${budget.budgetMoney} €</td>
+                                    <td class="align-middle text-success font-weight-bolder">${budget.moneyLeft}
+                                        €
+                                    </td>
+                                    <td>
+                                        <button
+                                                id="editBudgetBtn"
+                                                data-toggle="modal"
+                                                data-target="#editBudgetBtn"
+                                                data-name="${budget.name}"
+                                                data-id="${budget.id}"
+                                                data-start="${budget.startDate}"
+                                                data-end="${budget.endDate}"
+                                                class="btn-circle btn-primary btn-sm"><i
+                                                class="far fa-edit"></i></button>
 
-                                            <button id="deleteBudgetBtn" data-toggle="modal"
-                                                    data-target="#deleteBudgetModal"
-                                                    data-name="${budget.name}"
-                                                    data-id="${budget.id}"
-                                                    data-categories="${budget.categories.size()}"
-                                                    data-transactions="${budget.transactions.size()}"
-                                                    class="btn-circle btn-secondary btn-sm"><i
-                                                    class="far fa-trash-alt"></i></button>
-                                        </td>
+                                        <button id="deleteBudgetBtn" data-toggle="modal"
+                                                data-target="#deleteBudgetModal"
+                                                data-name="${budget.name}"
+                                                data-id="${budget.id}"
+                                                data-categories="${budget.categories.size()}"
+                                                data-transactions="${budget.transactions.size()}"
+                                                class="btn-circle btn-secondary btn-sm"><i
+                                                class="far fa-trash-alt"></i></button>
+                                    </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -124,36 +130,11 @@
 
                 </div>
 
-                <!--MODAL to CONFIRM and EXECUTE DELETE TRANSACTION -->
-                <div id="deleteBudgetModal" class="modal" tabindex="-1" role="dialog">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header bg-warning d-table justify-content-between">
-                                <div class="d-table-cell align-middle">
-                                    <h5 class="modal-title text-white font-weight-bolder text-center">
-                                        Delete Budget</h5>
-                                </div>
-                                <button type="button" class="close" data-dismiss="modal"
-                                        aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="addAlert"></div>
-                                <p class="text-center text-primary">Are you sure you want to delete
-                                    budget <strong></strong> with its <span id="catCount"></span> categories and
-                                    <span id="transCount"></span> transactions?</p>
-                                <p class="text-center font-weight-bolder text-warning">All records will be removed permanently.</p>
-                                <div class="btn-wrapper text-center">
-                                    <a href="" class="btn btn-primary">Yes</a>
-                                    <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal"> No
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                <div>
+                    <jsp:include page="fragment/modals/deleteBudget.jsp"/>
                 </div>
+
 
 
             </div>

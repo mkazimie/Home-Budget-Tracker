@@ -19,7 +19,7 @@
 
 <div class="container">
 
-    <div class="card o-hidden border-0 shadow-lg my-5">
+    <div id="budget-form-card" class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
@@ -65,7 +65,8 @@
                                     <form:errors path="endDate" cssClass="errorMessage"/>
                                 </div>
                             </div>
-                            <button class="btn btn-primary btn-block mt-4" type="submit"> Save </button>
+                            <div class="text-center mt-5">       . . .                 </div>
+                            <button class="btn btn-primary btn-block mb-0 mt-5" type="submit"> Save </button>
                         </form:form>
 
                     </div>

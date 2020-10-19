@@ -6,7 +6,7 @@ $(document).ready(function () {
 });
 
 
-// Edit modal for Categories
+// Edit Category Modal
 $('#editModal').on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget)
     let categoryName = button.data('name');
@@ -16,7 +16,7 @@ $('#editModal').on('show.bs.modal', function (event) {
     modal.find('#budgetInput').val(categoryBudget);
 })
 
-// // Edit modal for Transactions
+// // Edit Transaction Modal
 $('#editTransactionModal').on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget)
     let budgetId = button.data('budget');
@@ -34,8 +34,21 @@ $('#editTransactionModal').on('show.bs.modal', function (event) {
     modal.find('#transactionId').val(transactionId);
 })
 
-//Delete From Categories Modal
-$('#deleteFromAllModal').on('show.bs.modal', function (event) {
+// // Edit Budget Modal
+$('#editBudgetModal').on('show.bs.modal', function (event) {
+    let button = $(event.relatedTarget)
+    let budgetName = button.data('name');
+    let start = button.data('start');
+    let end = button.data('end');
+    let modal = $(this)
+    modal.find('#nameInput').val(budgetName);
+    modal.find('#startInput').val(start);
+    modal.find('#endInput').val(end);
+})
+
+
+//Delete Category Modal
+$('#deleteCategoryModal').on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget) // Button that triggered the modal
     let categoryName = button.data('name') // Extract info from data-* attributes
     let categoryId = button.data('id') // Extract info from data-* attributes
@@ -45,7 +58,7 @@ $('#deleteFromAllModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body strong').text(" " + categoryName);
 })
 
-// Delete Transaction from Category Modal
+// Delete Transaction Modal
 $('#deleteTransactionModal').on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget) // Button that triggered the modal
     let transactionTitle = button.data('title') // Extract info from data-* attributes
@@ -53,24 +66,17 @@ $('#deleteTransactionModal').on('show.bs.modal', function (event) {
     let categoryId = button.data('category') // Extract info from data-* attributes
     let budgetId = button.data('budget') // Extract info from data-* attributes
     let modal = $(this)
-    modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/categories/" + categoryId +
-        "/transactions/" + transactionId);
-    modal.find('.modal-body strong').text(" " + transactionTitle);
-})
-
-// Delete Transaction from Budget Modal
-$('#deleteTransactionFromBudgetModal').on('show.bs.modal', function (event) {
-    let button = $(event.relatedTarget) // Button that triggered the modal
-    let transactionTitle = button.data('title') // Extract info from data-* attributes
-    let transactionId = button.data('id') // Extract info from data-* attributes
-    let budgetId = button.data('budget') // Extract info from data-* attributes
-    let modal = $(this)
-    modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/transactions/" + transactionId);
+    if (categoryId != null){
+        modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/categories/" + categoryId +
+            "/transactions/" + transactionId);
+    } else {
+        modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/transactions/" + transactionId);
+    }
     modal.find('.modal-body strong').text(" " + transactionTitle);
 })
 
 
-// Delete Budget
+// Delete Budget Modal
 $('#deleteBudgetModal').on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget) // Button that triggered the modal
     let budgetName = button.data('name') // Extract info from data-* attributes

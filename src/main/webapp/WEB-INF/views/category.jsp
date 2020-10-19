@@ -72,9 +72,16 @@
                                     data-budget="${category.categoryBudget}"
                                     class="btn-circle btn-warning"><i
                                     class="far fa-edit"></i></button>
-                            <button id="deleteCategoryBtn" data-toggle="modal" data-target="#deleteCategoryModal"
+                            <button id="deleteBtn" data-toggle="modal"
+                                    data-target="#deleteCategoryModal"
+                                    data-name="${category.name}"
+                                    data-id="${category.id}"
+                                    data-budget="${budget.id}"
                                     class="btn-circle btn-danger"><i
                                     class="far fa-trash-alt"></i></button>
+<%--                            <button id="deleteCategoryBtn" data-toggle="modal" data-target="#deleteCategoryModal"--%>
+<%--                                    class="btn-circle btn-danger"><i--%>
+<%--                                    class="far fa-trash-alt"></i></button>--%>
                         </div>
                     </div>
                 </div>
@@ -332,177 +339,15 @@
                         </div>
                     </div>
 
-                    <!--MODAL FORM to update CATEGORY -->
-                    <div id="editModal" class="modal" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary d-table justify-content-between">
-                                    <div class="d-table-cell align-middle">
-                                        <h5 class="modal-title text-white font-weight-bolder text-center">
-                                            Edit category</h5>
-                                    </div>
-                                    <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="addAlert"></div>
-                                    <form:form method="post"
-                                               action="/auth/budgets/${budgetId}/categories/${category.id}"
-                                               modelAttribute="category">
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label text-primary">
-                                            Name:</label>
-                                        <div class="col-sm-10">
-                                            <form:input path="name" type="text" id="nameInput"
-                                                        name="catName"
-                                                        class="form-control"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label class="col-sm-2 col-form-label text-primary">
-                                            Budget:</label>
-                                        <div class="col-sm-10">
-                                            <form:input type="number" id="budgetInput" name="catBudget"
-                                                        class="form-control" path="categoryBudget"/>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <form:hidden path="id"/>
-                                    <button class="btn btn-primary" type="submit"> Save
-                                        changes
-                                    </button>
-                                    <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal"> Close
-                                    </button>
-                                    </form:form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!--MODAL FORM to update TRANSACTION -->
-                    <div id="editTransactionModal" class="modal" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary d-table justify-content-between">
-                                    <div class="d-table-cell align-middle">
-                                        <h5 class="modal-title text-white font-weight-bolder text-center">
-                                            Edit Transaction </h5>
-                                    </div>
-                                    <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="addAlert"></div>
-                                    <form method="post" action="">
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label text-primary">
-                                                Title:</label>
-                                            <div class="col-sm-10">
-                                                <input name="title" type="text" id="transactionTitle"
-                                                       class="form-control"
-                                                       pattern="[^\s][\w\-\.\/\s]{1,30}"
-                                                       title="Please name your transaction (1-30 alphanumeric characters and special signs -/_. )"/>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label text-primary">
-                                                Sum:</label>
-                                            <div class="col-sm-10">
-                                                <input type="number" id="transactionSum" name="sum"
-                                                       class="form-control"/>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label text-primary">
-                                                Date:</label>
-                                            <div class="col-sm-10">
-                                                <input type="date" id="transactionDate" name="date"
-                                                       class="form-control" min="${budget.startDate}"
-                                                               max="${budget.endDate}"/>
-                                            </div>
-                                        </div>
-                                        <div class="btn-wrapper text-center">
-                                            <button class="btn btn-primary" type="submit"> Save
-                                                changes
-                                            </button>
-                                            <button type="button" class="btn btn-secondary"
-                                                    data-dismiss="modal"> Close
-                                            </button>
-                                        </div>
-                                    </form>
-                                    <div class="modal-footer">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!--MODAL to CONFIRM and EXECUTE DELETE CATEGORY -->
-                    <div id="deleteCategoryModal" class="modal" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary d-table justify-content-between">
-                                    <div class="d-table-cell align-middle">
-                                        <h5 class="modal-title text-white font-weight-bolder text-center">
-                                            Delete category</h5>
-                                    </div>
-                                    <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="addAlert"></div>
-                                    <p class="text-center text-primary">Are you sure you want to delete
-                                        category
-                                        <strong>${category.name}? </strong></p>
-                                    <div class="btn-wrapper text-center">
-                                        <a href="/auth/budgets/${budget.id}/categories/${category.id}/delete"
-                                           class="btn btn-primary"> Yes
-                                        </a>
-                                        <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal"> No
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!--MODAL to CONFIRM and EXECUTE DELETE TRANSACTION -->
-                    <div id="deleteTransactionModal" class="modal" tabindex="-1" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary d-table justify-content-between">
-                                    <div class="d-table-cell align-middle">
-                                        <h5 class="modal-title text-white font-weight-bolder text-center">
-                                            Delete Transaction</h5>
-                                    </div>
-                                    <button type="button" class="close" data-dismiss="modal"
-                                            aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="addAlert"></div>
-                                    <p class="text-center text-primary">Are you sure you want to delete
-                                        transaction
-                                        <strong></strong>?</p>
-                                    <div class="btn-wrapper text-center">
-                                        <a href="" class="btn btn-primary">Yes</a>
-                                        <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal"> No
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <!--Insert Modals -->
+                    <div>
+                        <jsp:include page="fragment/modals/editCategory.jsp"/>
+                        <jsp:include page="fragment/modals/editTransaction.jsp"/>
+                        <jsp:include page="fragment/modals/deleteCategory.jsp"/>
+                        <jsp:include page="fragment/modals/deleteTransaction.jsp"/>
                     </div>
 
                 </div>

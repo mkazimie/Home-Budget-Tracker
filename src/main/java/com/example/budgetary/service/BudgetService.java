@@ -59,7 +59,7 @@ public class BudgetService {
             budget.setUsers(budgetUsers);
             saveBudget(budget);
         } else {
-            budget.getUsers().forEach(user1 -> user1.getBudgets().remove(budget));
+            budget.getUsers().forEach(budgetUser -> budgetUser.getBudgets().remove(budget));
             budget.setUsers(null);
             budget.getTransactions().forEach(transaction -> transaction.setBudget(null));
             budget.getCategories().forEach(category -> category.setBudget(null));
