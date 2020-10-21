@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -41,7 +42,8 @@ public class BudgetController {
         if (!bindingResult.hasErrors()) {
             LocalDate startDate = budget.getStartDate();
             LocalDate endDate = budget.getEndDate();
-            if (!(startDate.isBefore(endDate))) {
+            validateDate(startDate, endDate);
+            if (!validateDate(startDate, endDate)) {
                 model.addAttribute("error", "The end date must be a valid date and later than the start date");
                 return "budget-form";
             }
@@ -52,6 +54,7 @@ public class BudgetController {
         model.addAttribute("error", "Please try again");
         return "budget-form";
     }
+
 
     @GetMapping("/form")
     public String displayBudgetForm(Model model) {
@@ -75,40 +78,33 @@ public class BudgetController {
         return "budget";
     }
 
+    @PostMapping("/{id}")
+    public String updateBudget(@ModelAttribute("budget") @Valid Budget budget, BindingResult bindingResult,
+                               @PathVariable Long id, Model model, RedirectAttributes attr) {
+        if (!bindingResult.hasErrors()) {
+            LocalDate startDate = budget.getStartDate();
+            LocalDate endDate = budget.getEndDate();
+            validateDate(startDate, endDate);
+            if (!validateDate(startDate, endDate)) {
+                model.addAttribute("error", "The end date must be a valid date and later than the start date");
+                return "budget";
+            }
+            budgetService.updateBudget(budget);
+            return "redirect:/auth/budgets/{id}";
+        }
+        model.addAttribute("error", "Please try again");
+        return "budget";
+    }
+
+//                attr.addFlashAttribute("org.springframework.validation.BindingResult.budget", bindingResult);
+//                attr.addFlashAttribute("budget", budget);
+
+
     @GetMapping("/{id}/delete")
-    public String deleteBudget(@PathVariable Long id, @AuthenticationPrincipal CurrentUser currentUser){
+    public String deleteBudget(@PathVariable Long id, @AuthenticationPrincipal CurrentUser currentUser) {
         budgetService.removeBudget(id, currentUser.getUser());
         return "redirect:/auth/budgets";
     }
-
-    @PostMapping("/{id}")
-    public String updateBudget(){
-        return "";
-    }
-
-
-    //    @PostMapping("/{categoryId}")
-    //    public String updateCategory(@AuthenticationPrincipal CurrentUser currentUser,
-    //                                 @ModelAttribute @Valid Category category,
-    //                                 BindingResult bindingResult, @PathVariable Long categoryId,
-    //                                 @PathVariable Long budgetId,
-    //                                 Model model, RedirectAttributes attr) {
-    //        if (!bindingResult.hasErrors()) {
-    //            Budget budget = budgetService.findById(budgetId);
-    //            Category categoryById = categoryService.findCategoryById(categoryId);
-    //            categoryService.updateCategory(category, categoryById, budget, currentUser.getUser());
-    //        } else {
-    //            attr.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
-    //            attr.addFlashAttribute("category", category);
-    //        }
-    //        return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
-    //    }
-    //
-    //    @GetMapping("/{categoryId}/delete")
-    //    public String deleteCategory(@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long categoryId){
-    //        categoryService.removeCategory(categoryId, currentUser.getUser());
-    //        return "redirect:/auth/budgets/{budgetId}/categories/";
-    //    }
 
 
     private void getAllUserBudgets(User user, Model model) {
@@ -128,10 +124,14 @@ public class BudgetController {
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
+    private boolean validateDate(LocalDate startDate, LocalDate endDate) {
+        return startDate.isBefore(endDate);
+    }
+
 
     @ModelAttribute("currentUser")
     public User currentUser(@AuthenticationPrincipal CurrentUser currentUser) {
-            return currentUser.getUser();
+        return currentUser.getUser();
     }
 
 

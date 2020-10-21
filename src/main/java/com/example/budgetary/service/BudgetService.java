@@ -72,4 +72,12 @@ public class BudgetService {
     public void deleteBudget(Long id) {
         budgetRepository.delete(findById(id));
     }
+
+    public void updateBudget(Budget budget) {
+        budget.setName(budget.getName());
+        budget.setStartDate(budget.getStartDate());
+        budget.setEndDate(budget.getEndDate());
+        saveBudget(budget);
+    }
+
 }

@@ -100,16 +100,6 @@
                                         €
                                     </td>
                                     <td>
-                                        <button
-                                                id="editBudgetBtn"
-                                                data-toggle="modal"
-                                                data-target="#editBudgetBtn"
-                                                data-name="${budget.name}"
-                                                data-id="${budget.id}"
-                                                data-start="${budget.startDate}"
-                                                data-end="${budget.endDate}"
-                                                class="btn-circle btn-primary btn-sm"><i
-                                                class="far fa-edit"></i></button>
 
                                         <button id="deleteBudgetBtn" data-toggle="modal"
                                                 data-target="#deleteBudgetModal"
