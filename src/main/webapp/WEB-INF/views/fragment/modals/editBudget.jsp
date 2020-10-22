@@ -19,17 +19,15 @@
             <div class="modal-body">
                 <div class="addAlert"></div>
                 <div class="errorMsg alert alert-danger d-none" role="alert">${error}</div>
-            <form:form method="post"
-                           action="/auth/budgets/${budget.id}"
+                <form:form id="editBudgetForm" method="post"
+                           action=""
                            modelAttribute="budget">
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label text-primary">
                         Name:</label>
                     <div class="col-sm-10">
                         <form:input path="name" type="text" id="nameInput"
-                                    name="budgetName"
                                     class="form-control"/>
-                        <form:errors path="name" cssClass="errorMessage"/>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -38,7 +36,6 @@
                     <div class="col-sm-10">
                         <form:input id="startInput" path="startDate" type="date" class="form-control"
                                     placeholder="yyyy-MM-dd"/>
-                        <form:errors path="startDate" cssClass="errorMessage"/>
 
                     </div>
                 </div>
@@ -49,17 +46,16 @@
                         <form:input id="endInput" path="endDate" type="date"
                                     class="form-control"
                                     placeholder="yyyy-MM-dd"/>
-                        <form:errors path="endDate" cssClass="errorMessage"/>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <form:hidden path="id"/>
-                <form:hidden path="budgetMoney"/>
-                <form:hidden path="moneyLeft"/>
-<%--                <form:hidden path="transactions"/>--%>
-<%--                <form:hidden path="categories"/>--%>
-                <button class="btn btn-primary" type="submit"> Save
+                <form:hidden path="budgetMoney" id="budgetMoney"/>
+                <form:hidden path="moneyLeft" id="moneyLeft"/>
+                <form:hidden path="categories" id="categories"/>
+                <form:hidden path="transactions" id="transactions"/>
+                <form:hidden path="users" id="users"/>
+                <button id="submitBtn" type="submit" class="btn btn-primary"> Save
                     changes
                 </button>
                 <button type="button" class="btn btn-secondary"
@@ -70,3 +66,6 @@
         </div>
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+

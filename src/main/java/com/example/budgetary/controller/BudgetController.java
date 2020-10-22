@@ -6,10 +6,13 @@ import com.example.budgetary.entity.User;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
+import com.example.budgetary.util.ErrorMessage;
+import com.example.budgetary.util.ValidationResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -42,8 +45,8 @@ public class BudgetController {
         if (!bindingResult.hasErrors()) {
             LocalDate startDate = budget.getStartDate();
             LocalDate endDate = budget.getEndDate();
-            validateDate(startDate, endDate);
-            if (!validateDate(startDate, endDate)) {
+            validDate(startDate, endDate);
+            if (!validDate(startDate, endDate)) {
                 model.addAttribute("error", "The end date must be a valid date and later than the start date");
                 return "budget-form";
             }
@@ -79,25 +82,39 @@ public class BudgetController {
     }
 
     @PostMapping("/{id}")
-    public String updateBudget(@ModelAttribute("budget") @Valid Budget budget, BindingResult bindingResult,
-                               @PathVariable Long id, Model model, RedirectAttributes attr) {
-        if (!bindingResult.hasErrors()) {
+    public @ResponseBody ValidationResponse updateViaAjax(Model model,
+                                    @ModelAttribute(value="budget") @Valid Budget budget,
+                                    BindingResult bindingResult) {
+
+        //Special class created for JSON response
+        ValidationResponse res = new ValidationResponse();
+        if(bindingResult.hasErrors()){
+            res.setStatus("FAIL");
+            List<FieldError> allErrors = bindingResult.getFieldErrors();
+            final List<ErrorMessage> errorMessages = new ArrayList<>();
+            for (FieldError objectError : allErrors) {
+                errorMessages.add(new ErrorMessage(objectError.getField(), objectError.getDefaultMessage()));
+            }
+            res.setErrorMessageList(errorMessages);
+
+        } else {
+            final List<ErrorMessage> errorMessageList = new ArrayList<>();
+
             LocalDate startDate = budget.getStartDate();
             LocalDate endDate = budget.getEndDate();
-            validateDate(startDate, endDate);
-            if (!validateDate(startDate, endDate)) {
-                model.addAttribute("error", "The end date must be a valid date and later than the start date");
-                return "budget";
+            validDate(startDate, endDate);
+            if (validDate(startDate, endDate)){
+                res.setStatus("SUCCESS");
+                budgetService.saveBudget(budget);
+            } else {
+                res.setStatus("FAIL");
+                errorMessageList.add(new ErrorMessage("endDate", "The end date cannot precede the start date!"));
             }
-            budgetService.updateBudget(budget);
-            return "redirect:/auth/budgets/{id}";
+            res.setErrorMessageList(errorMessageList);
         }
-        model.addAttribute("error", "Please try again");
-        return "budget";
+        return res;
     }
 
-//                attr.addFlashAttribute("org.springframework.validation.BindingResult.budget", bindingResult);
-//                attr.addFlashAttribute("budget", budget);
 
 
     @GetMapping("/{id}/delete")
@@ -124,7 +141,7 @@ public class BudgetController {
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
-    private boolean validateDate(LocalDate startDate, LocalDate endDate) {
+    private boolean validDate(LocalDate startDate, LocalDate endDate) {
         return startDate.isBefore(endDate);
     }
 
