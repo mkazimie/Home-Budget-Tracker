@@ -107,6 +107,12 @@ public class CategoryController {
         return res;
     }
 
+    @GetMapping("/{categoryId}/delete")
+    public String deleteCategory(@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long categoryId) {
+        categoryService.removeCategory(categoryId, currentUser.getUser());
+        return "redirect:/auth/budgets/{budgetId}/categories/";
+    }
+
     static void validateViaAjax(BindingResult bindingResult, ValidationResponse res) {
         res.setStatus("FAIL");
         List<FieldError> allErrors = bindingResult.getFieldErrors();
@@ -116,13 +122,6 @@ public class CategoryController {
         }
         res.setErrorMessageList(errorMessages);
     }
-
-    @GetMapping("/{categoryId}/delete")
-    public String deleteCategory(@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long categoryId) {
-        categoryService.removeCategory(categoryId, currentUser.getUser());
-        return "redirect:/auth/budgets/{budgetId}/categories/";
-    }
-
 
     public Budget findBudget(@PathVariable Long budgetId) {
         return budgetService.findById(budgetId);
