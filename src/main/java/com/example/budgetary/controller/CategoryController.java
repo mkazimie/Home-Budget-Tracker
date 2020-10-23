@@ -9,17 +9,21 @@ import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
 import com.example.budgetary.service.CategoryService;
+import com.example.budgetary.util.ErrorMessage;
+import com.example.budgetary.util.ValidationResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -68,8 +72,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
-    public String displayCategory(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model,
-                                  HttpServletRequest request) {
+    public String displayCategory(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model) {
         Category category = categoryService.findCategoryById(categoryId);
         Budget budget = findBudget(budgetId);
         model.addAttribute("allCategoryExpenses", countCategoryExpenses(category));
@@ -78,35 +81,47 @@ public class CategoryController {
         if (!model.containsAttribute("transactionDto")) {
             model.addAttribute("transactionDto", new TransactionDto());
         }
-        if (!model.containsAttribute("category")) {
-            model.addAttribute("category", new Category());
-        }
         return "category";
     }
 
-    @PostMapping("/{categoryId}")
-    public String updateCategory(@AuthenticationPrincipal CurrentUser currentUser,
-                                 @ModelAttribute @Valid Category category,
-                                 BindingResult bindingResult, @PathVariable Long categoryId,
-                                 @PathVariable Long budgetId,
-                                 Model model, RedirectAttributes attr) {
-        if (!bindingResult.hasErrors()) {
-            Budget budget = budgetService.findById(budgetId);
-            Category categoryById = categoryService.findCategoryById(categoryId);
-            categoryService.updateCategory(category, categoryById, budget, currentUser.getUser());
+    @PutMapping("/{id}")
+    public @ResponseBody
+    ValidationResponse updateViaAjax(@ModelAttribute(value = "category") @Valid Category category,
+                                     BindingResult bindingResult) {
+        ValidationResponse res = new ValidationResponse();
+        if (bindingResult.hasErrors()) {
+            validateViaAjax(bindingResult, res);
         } else {
-            attr.addFlashAttribute("org.springframework.validation.BindingResult.category", bindingResult);
-            attr.addFlashAttribute("category", category);
+            final List<ErrorMessage> errorMessageList = new ArrayList<>();
+            Category existingCategory = categoryService.findByName(category.getName(), category.getBudget().getId());
+            if (existingCategory == null || existingCategory.getId()==category.getId()) {
+                res.setStatus("SUCCESS");
+                categoryService.saveCategory(category);
+            } else {
+                res.setStatus("FAIL");
+                errorMessageList.add(new ErrorMessage("name", "Such category already exists in you budget"));
+            }
+            res.setErrorMessageList(errorMessageList);
+
         }
-        return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
+        return res;
+    }
+
+    static void validateViaAjax(BindingResult bindingResult, ValidationResponse res) {
+        res.setStatus("FAIL");
+        List<FieldError> allErrors = bindingResult.getFieldErrors();
+        final List<ErrorMessage> errorMessages = new ArrayList<>();
+        for (FieldError objectError : allErrors) {
+            errorMessages.add(new ErrorMessage(objectError.getField(), objectError.getDefaultMessage()));
+        }
+        res.setErrorMessageList(errorMessages);
     }
 
     @GetMapping("/{categoryId}/delete")
-    public String deleteCategory(@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long categoryId){
+    public String deleteCategory(@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long categoryId) {
         categoryService.removeCategory(categoryId, currentUser.getUser());
         return "redirect:/auth/budgets/{budgetId}/categories/";
     }
-
 
 
     public Budget findBudget(@PathVariable Long budgetId) {
@@ -178,8 +193,6 @@ public class CategoryController {
     public User currentUser(@AuthenticationPrincipal CurrentUser currentUser) {
         return currentUser.getUser();
     }
-
-
 
 
 }

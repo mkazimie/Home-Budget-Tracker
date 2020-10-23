@@ -19,14 +19,14 @@
             <div class="modal-body">
                 <div class="addAlert"></div>
                 <form:form method="post"
-                           action="/auth/budgets/${budgetId}/categories/${category.id}"
+                           action=""
                            modelAttribute="category">
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label text-primary">
                         Name:</label>
                     <div class="col-sm-10">
-                        <form:input path="name" type="text" id="nameInput"
-                                    name="catName"
+                        <div class="errorMessage alert alert-danger d-none text-center" role="alert"></div>
+                        <form:input path="name" type="text" id="catName"
                                     class="form-control"/>
                     </div>
                 </div>
@@ -34,14 +34,19 @@
                     <label class="col-sm-2 col-form-label text-primary">
                         Budget:</label>
                     <div class="col-sm-10">
-                        <form:input type="number" id="budgetInput" name="catBudget"
+                        <div class="errorMessage alert alert-danger d-none text-center" role="alert"></div>
+                        <form:input type="number" id="catBudget" name="catBudget"
                                     class="form-control" path="categoryBudget"/>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <form:hidden path="id"/>
-                <button class="btn btn-primary" type="submit"> Save
+                <form:hidden path="moneyLeft" id="catMoneyLeft"/>
+                <form:hidden path="budget" id="budget"/>
+                <form:hidden path="transactions" id="catTransactions"/>
+                <form:hidden path="dateAdded" id="added"/>
+                <button id="submitCatBtn" type="submit" class="btn btn-primary" > Save
                     changes
                 </button>
                 <button type="button" class="btn btn-secondary"
@@ -52,3 +57,5 @@
         </div>
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

@@ -50,7 +50,7 @@ public class TransactionController {
     }
 
     @GetMapping("/categories/{categoryId}/transactions/{transactionId}")
-    public String deleteTransaction(@PathVariable Long categoryId, @PathVariable Long transactionId){
+    public String deleteTransactionFromCategory(@PathVariable Long categoryId, @PathVariable Long transactionId){
         transactionService.removeTransaction(transactionId);
         return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
     }

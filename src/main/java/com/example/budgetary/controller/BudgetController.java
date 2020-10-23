@@ -81,22 +81,12 @@ public class BudgetController {
         return "budget";
     }
 
-    @PostMapping("/{id}")
-    public @ResponseBody ValidationResponse updateViaAjax(Model model,
-                                    @ModelAttribute(value="budget") @Valid Budget budget,
+    @PutMapping("/{id}")
+    public @ResponseBody ValidationResponse updateViaAjax(@ModelAttribute(value="budget") @Valid Budget budget,
                                     BindingResult bindingResult) {
-
-        //Special class created for JSON response
         ValidationResponse res = new ValidationResponse();
         if(bindingResult.hasErrors()){
-            res.setStatus("FAIL");
-            List<FieldError> allErrors = bindingResult.getFieldErrors();
-            final List<ErrorMessage> errorMessages = new ArrayList<>();
-            for (FieldError objectError : allErrors) {
-                errorMessages.add(new ErrorMessage(objectError.getField(), objectError.getDefaultMessage()));
-            }
-            res.setErrorMessageList(errorMessages);
-
+            CategoryController.validateViaAjax(bindingResult, res);
         } else {
             final List<ErrorMessage> errorMessageList = new ArrayList<>();
 
@@ -108,7 +98,7 @@ public class BudgetController {
                 budgetService.saveBudget(budget);
             } else {
                 res.setStatus("FAIL");
-                errorMessageList.add(new ErrorMessage("endDate", "The end date cannot precede the start date!"));
+                errorMessageList.add(new ErrorMessage("endDate", "The end date cannot precede the start date"));
             }
             res.setErrorMessageList(errorMessageList);
         }

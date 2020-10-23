@@ -74,34 +74,34 @@ public class CategoryService {
         return budgetCategories;
     }
 
-    public void updateCategory(Category updatedCategory, Category originalCategory, Budget budget, User user) {
-        BigDecimal updatedCatBudget = updatedCategory.getCategoryBudget();
-        BigDecimal originalCatBudget = originalCategory.getCategoryBudget();
-        BigDecimal catBudgetDifference = updatedCatBudget.subtract(originalCatBudget);
-
-        if (!updatedCategory.getName().equals(originalCategory.getName())){
-            originalCategory.setName(updatedCategory.getName());
-            saveCategory(originalCategory);
-        }
-        if (catBudgetDifference.compareTo(BigDecimal.ZERO) != 0){
-            originalCategory.setCategoryBudget(updatedCatBudget);
-            originalCategory.setMoneyLeft(originalCategory.getMoneyLeft().add(catBudgetDifference));
-            saveCategory(originalCategory);
-            budget.setMoneyLeft(budget.getMoneyLeft().add(catBudgetDifference));
-            budget.setBudgetMoney(budget.getBudgetMoney().add(catBudgetDifference));
-            Transaction transaction = createTransaction(budget, user);
-            transaction.setTitle("Modify Category " + originalCategory.getName() + " budget");
-            transaction.setSum(catBudgetDifference);
-            if (catBudgetDifference.compareTo(BigDecimal.ZERO) > 0) {
-                transaction.setType("Deposit");
-            } else {
-                transaction.setType("Withdrawal");
-            }
-            transactionService.saveTransaction(transaction);
-            budgetService.saveBudget(budget);
-        }
-
-    }
+//    public void updateCategory(Category updatedCategory, Category originalCategory, Budget budget, User user) {
+//        BigDecimal updatedCatBudget = updatedCategory.getCategoryBudget();
+//        BigDecimal originalCatBudget = originalCategory.getCategoryBudget();
+//        BigDecimal catBudgetDifference = updatedCatBudget.subtract(originalCatBudget);
+//
+//        if (!updatedCategory.getName().equals(originalCategory.getName())){
+//            originalCategory.setName(updatedCategory.getName());
+//            saveCategory(originalCategory);
+//        }
+//        if (catBudgetDifference.compareTo(BigDecimal.ZERO) != 0){
+//            originalCategory.setCategoryBudget(updatedCatBudget);
+//            originalCategory.setMoneyLeft(originalCategory.getMoneyLeft().add(catBudgetDifference));
+//            saveCategory(originalCategory);
+//            budget.setMoneyLeft(budget.getMoneyLeft().add(catBudgetDifference));
+//            budget.setBudgetMoney(budget.getBudgetMoney().add(catBudgetDifference));
+//            Transaction transaction = createTransaction(budget, user);
+//            transaction.setTitle("Modify Category " + originalCategory.getName() + " budget");
+//            transaction.setSum(catBudgetDifference);
+//            if (catBudgetDifference.compareTo(BigDecimal.ZERO) > 0) {
+//                transaction.setType("Deposit");
+//            } else {
+//                transaction.setType("Withdrawal");
+//            }
+//            transactionService.saveTransaction(transaction);
+//            budgetService.saveBudget(budget);
+//        }
+//
+//    }
 
 
 

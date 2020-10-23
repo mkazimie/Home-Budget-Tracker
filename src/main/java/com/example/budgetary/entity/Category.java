@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,8 +26,12 @@ public class Category implements Comparable<Category> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     private String name;
 
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer=6, fraction=2)
+    @NotNull
     private BigDecimal categoryBudget;
 
     private BigDecimal moneyLeft;

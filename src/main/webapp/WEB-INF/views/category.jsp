@@ -69,7 +69,9 @@
                         <div class="btn-wrapper d-inline float-right">
                             <button id="editBtn" data-toggle="modal" data-target="#editModal"
                                     data-name="${category.name}"
-                                    data-budget="${category.categoryBudget}"
+                                    data-catbudget="${category.categoryBudget}"
+                                    data-budget="${budget.id}"
+                                    data-id="${category.id}"
                                     class="btn-circle btn-warning"><i
                                     class="far fa-edit"></i></button>
                             <button id="deleteBtn" data-toggle="modal"
@@ -79,9 +81,6 @@
                                     data-budget="${budget.id}"
                                     class="btn-circle btn-danger"><i
                                     class="far fa-trash-alt"></i></button>
-<%--                            <button id="deleteCategoryBtn" data-toggle="modal" data-target="#deleteCategoryModal"--%>
-<%--                                    class="btn-circle btn-danger"><i--%>
-<%--                                    class="far fa-trash-alt"></i></button>--%>
                         </div>
                     </div>
                 </div>
