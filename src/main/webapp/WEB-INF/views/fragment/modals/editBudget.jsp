@@ -18,7 +18,6 @@
             </div>
             <div class="modal-body">
                 <div class="addAlert"></div>
-                <div class="errorMsg alert alert-danger d-none" role="alert">${error}</div>
                 <form:form id="editBudgetForm" method="post"
                            action=""
                            modelAttribute="budget">
@@ -26,6 +25,7 @@
                     <label class="col-sm-2 col-form-label text-primary">
                         Name:</label>
                     <div class="col-sm-10">
+                        <div class="errorMessage alert alert-danger d-none" role="alert"></div>
                         <form:input path="name" type="text" id="nameInput"
                                     class="form-control"/>
                     </div>
@@ -43,6 +43,7 @@
                     <label class="col-sm-2 col-form-label text-primary">
                         End Date:</label>
                     <div class="col-sm-10">
+                        <div class="errorMessage alert alert-danger d-none" role="alert"></div>
                         <form:input id="endInput" path="endDate" type="date"
                                     class="form-control"
                                     placeholder="yyyy-MM-dd"/>
@@ -58,7 +59,7 @@
                 <button id="submitBtn" type="submit" class="btn btn-primary"> Save
                     changes
                 </button>
-                <button type="button" class="btn btn-secondary"
+                <button id="closeModalBtn" type="button" class="btn btn-secondary"
                         data-dismiss="modal"> Close
                 </button>
                 </form:form>

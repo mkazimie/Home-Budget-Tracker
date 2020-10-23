@@ -18,6 +18,7 @@ $('#editModal').on('show.bs.modal', function (event) {
 
 // // Edit Transaction Modal
 $('#editTransactionModal').on('show.bs.modal', function (event) {
+    clearForm();
     let button = $(event.relatedTarget)
     let budgetId = button.data('budget');
     let categoryId = button.data('category');
@@ -35,7 +36,8 @@ $('#editTransactionModal').on('show.bs.modal', function (event) {
 })
 
 // // Edit Budget Modal
-$('#editBudgetModal').on('show.bs.modal', function (event) {
+let editBudgetModal = $('#editBudgetModal');
+editBudgetModal.on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget)
     let budgetName = button.data('name');
     let budgetId = button.data('id');
@@ -72,14 +74,14 @@ $('#editBudgetModal').on('show.bs.modal', function (event) {
             type: "POST",
             url: "/auth/budgets/" + budgetId,
             data: {
-                "name" : nameValue,
-                "startDate" : startValue,
-                "endDate" : endValue,
-                "transactions" : transactionsValue,
-                "categories" : categoriesValue,
-                "users" : usersValue,
-                "budgetMoney" : budgetMoneyValue,
-                "moneyLeft" : moneyLeftValue,
+                "name": nameValue,
+                "startDate": startValue,
+                "endDate": endValue,
+                "transactions": transactionsValue,
+                "categories": categoriesValue,
+                "users": usersValue,
+                "budgetMoney": budgetMoneyValue,
+                "moneyLeft": moneyLeftValue,
             },
             success: function (response) {
 
@@ -104,21 +106,32 @@ $('#editBudgetModal').on('show.bs.modal', function (event) {
             for (let i = 0; i < errorVal.length; i++) {
                 if (errorVal[i].fieldName === 'name') {
                     nameInput.val('');
-                    nameInput.attr("placeholder", errorVal[i].message).css("border", " 1px solid red");
+                    nameInput.css("border", " 1px solid red");
+                    nameInput.css("border", " 1px solid red");
+                    nameInput.siblings(".errorMessage").text(errorVal[i].message).removeClass("d-none");
                 } else if (errorVal[i].fieldName === 'startDate') {
                     startInput.val('');
                     startInput.css("border", " 1px solid red");
-                    endInput.append("<p>" + errorVal[i].message + "</p>")
                 } else if (errorVal[i].fieldName === 'endDate') {
                     endInput.val('');
                     endInput.css("border", " 1px solid red");
-                    endInput.append("<p>" + errorVal[i].message + "</p>")
+                    endInput.siblings(".errorMessage").text(errorVal[i].message).removeClass("d-none");
                 }
             }
         }
-
     });
+
 });
+
+// clear all after modal closed and return it as default.
+editBudgetModal.on('hide.bs.modal', function () {
+        $('#nameInput').css("border", "1px solid lightgrey");
+        $('#startInput').css("border", "1px solid lightgrey");
+        $('#endInput').css("border", "1px solid lightgrey");
+        $('.errorMessage').addClass("d-none");
+})
+
+// }
 
 
 //Delete Category Modal
