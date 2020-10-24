@@ -33,3 +33,4 @@ build/
 .vscode/
 
 config/application.properties
+src/main/webapp/resources/static/html-templates
