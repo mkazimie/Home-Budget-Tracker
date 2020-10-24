@@ -11,14 +11,10 @@
 <html>
 <head>
     <title>Budget Form</title>
-    <%@include file="fragment/header.jsp" %>
-
+    <jsp:include page="fragment/header.jsp"/>
 </head>
-
 <body class="bg-gradient-primary">
-
 <div class="container">
-
     <div id="budget-form-card" class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
@@ -38,18 +34,6 @@
                                             placeholder="ex. May, 2021..."/>
                                 <form:errors path="name" cssClass="errorMessage"/>
                             </div>
-<%--                            <div class="form-group">--%>
-<%--                                <form:label path="budgetMoney" cssClass="text-primary"> Budget </form:label>--%>
-<%--                                <div class="input-group">--%>
-<%--                                    <form:input path="budgetMoney" type="number" min="1"--%>
-<%--                                                class="form-control"--%>
-<%--                                                placeholder=""/>--%>
-<%--                                    <div class="input-group-append">--%>
-<%--                                        <span class="input-group-text">€</span>--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
-<%--                                <form:errors path="budgetMoney" cssClass="errorMessage"/>--%>
-<%--                            </div>--%>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <form:label path="startDate" cssClass="text-primary"> From </form:label>
@@ -65,19 +49,19 @@
                                     <form:errors path="endDate" cssClass="errorMessage"/>
                                 </div>
                             </div>
-                            <div class="text-center mt-5">       . . .                 </div>
-                            <button class="btn btn-primary btn-block mb-0 mt-5" type="submit"> Save </button>
+                            <div class="text-center mt-5"> . . .</div>
+                            <button class="btn btn-primary btn-block mb-0 mt-5" type="submit"> Save</button>
                         </form:form>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    <jsp:include page="fragment/footer.jsp"/>
 </div>
+<!--App level plugins-->
 <div>
-    <%@include file="fragment/core-js-plugins.jsp" %>
+    <jsp:include page="fragment/core-js-plugins.jsp"/>
 </div>
 <!-- Page level plugins -->
 <script src="${pageContext.request.contextPath}/resources/static/js/customizedJquery.js"></script>

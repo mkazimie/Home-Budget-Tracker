@@ -9,21 +9,17 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
-
 <html lang="en">
-
 <head>
     <title>Login</title>
-    <%@include file="fragment/header.jsp" %>
+    <jsp:include page="fragment/header.jsp"/>
 </head>
 <body class="bg-gradient-primary">
 <div class="container">
-    <!-- Outer Row -->
     <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-12 col-md-9">
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
-                    <!-- Nested Row within Card Body -->
                     <div class="row">
                         <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
                         <div class="col-lg-6">
@@ -59,8 +55,8 @@
     </div>
 </div>
 <div>
-    <%@include file="fragment/core-js-plugins.jsp" %>
+    <jsp:include page="fragment/core-js-plugins.jsp"/>
 </div>
-<script src="/resources/static/js/customizedJquery.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/customizedJquery.js"></script>
 </body>
 </html>

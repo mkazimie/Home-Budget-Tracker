@@ -9,22 +9,17 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
 
-
 <html lang="en">
-
 <head>
     <title> Landing Page </title>
-    <%@include file="fragment/header.jsp" %>
+    <jsp:include page="fragment/header.jsp"/>
 </head>
-
 <body>
-<h1> BUDGETARY APP</h1>
-
-<p><a href="/login"> Login </a></p>
-<p><a href="/register"> Register </a></p>
-
+<h1>Budgetary App</h1>
+<h2><a href="/login"> Login </a></h2>
+<h2><a href="/register"> Register </a></h2>
 <div>
-    <%@include file="fragment/core-js-plugins.jsp" %>
+    <jsp:include page="fragment/core-js-plugins.jsp"/>
 </div>
 </body>
 </html>

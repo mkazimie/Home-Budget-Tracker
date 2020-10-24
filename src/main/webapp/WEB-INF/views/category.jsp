@@ -10,25 +10,20 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-
 <html>
 <head>
-    <%@include file="fragment/header.jsp" %>
+    <jsp:include page="fragment/header.jsp"/>
     <title>Category View</title>
 </head>
 <body>
-<!-- Page Heading -->
+<!-- Page Wrapper -->
 <div id="wrapper">
-
-    <%@include file="fragment/sidebar.jsp" %>
-
+    <jsp:include page="fragment/sidebar.jsp"/>
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-
         <!-- Main Content -->
         <div id="content">
-
-            <%@include file="fragment/topbar.jsp" %>
+            <jsp:include page="fragment/topbar.jsp"/>
 
             <!-- Bread Crumbs-->
             <nav aria-label="breadcrumb bg-info">
@@ -51,18 +46,16 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
-
                 <!-- Page Heading -->
-
                 <div class="container-fluid p-0 mb-4">
                     <div class="text-center">
                         <h2 class="d-inline text-primary font-weight-bolder">
                             ${category.name}
                             <c:choose>
-                                <c:when test="${empty categoriesIcons.get(category.name)}">
+                                <c:when test="${empty categoryIconMap.get(category.name)}">
                                     <i class="fas fa-ellipsis-h"></i></c:when>
                                 <c:otherwise>
-                                    ${categoriesIcons.get(category.name)}
+                                    ${categoryIconMap.get(category.name)}
                                 </c:otherwise>
                             </c:choose>
                         </h2>
@@ -85,10 +78,8 @@
                     </div>
                 </div>
 
-
                 <!-- Content Row -->
                 <div class="row">
-
                     <!-- BUDGET -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
                         <div class="card h-100 shadow py-2 border-left-info">
@@ -99,8 +90,7 @@
                                             ${category.name} Budget
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold
-                                                text-primary">${category.categoryBudget}
-                                            €
+                                                text-primary">${category.categoryBudget}€
                                         </div>
                                     </div>
                                     <div class="col-auto">
@@ -110,10 +100,8 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- AVAILABLE -->
+                    <!-- BALANCE -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
-                        <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
                         <div class="card h-100 shadow py-2 border-left-success">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -124,20 +112,17 @@
                                         <c:choose>
                                             <c:when test="${category.categoryBudget - allCategoryExpenses <= 0}">
                                                 <div class="h5 mb-0 font-weight-bold
-                                                text-danger">${category.categoryBudget - allCategoryExpenses}
-                                                    €
+                                                text-danger">${category.categoryBudget - allCategoryExpenses}€
                                                 </div>
                                             </c:when>
                                             <c:when test="${category.categoryBudget - allCategoryExpenses <= 5}">
                                                 <div class="h5 mb-0 font-weight-bold
-                                                text-warning">${category.categoryBudget - allCategoryExpenses}
-                                                    €
+                                                text-warning">${category.categoryBudget - allCategoryExpenses}€
                                                 </div>
                                             </c:when>
                                             <c:otherwise>
                                                 <div class="h5 mb-0 font-weight-bold
-                                                text-success">${category.categoryBudget - allCategoryExpenses}
-                                                    €
+                                                text-success">${category.categoryBudget - allCategoryExpenses}€
                                                 </div>
                                             </c:otherwise>
                                         </c:choose>
@@ -149,10 +134,8 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- EXPENSES -->
                     <div class="col-xl-3 col-md-6 mb-4 ">
-                        <%--                    <div class="card border-left-primary h-100 shadow py-2">--%>
                         <div class="card h-100 shadow py-2 border-left-warning">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -172,11 +155,8 @@
                     </div>
                 </div>
 
-
                 <!-- Content Row -->
                 <div class="row">
-
-
                     <!-- Form for adding NEW TRANSACTION -->
                     <div class="col-xl-4 col-md-6 mb-4 ">
                         <div class="card border-left-warning h-100 shadow">
@@ -197,14 +177,6 @@
                                                     placeholder="" required="required"/>
                                         <form:errors path="title" cssClass="errorMessage"/>
                                     </div>
-                                        <%--                                        <div class="form-group">--%>
-                                        <%--                                            <form:label path="type" cssClass="text-primary"> Type </form:label>--%>
-                                        <%--                                            <form:select path="type" class="form-control">--%>
-                                        <%--                                                <form:option value="Expense" label="--Select--" selected="selected"/>--%>
-                                        <%--                                                <form:options items="${transactionType}"/>--%>
-                                        <%--                                            </form:select>--%>
-                                        <%--                                            <form:errors path="type" cssClass="errorMessage"/>--%>
-                                        <%--                                        </div>--%>
                                     <div class="form-group">
                                         <form:label path="sum" cssClass="text-primary"> Sum </form:label>
                                         <div class="input-group">
@@ -236,7 +208,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Table with list of transactions -->
                     <div class="col-xl-8 col-md-6 mb-4 ">
                         <div class="card border-left-primary">
@@ -257,10 +228,8 @@
                                             <th> User</th>
                                             <th> Transaction Date</th>
                                             <th> Actions</th>
-
                                         </tr>
                                         </thead>
-
                                         <tbody>
                                         <c:forEach items="${category.transactions}" var="transaction">
                                             <tr class="text-center">
@@ -319,69 +288,43 @@
                                                 </td>
                                             </tr>
                                         </c:forEach>
-                                        <%--                                        <c:forEach items="${budget.transactions}" var="budgetTransaction">--%>
-                                        <%--                                            <c:if test="${budgetTransaction.type.equals('Withdrawal') &&--%>
-                                        <%--                                            empty budgetTransaction.category}">--%>
-                                        <%--                                                <tr class="text-center">--%>
-                                        <%--                                                    <td class="align-middle">${budgetTransaction.title}</td>--%>
-                                        <%--                                                    <td class="align-middle text-danger"> ---%>
-                                        <%--                                                            ${budgetTransaction.sum / budget.categories.size()}</td>--%>
-                                        <%--                                                    <td class="align-middle">${budgetTransaction.user.username}</td>--%>
-                                        <%--                                                    <td class="align-middle">${budgetTransaction.dateTimeAdded}</td>--%>
-                                        <%--                                                </tr>--%>
-                                        <%--                                            </c:if>--%>
-                                        <%--                                        </c:forEach>--%>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-
-
                     <!--Insert Modals -->
-                    <div>
-                        <jsp:include page="fragment/modals/editCategory.jsp"/>
-                        <jsp:include page="fragment/modals/editTransaction.jsp"/>
-                        <jsp:include page="fragment/modals/deleteCategory.jsp"/>
-                        <jsp:include page="fragment/modals/deleteTransaction.jsp"/>
-                    </div>
-
+                    <jsp:include page="fragment/modals/editCategory.jsp"/>
+                    <jsp:include page="fragment/modals/editTransaction.jsp"/>
+                    <jsp:include page="fragment/modals/deleteCategory.jsp"/>
+                    <jsp:include page="fragment/modals/deleteTransaction.jsp"/>
                 </div>
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
-
-
-            <%@include file="fragment/footer.jsp" %>
-
+            <jsp:include page="fragment/footer.jsp"/>
         </div>
         <!-- End of Content Wrapper -->
-
     </div>
     <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <div>
-        <%@include file="fragment/core-js-plugins.jsp" %>
-    </div>
-
-    <!-- Page level plugins -->
-    <script src="/resources/static/vendor/chart.js/Chart.min.js"></script>
-    <script src="/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    <script src="/resources/static/js/customizedJquery.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="/resources/static/js/demo/chart-area-demo.js"></script>
-    <script src="/resources/static/js/demo/datatables-demo.js"></script>
-    <script src="/resources/static/js/demo/chart-pie-demo.js"></script>
+</div>
+<!-- Scroll to Top Button-->
+<div>
+    <jsp:include page="fragment/scroll-btn.jsp"/>
+</div>
+<!--App level plugins-->
+<div>
+    <jsp:include page="fragment/core-js-plugins.jsp"/>
+</div>
+<!-- Page level plugins -->
+<script src="${pageContext.request.contextPath}/resources/static/vendor/chart.js/Chart.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/customizedJquery.js"></script>
+<!-- Page level custom scripts -->
+<script src="${pageContext.request.contextPath}/resources/static/js/demo/chart-area-demo.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/demo/datatables-demo.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/demo/chart-pie-demo.js"></script>
 </body>
 </html>
