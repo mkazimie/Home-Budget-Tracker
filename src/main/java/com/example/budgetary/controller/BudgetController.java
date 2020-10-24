@@ -12,9 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -34,8 +32,8 @@ public class BudgetController {
 
 
     @GetMapping("")
-    public String displayBudgets(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
-        getAllUserBudgets(currentUser.getUser(), model);
+    public String displayUserBudgets(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
+        fetchUserBudgets(currentUser.getUser(), model);
         return "budgets";
     }
 
@@ -45,13 +43,13 @@ public class BudgetController {
         if (!bindingResult.hasErrors()) {
             LocalDate startDate = budget.getStartDate();
             LocalDate endDate = budget.getEndDate();
-            validDate(startDate, endDate);
-            if (!validDate(startDate, endDate)) {
+            checkIfDateIsValid(startDate, endDate);
+            if (!checkIfDateIsValid(startDate, endDate)) {
                 model.addAttribute("error", "The end date must be a valid date and later than the start date");
                 return "budget-form";
             }
             budgetService.createBudget(currentUser.getUser(), budget);
-            getAllUserBudgets(currentUser.getUser(), model);
+            fetchUserBudgets(currentUser.getUser(), model);
             return "redirect:/auth/budgets";
         }
         model.addAttribute("error", "Please try again");
@@ -66,10 +64,11 @@ public class BudgetController {
         return "budget-form";
     }
 
+
     @GetMapping("/{id}")
     public String displayBudgetById(@PathVariable Long id, Model model, HttpServletRequest request) {
         Budget budget = budgetService.findById(id);
-        BigDecimal allExpenses = countAllExpenses(budget);
+        BigDecimal allExpenses = countAllBudgetExpenses(budget);
         request.getSession().setAttribute("allExpenses", allExpenses);
 
         TransactionDto transactionDto = new TransactionDto();
@@ -81,8 +80,9 @@ public class BudgetController {
         return "budget";
     }
 
+
     @PutMapping("/{id}")
-    public @ResponseBody ValidationResponse updateViaAjax(@ModelAttribute(value="budget") @Valid Budget budget,
+    public @ResponseBody ValidationResponse updateBudgetViaAjax(@ModelAttribute(value="budget") @Valid Budget budget,
                                     BindingResult bindingResult) {
         ValidationResponse res = new ValidationResponse();
         if(bindingResult.hasErrors()){
@@ -92,8 +92,8 @@ public class BudgetController {
 
             LocalDate startDate = budget.getStartDate();
             LocalDate endDate = budget.getEndDate();
-            validDate(startDate, endDate);
-            if (validDate(startDate, endDate)){
+            checkIfDateIsValid(startDate, endDate);
+            if (checkIfDateIsValid(startDate, endDate)){
                 res.setStatus("SUCCESS");
                 budgetService.saveBudget(budget);
             } else {
@@ -106,7 +106,6 @@ public class BudgetController {
     }
 
 
-
     @GetMapping("/{id}/delete")
     public String deleteBudget(@PathVariable Long id, @AuthenticationPrincipal CurrentUser currentUser) {
         budgetService.removeBudget(id, currentUser.getUser());
@@ -114,7 +113,7 @@ public class BudgetController {
     }
 
 
-    private void getAllUserBudgets(User user, Model model) {
+    private void fetchUserBudgets(User user, Model model) {
         Set<Budget> budgets = budgetService.getBudgets(user);
         int noOfBudgets = budgetService.countBudgetsByUser(user);
         model.addAttribute("now", LocalDate.now());
@@ -123,7 +122,7 @@ public class BudgetController {
     }
 
 
-    private BigDecimal countAllExpenses(Budget budget) {
+    private BigDecimal countAllBudgetExpenses(Budget budget) {
         return budget.getCategories().stream()
                 .flatMap(category -> category.getTransactions().stream())
                 .filter(transaction -> transaction.getType().equals("Withdrawal"))
@@ -131,7 +130,7 @@ public class BudgetController {
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
-    private boolean validDate(LocalDate startDate, LocalDate endDate) {
+    private boolean checkIfDateIsValid(LocalDate startDate, LocalDate endDate) {
         return startDate.isBefore(endDate);
     }
 

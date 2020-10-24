@@ -33,7 +33,7 @@ public class TransactionController {
 
 
     @PostMapping("/categories/{categoryId}/transactions")
-    public String addTransaction(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto,
+    public String addNewTransaction(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto,
                                  BindingResult bindingResult, @AuthenticationPrincipal CurrentUser currentUser,
                                  @PathVariable Long categoryId,
                                  Model model, @PathVariable Long budgetId, RedirectAttributes attr) {

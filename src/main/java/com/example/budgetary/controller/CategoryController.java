@@ -23,7 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -39,9 +38,9 @@ public class CategoryController {
     }
 
     @GetMapping("")
-    public String displayCategories(@PathVariable Long budgetId, Model model, HttpServletRequest request) {
-        Budget budget = findBudget(budgetId);
-        Map<String, BigDecimal> categoryBalanceMap = balanceMap(budget);
+    public String displayBudgetCategories(@PathVariable Long budgetId, Model model, HttpServletRequest request) {
+        Budget budget = fetchBudget(budgetId);
+        Map<String, BigDecimal> categoryBalanceMap = calculateCategoryBalance(budget);
         model.addAttribute("categoryBalanceMap", categoryBalanceMap);
         model.addAttribute("budget", budget);
         CategoryDto categoryDto = new CategoryDto();
@@ -52,14 +51,14 @@ public class CategoryController {
     }
 
     @PostMapping("")
-    public String addCategory(@AuthenticationPrincipal CurrentUser currentUser,
+    public String addNewCategory(@AuthenticationPrincipal CurrentUser currentUser,
                               @ModelAttribute("categoryDto") @Valid CategoryDto categoryDto,
                               BindingResult bindingResult,
                               Model model, @PathVariable Long budgetId, RedirectAttributes attr) {
         if (!bindingResult.hasErrors()) {
             boolean categoryNameValid = checkIfCategoryNameIsValid(categoryDto, attr, budgetId);
             if (categoryNameValid) {
-                Budget budget = findBudget(budgetId);
+                Budget budget = fetchBudget(budgetId);
                 SortedSet<Category> budgetCategories = categoryService.addNewCategory(categoryDto, budget, currentUser.getUser());
                 model.addAttribute("budgetCategories", budgetCategories);
                 model.addAttribute("budget", budget);
@@ -72,10 +71,10 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
-    public String displayCategory(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model) {
+    public String displayCategoryById(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model) {
         Category category = categoryService.findCategoryById(categoryId);
-        Budget budget = findBudget(budgetId);
-        model.addAttribute("allCategoryExpenses", countCategoryExpenses(category));
+        Budget budget = fetchBudget(budgetId);
+        model.addAttribute("allCategoryExpenses", countAllCategoryExpenses(category));
         model.addAttribute("category", category);
         model.addAttribute("budget", budget);
         if (!model.containsAttribute("transactionDto")) {
@@ -86,7 +85,7 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     public @ResponseBody
-    ValidationResponse updateViaAjax(@ModelAttribute(value = "category") @Valid Category category,
+    ValidationResponse updateCategoryViaAjax(@ModelAttribute(value = "category") @Valid Category category,
                                      BindingResult bindingResult) {
         ValidationResponse res = new ValidationResponse();
         if (bindingResult.hasErrors()) {
@@ -123,12 +122,12 @@ public class CategoryController {
         res.setErrorMessageList(errorMessages);
     }
 
-    public Budget findBudget(@PathVariable Long budgetId) {
+    public Budget fetchBudget(@PathVariable Long budgetId) {
         return budgetService.findById(budgetId);
     }
 
 
-    public BigDecimal countCategoryExpenses(Category category) {
+    public BigDecimal countAllCategoryExpenses(Category category) {
         SortedSet<Transaction> transactions = category.getTransactions();
         return transactions.stream()
                 .map(Transaction::getSum)
@@ -153,12 +152,12 @@ public class CategoryController {
     }
 
 
-    private Map<String, BigDecimal> balanceMap(Budget budget) {
+    private Map<String, BigDecimal> calculateCategoryBalance(Budget budget) {
         Map<String, BigDecimal> balanceMap = new HashMap<>();
         SortedSet<Category> categories = budget.getCategories();
         for (Category category : categories) {
             balanceMap.put(category.getName(),
-                    category.getCategoryBudget().subtract(countCategoryExpenses(category)));
+                    category.getCategoryBudget().subtract(countAllCategoryExpenses(category)));
         }
         return balanceMap;
     }
@@ -168,23 +167,23 @@ public class CategoryController {
         return Arrays.asList("Deposit", "Withdrawal");
     }
 
-    @ModelAttribute("categoriesIcons")
+    @ModelAttribute("categoryIconMap")
     public Map<String, String> categories() {
-        Map<String, String> catIcons = new LinkedHashMap<>();
-        catIcons.put("Home", "<i class='fas fa-file-invoice'></i>");
-        catIcons.put("Supermarket", "<i class='fas fa-shopping-cart'></i>");
-        catIcons.put("Public Transport", "<i class='fas fa-bus-alt'></i>");
-        catIcons.put("Vehicle", "<i class='fas fa-car'></i>");
-        catIcons.put("Health", "<i class='fas fa-tablets'></i>");
-        catIcons.put("Gym", "<i class='fas fa-dumbbell'></i>");
-        catIcons.put("Going Out", "<i class='fas fa-glass-cheers'></i>");
-        catIcons.put("Shopping", "<i class='fas fa-shopping-bag'></i>");
-        catIcons.put("Personal Care", "<i class='fas fa-magic'></i>");
-        catIcons.put("Travel", "<i class='fas fa-plane'></i>");
-        catIcons.put("Other", "<i class='fas fa-atom'></i>");
-        catIcons.put("Savings", "<i class='fas fa-piggy-bank'></i>");
-        catIcons.put("Unexpected", "<i class='fas fa-exclamation-triangle'></i>");
-        return catIcons;
+        Map<String, String> categoriesIcons = new LinkedHashMap<>();
+        categoriesIcons.put("Home", "<i class='fas fa-file-invoice'></i>");
+        categoriesIcons.put("Supermarket", "<i class='fas fa-shopping-cart'></i>");
+        categoriesIcons.put("Public Transport", "<i class='fas fa-bus-alt'></i>");
+        categoriesIcons.put("Vehicle", "<i class='fas fa-car'></i>");
+        categoriesIcons.put("Health", "<i class='fas fa-tablets'></i>");
+        categoriesIcons.put("Gym", "<i class='fas fa-dumbbell'></i>");
+        categoriesIcons.put("Going Out", "<i class='fas fa-glass-cheers'></i>");
+        categoriesIcons.put("Shopping", "<i class='fas fa-shopping-bag'></i>");
+        categoriesIcons.put("Personal Care", "<i class='fas fa-magic'></i>");
+        categoriesIcons.put("Travel", "<i class='fas fa-plane'></i>");
+        categoriesIcons.put("Other", "<i class='fas fa-atom'></i>");
+        categoriesIcons.put("Savings", "<i class='fas fa-piggy-bank'></i>");
+        categoriesIcons.put("Unexpected", "<i class='fas fa-exclamation-triangle'></i>");
+        return categoriesIcons;
     }
 
 
