@@ -16,8 +16,6 @@ import java.time.format.TextStyle;
 import java.util.Locale;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "transactions")
 public class Transaction implements Comparable<Transaction> {
@@ -65,5 +63,4 @@ public class Transaction implements Comparable<Transaction> {
         }
         return compareTo * -1;
     }
-
 }

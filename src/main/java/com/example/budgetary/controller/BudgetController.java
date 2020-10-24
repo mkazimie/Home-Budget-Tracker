@@ -30,7 +30,6 @@ public class BudgetController {
         this.budgetService = budgetService;
     }
 
-
     @GetMapping("")
     public String displayUserBudgets(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
         fetchUserBudgets(currentUser.getUser(), model);
@@ -56,7 +55,6 @@ public class BudgetController {
         return "budget-form";
     }
 
-
     @GetMapping("/form")
     public String displayBudgetForm(Model model) {
         Budget budget = new Budget();
@@ -64,10 +62,9 @@ public class BudgetController {
         return "budget-form";
     }
 
-
     @GetMapping("/{id}")
     public String displayBudgetById(@PathVariable Long id, Model model, HttpServletRequest request) {
-        Budget budget = budgetService.findById(id);
+        Budget budget = budgetService.findBudgetById(id);
         BigDecimal allExpenses = countAllBudgetExpenses(budget);
         request.getSession().setAttribute("allExpenses", allExpenses);
 
@@ -80,7 +77,6 @@ public class BudgetController {
         return "budget";
     }
 
-
     @PutMapping("/{id}")
     public @ResponseBody ValidationResponse updateBudgetViaAjax(@ModelAttribute(value="budget") @Valid Budget budget,
                                     BindingResult bindingResult) {
@@ -89,7 +85,6 @@ public class BudgetController {
             CategoryController.validateViaAjax(bindingResult, res);
         } else {
             final List<ErrorMessage> errorMessageList = new ArrayList<>();
-
             LocalDate startDate = budget.getStartDate();
             LocalDate endDate = budget.getEndDate();
             checkIfDateIsValid(startDate, endDate);
@@ -105,22 +100,19 @@ public class BudgetController {
         return res;
     }
 
-
     @GetMapping("/{id}/delete")
     public String deleteBudget(@PathVariable Long id, @AuthenticationPrincipal CurrentUser currentUser) {
         budgetService.removeBudget(id, currentUser.getUser());
         return "redirect:/auth/budgets";
     }
 
-
     private void fetchUserBudgets(User user, Model model) {
-        Set<Budget> budgets = budgetService.getBudgets(user);
+        Set<Budget> budgets = budgetService.getAllUserBudgets(user);
         int noOfBudgets = budgetService.countBudgetsByUser(user);
         model.addAttribute("now", LocalDate.now());
         model.addAttribute("budgets", budgets);
         model.addAttribute("noOfBudgets", noOfBudgets);
     }
-
 
     private BigDecimal countAllBudgetExpenses(Budget budget) {
         return budget.getCategories().stream()
@@ -134,11 +126,8 @@ public class BudgetController {
         return startDate.isBefore(endDate);
     }
 
-
     @ModelAttribute("currentUser")
     public User currentUser(@AuthenticationPrincipal CurrentUser currentUser) {
         return currentUser.getUser();
     }
-
-
 }

@@ -26,7 +26,7 @@ public class UserService {
         this.authorityRepository = authorityRepository;
     }
 
-    public User findByUsername(String username) {
+    public User findUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
@@ -35,7 +35,7 @@ public class UserService {
     }
 
     public void registerUser(UserDto userDto) throws RecordAlreadyExistsException {
-        if (findByUsername(userDto.getUsername()) != null) {
+        if (findUserByUsername(userDto.getUsername()) != null) {
             throw new RecordAlreadyExistsException("Username already exists");
         } else {
             User user = new User();
@@ -47,5 +47,4 @@ public class UserService {
             saveUser(user);
         }
     }
-
 }

@@ -17,14 +17,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.SortedSet;
 
-
 @Service
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final CategoryRepository categoryRepository;
     private final BudgetRepository budgetRepository;
-
 
     public TransactionService(TransactionRepository transactionRepository, CategoryRepository categoryRepository, BudgetRepository budgetRepository) {
         this.transactionRepository = transactionRepository;
@@ -41,29 +39,20 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
-    public void deleteTransaction(long id) {
-        transactionRepository.delete(findTransactionById(id));
-    }
-
-
     public SortedSet<Transaction> addTransactionToCategory(TransactionDto transactionDto, Category category,
                                                            User user) {
         Budget budget = category.getBudget();
-
         Transaction transaction = setNewTransaction(transactionDto, user);
         transaction.setCategory(category);
         transaction.setBudget(budget);
-
         BigDecimal transactionSum = transaction.getSum();
         BigDecimal moneyLeftInCategory = category.getMoneyLeft();
-
         if (transaction.getType().equals("Withdrawal")) {
             category.setMoneyLeft(moneyLeftInCategory.subtract(transactionSum));
             budget.setMoneyLeft(budget.getMoneyLeft().subtract(transactionSum));
         } else {
             category.setMoneyLeft(moneyLeftInCategory.add(transactionSum));
             budget.setMoneyLeft(budget.getMoneyLeft().add(transactionSum));
-//            category.setCategoryBudget(category.getCategoryBudget().add(transactionSum));
         }
         transaction.setCurrentBalance(budget.getMoneyLeft());
         saveTransaction(transaction);
@@ -102,16 +91,14 @@ public class TransactionService {
             } else {
                 transactionCategory.setMoneyLeft(moneyLeftInCategory.subtract(transactionSum));
                 budget.setMoneyLeft(moneyLeftInBudget.subtract(transactionSum));
-//            category.setCategoryBudget(category.getCategoryBudget().add(transactionSum));
             }
             transactionCategory.getTransactions().remove(transaction);
         }
         User user = transaction.getUser();
         user.getTransactions().remove(transaction);
         budget.getTransactions().remove(transaction);
-        deleteTransaction(transactionId);
+        transactionRepository.delete(transaction);
     }
-
 
     private Transaction setNewTransaction(TransactionDto transactionDto, User user) {
         Transaction transaction = new Transaction();
@@ -122,5 +109,4 @@ public class TransactionService {
         transaction.setDate(transactionDto.getDate());
         return transaction;
     }
-
 }

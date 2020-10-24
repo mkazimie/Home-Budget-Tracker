@@ -1,15 +1,12 @@
 package com.example.budgetary.entity.dto;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 public class CategoryDto {
 
     @NotBlank
@@ -18,5 +15,4 @@ public class CategoryDto {
     private String ownName;
 
     private BigDecimal categoryMoney;
-
 }

@@ -1,7 +1,6 @@
 package com.example.budgetary.entity;
 
 import lombok.*;
-import org.hibernate.annotations.SortNatural;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -16,8 +15,6 @@ import java.util.TreeSet;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "budgets")
 public class Budget implements Comparable<Budget> {

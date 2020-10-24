@@ -15,8 +15,6 @@ import java.util.TreeSet;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString(exclude = "transactions")
 @Entity
 @Table(name = "categories")

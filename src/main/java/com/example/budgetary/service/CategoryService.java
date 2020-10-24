@@ -7,15 +7,12 @@ import com.example.budgetary.entity.User;
 import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.exception.NoRecordFoundException;
 import com.example.budgetary.repository.CategoryRepository;
-import com.example.budgetary.security.CurrentUser;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 @Service
 public class CategoryService {
@@ -35,18 +32,13 @@ public class CategoryService {
         return category.orElseThrow(() -> new NoRecordFoundException("No record found in our DB"));
     }
 
-    public Category findByName(String name, Long budgetId) {
+    public Category findCategoryByName(String name, Long budgetId) {
         return categoryRepository.findByName(name, budgetId);
     }
 
     public void saveCategory(Category category) {
         categoryRepository.save(category);
     }
-
-    public void deleteCategory(Long id){
-        categoryRepository.delete(findCategoryById(id));
-    }
-
 
     public SortedSet<Category> addNewCategory(CategoryDto categoryDto, Budget budget, User user) {
         Category category = new Category();
@@ -74,37 +66,6 @@ public class CategoryService {
         return budgetCategories;
     }
 
-//    public void updateCategory(Category updatedCategory, Category originalCategory, Budget budget, User user) {
-//        BigDecimal updatedCatBudget = updatedCategory.getCategoryBudget();
-//        BigDecimal originalCatBudget = originalCategory.getCategoryBudget();
-//        BigDecimal catBudgetDifference = updatedCatBudget.subtract(originalCatBudget);
-//
-//        if (!updatedCategory.getName().equals(originalCategory.getName())){
-//            originalCategory.setName(updatedCategory.getName());
-//            saveCategory(originalCategory);
-//        }
-//        if (catBudgetDifference.compareTo(BigDecimal.ZERO) != 0){
-//            originalCategory.setCategoryBudget(updatedCatBudget);
-//            originalCategory.setMoneyLeft(originalCategory.getMoneyLeft().add(catBudgetDifference));
-//            saveCategory(originalCategory);
-//            budget.setMoneyLeft(budget.getMoneyLeft().add(catBudgetDifference));
-//            budget.setBudgetMoney(budget.getBudgetMoney().add(catBudgetDifference));
-//            Transaction transaction = createTransaction(budget, user);
-//            transaction.setTitle("Modify Category " + originalCategory.getName() + " budget");
-//            transaction.setSum(catBudgetDifference);
-//            if (catBudgetDifference.compareTo(BigDecimal.ZERO) > 0) {
-//                transaction.setType("Deposit");
-//            } else {
-//                transaction.setType("Withdrawal");
-//            }
-//            transactionService.saveTransaction(transaction);
-//            budgetService.saveBudget(budget);
-//        }
-//
-//    }
-
-
-
     public void removeCategory(Long id, User user) {
         Category categoryById = findCategoryById(id);
         BigDecimal categoryMoneyLeft = categoryById.getMoneyLeft();
@@ -122,9 +83,8 @@ public class CategoryService {
         transaction.setSum(categoryMoneyLeft);
         transactionService.saveTransaction(transaction);
         categoryById.setBudget(null);
-        deleteCategory(categoryById.getId());
+        categoryRepository.delete(categoryById);
     }
-
 
     private Transaction createTransaction(Budget budget, User user) {
         Transaction transaction = new Transaction();
@@ -134,5 +94,4 @@ public class CategoryService {
         transaction.setUser(user);
         return transaction;
     }
-
 }

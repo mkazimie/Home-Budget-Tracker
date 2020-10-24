@@ -1,6 +1,5 @@
 package com.example.budgetary.controller;
 
-
 import com.example.budgetary.entity.dto.UserDto;
 import com.example.budgetary.exception.RecordAlreadyExistsException;
 import com.example.budgetary.security.CurrentUser;
@@ -34,7 +33,6 @@ public class HomeController {
         return "index";
     }
 
-
     @GetMapping("/login")
     public String login(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
         if (currentUser != null) {
@@ -57,7 +55,6 @@ public class HomeController {
         attr.addFlashAttribute("error", errorMessage);
         return "redirect:/login";
     }
-
 
     @GetMapping("/register")
     public String register(Model model) {
@@ -85,6 +82,4 @@ public class HomeController {
         }
         return "register";
     }
-
-
 }

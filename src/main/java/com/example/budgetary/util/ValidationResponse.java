@@ -15,5 +15,4 @@ public class ValidationResponse {
 
     private String status;
     private List<ErrorMessage> errorMessageList;
-
 }

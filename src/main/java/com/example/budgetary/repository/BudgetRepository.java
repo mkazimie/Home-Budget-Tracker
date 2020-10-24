@@ -15,4 +15,5 @@ public interface BudgetRepository extends JpaRepository<Budget, Long> {
     Set<Budget> findAllByUsers(User user);
 
     int countBudgetsByUsers(User user);
+
 }

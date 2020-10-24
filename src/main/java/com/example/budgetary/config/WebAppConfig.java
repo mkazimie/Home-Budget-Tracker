@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
 @Configuration
 public class WebAppConfig implements WebMvcConfigurer {
 
@@ -13,5 +12,4 @@ public class WebAppConfig implements WebMvcConfigurer {
         registry.addViewController("/403").setViewName("403");
         registry.addViewController("/login").setViewName("login");
     }
-
 }

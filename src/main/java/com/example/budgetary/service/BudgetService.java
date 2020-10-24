@@ -10,20 +10,17 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class BudgetService {
 
     private final BudgetRepository budgetRepository;
-    private final UserService userService;
 
-    public BudgetService(BudgetRepository budgetRepository, UserService userService) {
+    public BudgetService(BudgetRepository budgetRepository) {
         this.budgetRepository = budgetRepository;
-        this.userService = userService;
     }
 
-    public Set<Budget> getBudgets(User user) {
+    public Set<Budget> getAllUserBudgets(User user) {
         return budgetRepository.findAllByUsers(user);
     }
 
@@ -31,12 +28,10 @@ public class BudgetService {
         return budgetRepository.countBudgetsByUsers(user);
     }
 
-
-    public Budget findById(Long id) {
+    public Budget findBudgetById(Long id) {
         Optional<Budget> budget = budgetRepository.findById(id);
         return budget.orElseThrow(() -> new NoRecordFoundException("No such record in the Database"));
     }
-
 
     public void createBudget(User user, Budget budget) {
         budget.setUsers(new HashSet<>(Arrays.asList(user)));
@@ -45,14 +40,12 @@ public class BudgetService {
         saveBudget(budget);
     }
 
-
     public void saveBudget(Budget budget) {
         budgetRepository.save(budget);
     }
 
-
     public void removeBudget(Long id, User user) {
-        Budget budget = findById(id);
+        Budget budget = findBudgetById(id);
         Set<User> budgetUsers = budget.getUsers();
         if (budgetUsers.size() > 1) {
             budgetUsers.remove(user);
@@ -65,13 +58,7 @@ public class BudgetService {
             budget.getCategories().forEach(category -> category.setBudget(null));
             budget.setTransactions(null);
             budget.setCategories(null);
-            deleteBudget(id);
+            budgetRepository.delete(budget);
         }
     }
-
-    public void deleteBudget(Long id) {
-        budgetRepository.delete(findById(id));
-    }
-
-
 }

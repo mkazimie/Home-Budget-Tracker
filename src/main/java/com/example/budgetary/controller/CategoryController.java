@@ -92,7 +92,7 @@ public class CategoryController {
             validateViaAjax(bindingResult, res);
         } else {
             final List<ErrorMessage> errorMessageList = new ArrayList<>();
-            Category existingCategory = categoryService.findByName(category.getName(), category.getBudget().getId());
+            Category existingCategory = categoryService.findCategoryByName(category.getName(), category.getBudget().getId());
             if (existingCategory == null || existingCategory.getId()==category.getId()) {
                 res.setStatus("SUCCESS");
                 categoryService.saveCategory(category);
@@ -123,7 +123,7 @@ public class CategoryController {
     }
 
     public Budget fetchBudget(@PathVariable Long budgetId) {
-        return budgetService.findById(budgetId);
+        return budgetService.findBudgetById(budgetId);
     }
 
 
@@ -134,12 +134,11 @@ public class CategoryController {
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
-
     private boolean checkIfCategoryNameIsValid(CategoryDto categoryDto, RedirectAttributes attr, Long budgetId) {
         boolean isValid;
         String selectedName = categoryDto.getSelectedName();
         String ownName = categoryDto.getOwnName();
-        if (categoryService.findByName(selectedName, budgetId) != null || ((ownName != null && categoryService.findByName(ownName, budgetId) != null))) {
+        if (categoryService.findCategoryByName(selectedName, budgetId) != null || ((ownName != null && categoryService.findCategoryByName(ownName, budgetId) != null))) {
             attr.addFlashAttribute("error", "Such category already exists in your budget");
             isValid = false;
         } else if (selectedName.equals("customized") && ownName.trim().isEmpty()) {
@@ -150,7 +149,6 @@ public class CategoryController {
         }
         return isValid;
     }
-
 
     private Map<String, BigDecimal> calculateCategoryBalance(Budget budget) {
         Map<String, BigDecimal> balanceMap = new HashMap<>();
@@ -186,11 +184,8 @@ public class CategoryController {
         return categoriesIcons;
     }
 
-
     @ModelAttribute("currentUser")
     public User currentUser(@AuthenticationPrincipal CurrentUser currentUser) {
         return currentUser.getUser();
     }
-
-
 }

@@ -31,7 +31,6 @@ public class TransactionController {
         this.categoryService = categoryService;
     }
 
-
     @PostMapping("/categories/{categoryId}/transactions")
     public String addNewTransaction(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto,
                                  BindingResult bindingResult, @AuthenticationPrincipal CurrentUser currentUser,
@@ -69,8 +68,4 @@ public class TransactionController {
 
         return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
     }
-
-
-
-
 }

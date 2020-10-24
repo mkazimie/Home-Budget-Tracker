@@ -10,8 +10,6 @@ import java.util.*;
 @Getter
 @Setter
 @ToString(exclude = {"budgets", "transactions"})
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
