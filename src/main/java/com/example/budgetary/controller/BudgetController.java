@@ -3,6 +3,7 @@ package com.example.budgetary.controller;
 import com.example.budgetary.entity.Budget;
 import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.User;
+import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
@@ -74,6 +75,9 @@ public class BudgetController {
         }
         model.addAttribute("budget", budget);
         model.addAttribute("allExpenses", allExpenses);
+        model.addAttribute("categoryDto", new CategoryDto());
+        Map<String, String> categoryIconsMap = CategoryController.getCategoryIconsMap();
+        model.addAttribute("categoryIconsMap", categoryIconsMap);
         return "budget";
     }
 

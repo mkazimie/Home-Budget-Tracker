@@ -164,136 +164,44 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- LIST of Latest BUDGET TRANSACTIONS -->
-                            <div class="col-xl-8 col-md-6 mb-4 ">
-                                <div class="card border-left-primary border-bottom-primary shadow h-100">
+                            <!-- Add Category Form-->
+                            <div class="col-xl-4 col-md-6 mb-4 ">
+                                <div class="card border-primary">
                                     <div class="card-header bg-primary">
                                         <h5 class="font-weight-bold text-white text-center col-12">
-                                            Transactions </h5>
-                                        <div class="text-center text-secondary">${budget.transactions.size()}
-                                            transactions in
-                                            this budget
-                                        </div>
+                                            Add Category </h5>
                                     </div>
                                     <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped" id="dataTable" width="100%"
-                                                   cellspacing="0">
-                                                <thead>
-                                                <tr class="text-center">
-                                                    <th> Registered</th>
-                                                    <th> Title</th>
-                                                    <th><strong> Sum </strong></th>
-                                                    <th> Date</th>
-                                                    <th> Category</th>
-                                                    <th> Payee</th>
-                                                    <th> Balance</th>
-                                                    <th> Actions</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <c:forEach items="${budget.transactions}" var="transaction">
-                                                    <tr class="text-center">
-                                                        <fmt:parseDate value="${ transaction.dateTimeAdded }"
-                                                                       pattern="yyyy-MM-dd'T'HH:mm"
-                                                                       var="parsedDateTime" type="both"/>
-                                                        <td class="align-middle text-gray-800 font-sm">
-                                                            <fmt:formatDate
-                                                                    pattern="dd/MM/yyyy HH:mm"
-                                                                    value="${ parsedDateTime }"
-                                                            />
-                                                        </td>
-                                                        <td class="align-middle">${transaction.title}</td>
-                                                        <c:choose>
-                                                            <c:when test="${transaction.type.equals('Withdrawal')}">
-                                                                <td class="align-middle text-danger">
-                                                                    <c:if test="${transaction.sum > 0}">-</c:if>${transaction.sum}
-                                                                    €
-                                                                </td>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <td class="align-middle text-success">
-                                                                    +${transaction.sum}€
-                                                                </td>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                        <fmt:parseDate value="${transaction.date }"
-                                                                       pattern="yyyy-MM-dd"
-                                                                       var="parsedDate" type="both"/>
-                                                        <td class="align-middle">
-                                                            <fmt:formatDate
-                                                                    pattern="dd/MM/yyyy"
-                                                                    value="${ parsedDate }"
-                                                            />
-                                                        </td>
-                                                        <c:choose>
-                                                            <c:when test="${not empty transaction.category}">
-                                                                <td class="align-middle">
-                                                                    <a href="/auth/budgets/${budget.id}/categories
-                                                                    /${transaction.category.id}"
-                                                                       class="btn btn-primary font-weight-bolder">
-                                                                            ${transaction.category.name}
-                                                                    </a>
-                                                                </td>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <td class="align-middle">
-                                                                    <button
-                                                                            class="btn btn-secondary font-weight-bolder"
-                                                                            disabled>Main
-                                                                        Budget
-                                                                    </button>
-                                                                </td>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                        <td class="align-middle">${transaction.user.username}</td>
-                                                        <td class="align-middle
-                                                        text-secondary">${transaction.currentBalance}€
-                                                        </td>
-                                                        <td class="align-middle">
-                                                            <button id="deleteTransactionBtn"
-                                                                    data-toggle="modal"
-                                                                    data-target="#deleteTransactionModal"
-                                                                    data-title="${transaction.title}"
-                                                                    data-id="${transaction.id}"
-                                                                    data-budget="${budget.id}"
-                                                                    <c:choose>
-                                                                        <c:when test="${not empty transaction.category}">
-                                                                            class="btn-circle btn-danger btn-sm">
-                                                                            <i class="far fa-trash-alt"></i>
-                                                                        </c:when>
-                                                                        <c:otherwise>
-                                                                            class="btn-circle btn-secondary btn-sm">
-                                                                            <i class="fas fa-eraser"></i>
-                                                                        </c:otherwise>
-                                                                    </c:choose>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </c:forEach>
-                                                </tbody>
-                                            </table>
+                                        <div class="btn-wrapper text-center">
+                                            <button id="toggleForm" class="btn-circle btn-lg btn-info" type="button"
+                                                    data-toggle="collapse" data-target="#collapseForm" aria-expanded="false"
+                                                    aria-controls="collapseExample">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                            <div id="collapseForm" class="collapse my-3">
+                                                <jsp:include page="fragment/forms/add-category.jsp"/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <!--Insert Modals -->
-                <jsp:include page="fragment/modals/editBudget.jsp"/>
-                <jsp:include page="fragment/modals/deleteBudget.jsp"/>
-                <jsp:include page="fragment/modals/deleteTransaction.jsp"/>
+                <div>
+                    <jsp:include page="fragment/modals/editBudget.jsp"/>
+                    <jsp:include page="fragment/modals/deleteBudget.jsp"/>
+                    <jsp:include page="fragment/modals/deleteTransaction.jsp"/>
+                </div>
+
                 <!-- End Page Content -->
             </div>
-            <!-- /.container-fluid -->
+            <!-- End of Main Content -->
         </div>
-        <!-- End of Main Content -->
-        <jsp:include page="fragment/footer.jsp"/>
         <!-- End of Content Wrapper -->
     </div>
-    <!-- End of Page Wrapper -->
+    <jsp:include page="fragment/footer.jsp"/>
 </div>
 <!-- Scroll to Top Button-->
 <div>

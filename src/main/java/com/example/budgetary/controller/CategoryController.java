@@ -70,6 +70,7 @@ public class CategoryController {
         return "redirect:/auth/budgets/{budgetId}/categories";
     }
 
+
     @GetMapping("/{categoryId}")
     public String displayCategoryById(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model) {
         Category category = categoryService.findCategoryById(categoryId);
@@ -165,23 +166,23 @@ public class CategoryController {
         return Arrays.asList("Deposit", "Withdrawal");
     }
 
-    @ModelAttribute("categoryIconMap")
-    public Map<String, String> categories() {
-        Map<String, String> categoriesIcons = new LinkedHashMap<>();
-        categoriesIcons.put("Home", "<i class='fas fa-file-invoice'></i>");
-        categoriesIcons.put("Supermarket", "<i class='fas fa-shopping-cart'></i>");
-        categoriesIcons.put("Public Transport", "<i class='fas fa-bus-alt'></i>");
-        categoriesIcons.put("Vehicle", "<i class='fas fa-car'></i>");
-        categoriesIcons.put("Health", "<i class='fas fa-tablets'></i>");
-        categoriesIcons.put("Gym", "<i class='fas fa-dumbbell'></i>");
-        categoriesIcons.put("Going Out", "<i class='fas fa-glass-cheers'></i>");
-        categoriesIcons.put("Shopping", "<i class='fas fa-shopping-bag'></i>");
-        categoriesIcons.put("Personal Care", "<i class='fas fa-magic'></i>");
-        categoriesIcons.put("Travel", "<i class='fas fa-plane'></i>");
-        categoriesIcons.put("Other", "<i class='fas fa-atom'></i>");
-        categoriesIcons.put("Savings", "<i class='fas fa-piggy-bank'></i>");
-        categoriesIcons.put("Unexpected", "<i class='fas fa-exclamation-triangle'></i>");
-        return categoriesIcons;
+    @ModelAttribute("categoryIconsMap")
+    public static Map<String, String> getCategoryIconsMap() {
+        Map<String, String> categoryIcons = new LinkedHashMap<>();
+        categoryIcons.put("Home", "<i class='fas fa-file-invoice'></i>");
+        categoryIcons.put("Supermarket", "<i class='fas fa-shopping-cart'></i>");
+        categoryIcons.put("Public Transport", "<i class='fas fa-bus-alt'></i>");
+        categoryIcons.put("Vehicle", "<i class='fas fa-car'></i>");
+        categoryIcons.put("Health", "<i class='fas fa-tablets'></i>");
+        categoryIcons.put("Gym", "<i class='fas fa-dumbbell'></i>");
+        categoryIcons.put("Going Out", "<i class='fas fa-glass-cheers'></i>");
+        categoryIcons.put("Shopping", "<i class='fas fa-shopping-bag'></i>");
+        categoryIcons.put("Personal Care", "<i class='fas fa-magic'></i>");
+        categoryIcons.put("Travel", "<i class='fas fa-plane'></i>");
+        categoryIcons.put("Other", "<i class='fas fa-atom'></i>");
+        categoryIcons.put("Savings", "<i class='fas fa-piggy-bank'></i>");
+        categoryIcons.put("Unexpected", "<i class='fas fa-exclamation-triangle'></i>");
+        return categoryIcons;
     }
 
     @ModelAttribute("currentUser")

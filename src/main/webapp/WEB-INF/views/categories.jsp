@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="input" uri="http://www.springframework.org/tags/form" %>
 
 <html>
 <head>
@@ -47,8 +46,8 @@
                 </div>
 
                 <!-- Content Row -->
+                <!--ADD CAT FORM-->
                 <div class="row">
-                    <!-- Form for adding NEW CATEGORY -->
                     <div class="col-xl-4 col-md-6 mb-4 ">
                         <div class="card border-left-primary shadow">
                             <div class="card-header bg-primary d-table">
@@ -58,158 +57,110 @@
                             </div>
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center justify-content-center">
-                                    <div class="errorMsg alert alert-danger d-none" role="alert">${error}</div>
-                                    <form:form method="post" action="/auth/budgets/${budget.id}/categories"
-                                               modelAttribute="categoryDto">
-                                    <!-- Category selected input - can be toggled -->
-                                    <div id="selectInput" class="form-group">
-                                        <form:label path="selectedName" cssClass="text-primary"> Name </form:label>
-                                        <form:select path="selectedName" class="form-control" id="selectCat">
-                                            <form:option label="--Select--"
-                                                         selected="selected" value=" "/>
-                                            <form:options items="${categoryIconMap.keySet()}"/>
-                                            <form:option value="customized"
-                                                         label="Add your own"/>
-                                        </form:select>
-                                        <form:errors path="selectedName" cssClass="errorMessage"/>
-                                    </div>
-                                    <!-- Category own input - can be toggled -->
-                                    <div id="ownInput" class="form-group d-none">
-                                        <form:label path="ownName" cssClass="text-primary"> Name </form:label>
-                                        <div class="input-group">
-                                            <div class="input-group-append">
-                                                <div class="input-group-text">
-                                                    <input type="checkbox" id="getCatList">&nbsp List
-                                                </div>
-                                            </div>
-                                            <form:input path="ownName" type="text"
-                                                        class="form-control form-control-user"
-                                                        placeholder="ex. Food, Leisure..."
-                                            />
-                                            <form:errors path="ownName" cssClass="errorMessage"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="categoryMoney"
-                                                    cssClass="text-primary"> Budget </form:label>
-                                        <div class="input-group">
-                                            <form:input path="categoryMoney" type="number" min="1" step=".01"
-                                                        class="form-control form-control-user"
-                                                        placeholder="" required="required"/>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">€</span>
-                                            </div>
-                                        </div>
-                                        <form:errors path="categoryMoney" cssClass="errorMessage"/>
-                                    </div>
+                                    <jsp:include page="fragment/forms/add-category.jsp"/>
                                 </div>
-                            </div>
-                            <div class="card-footer">
-                                <button class="btn btn-success btn-user btn-block" type="submit"> Save
-                                </button>
-                                </form:form>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Table displaying ALL CATEGORIES for this budget -->
-                    <div class="col-xl-7 col-md-6 mb-4 ">
-                        <div class="card border-left-primary shadow h-100">
-                            <div class="card-header bg-primary d-table">
-                                <div class="d-table-cell align-middle">
-                                    <h5 class="card-title font-weight-bold text-center text-white">
-                                        Categories</h5>
+                        <!-- Table displaying ALL CATEGORIES for this budget -->
+                        <div class="col-xl-7 col-md-6 mb-4 ">
+                            <div class="card border-left-primary shadow h-100">
+                                <div class="card-header bg-primary d-table">
+                                    <div class="d-table-cell align-middle">
+                                        <h5 class="card-title font-weight-bold text-center text-white">
+                                            Categories</h5>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th>Name</th>
-                                            <th><strong>Budget</strong></th>
-                                            <th><strong>Available</strong></th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <c:forEach items="${budget.categories}" var="category">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
                                             <tr>
-                                                <td class="align-middle"><a
-                                                        href="/auth/budgets/${budget.id}/categories/${category.id}"
-                                                        class="btn btn-success"><i
-                                                        class="fas fa-angle-double-right"></i></a>
-                                                </td>
-                                                <td
-                                                        class="align-middle">
+                                                <th></th>
+                                                <th>Name</th>
+                                                <th><strong>Budget</strong></th>
+                                                <th><strong>Available</strong></th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach items="${budget.categories}" var="category">
+                                                <tr>
+                                                    <td class="align-middle"><a
+                                                            href="/auth/budgets/${budget.id}/categories/${category.id}"
+                                                            class="btn btn-success"><i
+                                                            class="fas fa-angle-double-right"></i></a>
+                                                    </td>
+                                                    <td
+                                                            class="align-middle">
+                                                        <c:choose>
+                                                            <c:when test="${empty categoryIconsMap.get(category.name)}">
+                                                                <i class="fas fa-ellipsis-h"></i> </c:when>
+                                                            <c:otherwise>
+                                                                ${categoryIconsMap.get(category.name)}
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                        &nbsp;&nbsp; ${category.name}
+                                                    </td>
+                                                    <td class="align-middle">${category.categoryBudget} €</td>
                                                     <c:choose>
-                                                        <c:when test="${empty categoryIconMap.get(category.name)}">
-                                                            <i class="fas fa-ellipsis-h"></i> </c:when>
+                                                        <c:when test="${categoryBalanceMap.get(category.name) > 0}">
+                                                            <td class="align-middle
+                                                     text-success">${categoryBalanceMap.get(category.name)} €
+                                                            </td>
+                                                        </c:when>
                                                         <c:otherwise>
-                                                            ${categoryIconMap.get(category.name)}
+                                                            <td class="align-middle
+                                                     text-danger">${categoryBalanceMap.get(category.name)} €
+                                                            </td>
                                                         </c:otherwise>
                                                     </c:choose>
-                                                    &nbsp;&nbsp; ${category.name}
-                                                </td>
-                                                <td class="align-middle">${category.categoryBudget} €</td>
-                                                <c:choose>
-                                                    <c:when test="${categoryBalanceMap.get(category.name) > 0}">
-                                                        <td class="align-middle
-                                                     text-success">${categoryBalanceMap.get(category.name)} €
-                                                        </td>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <td class="align-middle
-                                                     text-danger">${categoryBalanceMap.get(category.name)} €
-                                                        </td>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                                <td>
-                                                    <button id="deleteBtn" data-toggle="modal"
-                                                            data-target="#deleteCategoryModal"
-                                                            data-name="${category.name}"
-                                                            data-id="${category.id}"
-                                                            data-budget="${budget.id}"
-                                                            class="btn-circle btn-secondary btn-sm"><i
-                                                            class="far fa-trash-alt"></i></button>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                        </tbody>
-                                    </table>
+                                                    <td>
+                                                        <button id="deleteBtn" data-toggle="modal"
+                                                                data-target="#deleteCategoryModal"
+                                                                data-name="${category.name}"
+                                                                data-id="${category.id}"
+                                                                data-budget="${budget.id}"
+                                                                class="btn-circle btn-secondary btn-sm"><i
+                                                                class="far fa-trash-alt"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Content Row -->
+                    <div class="row">
+                        <!--Insert Modals -->
+                        <jsp:include page="fragment/modals/deleteCategory.jsp"/>
+                    </div>
+                    <!-- /.container-fluid -->
                 </div>
-                <!-- Content Row -->
-                <div class="row">
-                    <!--Insert Modals -->
-                    <jsp:include page="fragment/modals/deleteCategory.jsp"/>
-                </div>
-                <!-- /.container-fluid -->
+                <!-- End of Main Content -->
+                <jsp:include page="fragment/footer.jsp"/>
             </div>
-            <!-- End of Main Content -->
-            <jsp:include page="fragment/footer.jsp"/>
+            <!-- End of Content Wrapper -->
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Page Wrapper -->
     </div>
-    <!-- End of Page Wrapper -->
-</div>
-<!-- Scroll to Top Button-->
-<div>
-    <jsp:include page="fragment/scroll-btn.jsp"/>
-</div>
-<!--App level plugins-->
-<div>
-    <jsp:include page="fragment/core-js-plugins.jsp"/>
-</div>
-<!-- Page level plugins -->
-<script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/customizedJquery.js"></script>
-<!-- Page level custom scripts -->
-<script src="${pageContext.request.contextPath}/resources/static/js/demo/datatables-demo.js"></script>
+    <!-- Scroll to Top Button-->
+    <div>
+        <jsp:include page="fragment/scroll-btn.jsp"/>
+    </div>
+    <!--App level plugins-->
+    <div>
+        <jsp:include page="fragment/core-js-plugins.jsp"/>
+    </div>
+    <!-- Page level plugins -->
+    <script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/static/js/customizedJquery.js"></script>
+    <!-- Page level custom scripts -->
+    <script src="${pageContext.request.contextPath}/resources/static/js/demo/datatables-demo.js"></script>
 </body>
 </html>

@@ -5,6 +5,11 @@ $(document).ready(function () {
     $('.dataTables_length').addClass('bs-select');
 });
 
+//toggle form interactive btn
+$('#toggleForm').click(function () {
+    $(this).children().toggleClass('fa-plus, fa-times');
+    $(this).toggleClass('btn-info, btn-warning');
+})
 
 // Edit Category Modal
 let $editCategoryModal = $('#editModal');
@@ -29,7 +34,6 @@ $editCategoryModal.on('show.bs.modal', function (event) {
         let $dateAdded = $("#added");
 
 
-        //
         let catNameVal = $catName.val();
         let catBudgetVal = $catBudget.val();
         let catMoneyLeftVal = $catMoneyLeft.val();
