@@ -3,9 +3,7 @@ package com.example.budgetary.entity.dto;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -22,12 +20,21 @@ public class TransactionDto {
     @NotBlank
     private String type;
 
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer=6, fraction=2)
+    @NotNull
     private BigDecimal sum;
 
-    private List<String> categoryNames;
+    @NotBlank
+    private String categoryName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @PastOrPresent
+    @NotNull
     private LocalDate date;
+
+    private Long budgetId;
+
+
 
 }

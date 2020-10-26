@@ -21,13 +21,15 @@
                 <form:form id="editBudgetForm" method="post"
                            action=""
                            modelAttribute="budget">
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label text-primary">
-                        Name:</label>
-                    <div class="col-sm-10">
-                        <div class="errorMessage alert alert-danger d-none" role="alert"></div>
-                        <form:input path="name" type="text" id="nameInput"
-                                    class="form-control"/>
+                <div class="form-group">
+                    <div class="errorMessage alert alert-danger d-none" role="alert"></div>
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label text-primary">
+                            Name:</label>
+                        <div class="col-sm-10">
+                            <form:input path="name" type="text" id="nameInput"
+                                        class="form-control"/>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -36,17 +38,18 @@
                     <div class="col-sm-10">
                         <form:input id="startInput" path="startDate" type="date" class="form-control"
                                     placeholder="yyyy-MM-dd"/>
-
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label text-primary">
-                        End Date:</label>
-                    <div class="col-sm-10">
-                        <div class="errorMessage alert alert-danger d-none" role="alert"></div>
-                        <form:input id="endInput" path="endDate" type="date"
-                                    class="form-control"
-                                    placeholder="yyyy-MM-dd"/>
+                <div class="form-group">
+                    <div class="errorMessage alert alert-danger d-none" role="alert"></div>
+                    <div class="row">
+                        <label class="col-sm-2 col-form-label text-primary">
+                            End Date:</label>
+                        <div class="col-sm-10">
+                            <form:input id="endInput" path="endDate" type="date"
+                                        class="form-control"
+                                        placeholder="yyyy-MM-dd"/>
+                        </div>
                     </div>
                 </div>
             </div>

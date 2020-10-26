@@ -164,22 +164,49 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Add Category Form-->
+                            <!-- Add Category Toggled Form-->
                             <div class="col-xl-4 col-md-6 mb-4 ">
                                 <div class="card border-primary">
-                                    <div class="card-header bg-primary">
-                                        <h5 class="font-weight-bold text-white text-center col-12">
-                                            Add Category </h5>
+                                    <div class="card-header border-bottom-primary d-table">
+                                        <div class="d-table-cell align-middle">
+                                            <h4 class="card-title text-primary font-weight-bold text-center"> Add
+                                                Category </h4>
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <div class="btn-wrapper text-center">
-                                            <button id="toggleForm" class="btn-circle btn-lg btn-info" type="button"
-                                                    data-toggle="collapse" data-target="#collapseForm" aria-expanded="false"
+                                            <button class="toggle-form btn-circle btn-lg btn-info" type="button"
+                                                    data-toggle="collapse" data-target="#addCategoryForm"
+                                                    aria-expanded="false"
                                                     aria-controls="collapseExample">
                                                 <i class="fas fa-plus"></i>
                                             </button>
-                                            <div id="collapseForm" class="collapse my-3">
+                                            <div id="addCategoryForm" class="collapse my-3">
                                                 <jsp:include page="fragment/forms/add-category.jsp"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Add Transaction Toggled Form-->
+                            <div class="col-xl-4 col-md-6 mb-4 ">
+                                <div class="card border-primary">
+                                    <div class="card-header border-bottom-info d-table">
+                                        <div class="d-table-cell align-middle">
+                                            <h4 class="card-title text-primary font-weight-bold text-center"> Add
+                                                Transaction </h4>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="btn-wrapper text-center">
+                                            <button class="toggle-form btn-circle btn-lg btn-info" type="button"
+                                                    data-toggle="collapse" data-target="#addTransactionForm"
+                                                    aria-expanded="false"
+                                                    aria-controls="collapseExample">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                            <div id="addTransactionForm" class="collapse my-3">
+                                                <jsp:include page="fragment/forms/add-transaction.jsp"/>
                                             </div>
                                         </div>
                                     </div>

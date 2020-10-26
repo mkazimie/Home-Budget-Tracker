@@ -157,7 +157,6 @@
 
                 <!-- Content Row -->
                 <div class="row">
-                    <!-- Form for adding NEW TRANSACTION -->
                     <div class="col-xl-4 col-md-6 mb-4 ">
                         <div class="card border-left-warning h-100 shadow">
                             <div class="card-header bg-warning d-table">
@@ -166,46 +165,7 @@
                                         Transaction </h5>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center justify-content-center">
-                                    <form:form method="post"
-                                               action="/auth/budgets/${budget.id}/categories/${category.id}/transactions"
-                                               modelAttribute="transactionDto">
-                                    <div class="form-group">
-                                        <form:label path="title" cssClass="text-primary"> Title </form:label>
-                                        <form:input path="title" type="text" class="form-control form-control-user"
-                                                    placeholder="" required="required"/>
-                                        <form:errors path="title" cssClass="errorMessage"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="sum" cssClass="text-primary"> Sum </form:label>
-                                        <div class="input-group">
-                                            <form:input path="sum" type="number" min="1"
-                                                        step=".01"
-                                                        class="form-control form-control-user"
-                                                        placeholder=""/>
-                                            <div class="input-group-append">
-                                                <span class="input-group-text">€</span>
-                                            </div>
-                                        </div>
-                                        <form:errors path="sum" cssClass="errorMessage"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <form:label path="date" cssClass="text-primary"> Date </form:label>
-                                        <form:input path="date" type="date" min="${budget.startDate}"
-                                                    max="${budget.endDate}"
-                                                    class="form-control form-control-user"
-                                                    placeholder="yyyy-MM-dd" required="required"/>
-                                        <form:errors path="date" cssClass="errorMessage"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button class="btn btn-warning btn-user btn-block" type="submit"> Save
-                                </button>
-                                <form:hidden path="type" value="Withdrawal"/>
-                                </form:form>
-                            </div>
+                    <jsp:include page="fragment/forms/add-transaction.jsp"/>
                         </div>
                     </div>
                     <!-- Table with list of transactions -->

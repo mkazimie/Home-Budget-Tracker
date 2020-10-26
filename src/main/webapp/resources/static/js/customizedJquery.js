@@ -1,3 +1,4 @@
+// Order Tables By First Column Desc
 $(document).ready(function () {
     $('#dataTable').DataTable({
         "order": [[0, "desc"]]
@@ -5,15 +6,78 @@ $(document).ready(function () {
     $('.dataTables_length').addClass('bs-select');
 });
 
-//toggle form interactive btn
-$('#toggleForm').click(function () {
+// Toggle Forms in Budget Dashboard
+$('.toggle-form').click(function () {
     $(this).children().toggleClass('fa-plus, fa-times');
     $(this).toggleClass('btn-info, btn-warning');
 })
 
-// Edit Category Modal
-let $editCategoryModal = $('#editModal');
 
+// Add New Transaction
+let transactionForm = $('#transactionForm');
+let category = $('#selectTransactionCategory');
+let uri = window.location.href;
+if (uri.indexOf('categories') !== -1) {
+    let uriSplit = uri.split("/");
+    categoryId = uriSplit.pop();
+    category.val(categoryId);
+    category.attr('disabled', 'disabled');
+}
+transactionForm.submit(function (event) {
+    event.preventDefault();
+    let categoryId = "";
+    let title = $('#title');
+    let sum = $('#sum');
+    let date = $('#date');
+    let budgetId = $('#budgetId').val();
+    categoryId = category.val();
+    let type = $('#type');
+
+    $.ajax({
+
+        type: "POST",
+        url: "/auth/budgets/" + budgetId + "/categories/" + categoryId + "/transactions",
+        data: {
+            "title": title.val(),
+            "sum": sum.val(),
+            "date": date.val(),
+            "type": type.val(),
+            "categoryName": categoryId,
+        },
+        success: function (response) {
+
+            if (response.status === 'FAIL') {
+                let errorMessageList = response.errorMessageList;
+                showErrorsForm(errorMessageList, transactionForm);
+
+            } else {
+                window.location = "/auth/budgets/" + budgetId + /categories/ + categoryId;
+            }
+        },
+        error: function (ex) {
+            console.log(ex);
+        }
+    });
+});
+
+// Error Display For Ajax Response
+function showErrorsForm(errorMessageList, form) {
+    let allFormInputs = form.find(".form-control");
+    console.log(allFormInputs);
+    allFormInputs.each(function () {
+        for (let i = 0; i < errorMessageList.length; i++) {
+            if ($(this).attr("name") === errorMessageList[i].fieldName) {
+                console.log($(this).attr("name"));
+                console.log(errorMessageList[i].message);
+                $(this).closest(".form-group").children(".errorMessage").text(errorMessageList[i].message).removeClass("d-none");
+            }
+        }
+    });
+}
+
+// Edit Category Form Modal
+let $editCategoryModal = $('#editModal');
+let editCategoryForm = $('#editCategoryForm');
 $editCategoryModal.on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget)
     let categoryName = button.data('name');
@@ -24,41 +88,32 @@ $editCategoryModal.on('show.bs.modal', function (event) {
     modal.find('#catName').val(categoryName);
     modal.find('#catBudget').val(categoryBudget);
 
-    $('#submitCatBtn').click(function (event) {
+    editCategoryForm.submit(function (event) {
         event.preventDefault();
-        let $catName = $("#catName");
-        let $catBudget = $("#catBudget");
-        let $catMoneyLeft = $("#catMoneyLeft");
-        let $budget = $("#budget");
-        let $catTransactions = $("#catTransactions");
-        let $dateAdded = $("#added");
-
-
-        let catNameVal = $catName.val();
-        let catBudgetVal = $catBudget.val();
-        let catMoneyLeftVal = $catMoneyLeft.val();
-        let budgetVal = $budget.val();
-        let catTransactionsVal = $catTransactions.val();
-        let dateAddedVal = $dateAdded.val();
+        let catName = $("#catName");
+        let catBudget = $("#catBudget");
+        let catMoneyLeft = $("#catMoneyLeft");
+        let budget = $("#budget");
+        let catTransactions = $("#catTransactions");
+        let dateAdded = $("#added");
 
         $.ajax({
 
             type: "PUT",
             url: "/auth/budgets/" + budgetId + "/categories/" + catId,
             data: {
-                "name": catNameVal,
-                "categoryBudget": catBudgetVal,
-                "budget": budgetVal,
-                "moneyLeft": catMoneyLeftVal,
-                "transactions": catTransactionsVal,
-                "dateAdded": dateAddedVal,
+                "name": catName.val(),
+                "categoryBudget": catBudget.val(),
+                "budget": budget.val(),
+                "moneyLeft": catMoneyLeft.val(),
+                "transactions": catTransactions.val(),
+                "dateAdded": dateAdded.val(),
             },
             success: function (response) {
 
                 if (response.status === 'FAIL') {
-                    showCatForm(response.errorMessageList);
+                    showErrorsForm(response.errorMessageList, editCategoryForm);
                 } else {
-                    //everything is O.K. budget updated successfully.
                     $editCategoryModal.modal('hide');
                     window.location.reload();
                 }
@@ -66,36 +121,11 @@ $editCategoryModal.on('show.bs.modal', function (event) {
             error: function (ex) {
                 console.log(ex);
             }
-
         });
-
-        function showCatForm(errorVal) {
-            //show error messages that comming from backend and change border to red.
-            for (let i = 0; i < errorVal.length; i++) {
-                if (errorVal[i].fieldName === 'name') {
-                    $catName.val('');
-                    $catName.css("border", " 1px solid red");
-                    $catName.siblings(".errorMessage").text(errorVal[i].message).removeClass("d-none");
-                } else if (errorVal[i].fieldName === 'categoryBudget') {
-                    $catBudget.val('');
-                    $catBudget.css("border", " 1px solid red");
-                    $catBudget.siblings(".errorMessage").text(errorVal[i].message).removeClass("d-none");
-
-                }
-            }
-        }
     });
 });
 
-// clear all after modal closed and return it as default.
-$editCategoryModal.on('hide.bs.modal', function () {
-    $('#catName').css("border", "1px solid lightgrey");
-    $('#catBudget').css("border", "1px solid lightgrey");
-    $('.errorMessage').addClass("d-none");
-});
-
-
-// // Edit Transaction Modal
+// Edit Transaction Form Modal
 $('#editTransactionModal').on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget)
     let budgetId = button.data('budget');
@@ -113,8 +143,9 @@ $('#editTransactionModal').on('show.bs.modal', function (event) {
     modal.find('#transactionId').val(transactionId);
 })
 
-// // Edit Budget Modal
+// Edit Budget Form Modal
 let editBudgetModal = $('#editBudgetModal');
+let editBudgetForm = $('#editBudgetForm');
 editBudgetModal.on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget)
     let budgetName = button.data('name');
@@ -126,7 +157,7 @@ editBudgetModal.on('show.bs.modal', function (event) {
     modal.find('#startInput').val(start);
     modal.find('#endInput').val(end);
 
-    $('#submitBtn').click(function (event) {
+    editBudgetForm.submit(function (event) {
         event.preventDefault();
         let nameInput = $("#nameInput");
         let startInput = $("#startInput");
@@ -137,36 +168,25 @@ editBudgetModal.on('show.bs.modal', function (event) {
         let budgetMoneyInput = $("#budgetMoney");
         let moneyLeftInput = $("#moneyLeft");
 
-
-        let nameValue = nameInput.val();
-        let startValue = startInput.val();
-        let endValue = endInput.val();
-        let categoriesValue = categoriesInput.val();
-        let transactionsValue = transactionsInput.val();
-        let usersValue = usersInput.val();
-        let budgetMoneyValue = budgetMoneyInput.val();
-        let moneyLeftValue = moneyLeftInput.val();
-
         $.ajax({
 
             type: "PUT",
             url: "/auth/budgets/" + budgetId,
             data: {
-                "name": nameValue,
-                "startDate": startValue,
-                "endDate": endValue,
-                "transactions": transactionsValue,
-                "categories": categoriesValue,
-                "users": usersValue,
-                "budgetMoney": budgetMoneyValue,
-                "moneyLeft": moneyLeftValue,
+                "name": nameInput.val(),
+                "startDate": startInput.val(),
+                "endDate": endInput.val(),
+                "transactions": transactionsInput.val(),
+                "categories": categoriesInput.val(),
+                "users": usersInput.val(),
+                "budgetMoney": budgetMoneyInput.val(),
+                "moneyLeft": moneyLeftInput.val(),
             },
             success: function (response) {
 
                 if (response.status === 'FAIL') {
-                    showFormError(response.errorMessageList);
+                    showErrorsForm(response.errorMessageList, editBudgetForm);
                 } else {
-                    //everything is O.K. budget updated successfully.
                     $('#editBudgetModal').modal('hide');
                     window.location.reload();
                 }
@@ -174,41 +194,9 @@ editBudgetModal.on('show.bs.modal', function (event) {
             error: function (ex) {
                 console.log(ex);
             }
-
-
         });
-
-
-        function showFormError(errorVal) {
-            //show error messages that comming from backend and change border to red.
-            for (let i = 0; i < errorVal.length; i++) {
-                if (errorVal[i].fieldName === 'name') {
-                    nameInput.val('');
-                    nameInput.css("border", " 1px solid red");
-                    nameInput.css("border", " 1px solid red");
-                    nameInput.siblings(".errorMessage").text(errorVal[i].message).removeClass("d-none");
-                } else if (errorVal[i].fieldName === 'startDate') {
-                    startInput.val('');
-                    startInput.css("border", " 1px solid red");
-                } else if (errorVal[i].fieldName === 'endDate') {
-                    endInput.val('');
-                    endInput.css("border", " 1px solid red");
-                    endInput.siblings(".errorMessage").text(errorVal[i].message).removeClass("d-none");
-                }
-            }
-        }
     });
-
 });
-// clear all after modal closed and return it as default.
-editBudgetModal.on('hide.bs.modal', function () {
-    $('#nameInput').css("border", "1px solid lightgrey");
-    $('#startInput').css("border", "1px solid lightgrey");
-    $('#endInput').css("border", "1px solid lightgrey");
-    $('.errorMessage').addClass("d-none");
-})
-// }
-
 
 //Delete Category Modal
 $('#deleteCategoryModal').on('show.bs.modal', function (event) {
@@ -251,18 +239,15 @@ $('#deleteBudgetModal').on('show.bs.modal', function (event) {
     modal.find('.modal-body strong').text(" " + budgetName);
     modal.find('#catCount').text(" " + categoriesCount + " ")
     modal.find('#transCount').text(" " + transactionsCount + " ")
-
 })
 
-
-// Add Own Input or Select From List while adding new category
+// Add Own Category Name or Select Category Name From List
 $("#selectCat").change(function () {
     if ($(this).val() === "customized") {
         $("#selectInput").addClass("d-none");
         $("#ownInput").removeClass("d-none");
     }
 });
-
 $("#getCatList").change(function () {
     if ($("#getCatList").is(':checked')) {
         $("#selectInput").removeClass("d-none");
@@ -272,14 +257,7 @@ $("#getCatList").change(function () {
     }
 });
 
-
-$("#budgetForm").change(function () {
-    if ($("#startDate") > $("#endDate")) {
-        alert("Invalid Date Range")
-    }
-
-});
-
+// Display Error Alert if message passed to model
 $(document).ready(function () {
     let $errorMsg = $(".errorMsg");
     if ($errorMsg.text() !== '') {

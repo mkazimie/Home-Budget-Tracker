@@ -97,7 +97,7 @@ public class BudgetController {
                 budgetService.saveBudget(budget);
             } else {
                 res.setStatus("FAIL");
-                errorMessageList.add(new ErrorMessage("endDate", "The end date cannot precede the start date"));
+                errorMessageList.add(new ErrorMessage("endDate", "* The end date must not precede the start date"));
             }
             res.setErrorMessageList(errorMessageList);
         }

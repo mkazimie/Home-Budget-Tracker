@@ -6,6 +6,8 @@ import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.CategoryService;
 import com.example.budgetary.service.TransactionService;
+import com.example.budgetary.util.ErrorMessage;
+import com.example.budgetary.util.ValidationResponse;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
 
 @Controller
@@ -31,21 +35,21 @@ public class TransactionController {
         this.categoryService = categoryService;
     }
 
-    @PostMapping("/categories/{categoryId}/transactions")
-    public String addNewTransaction(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto,
-                                 BindingResult bindingResult, @AuthenticationPrincipal CurrentUser currentUser,
-                                 @PathVariable Long categoryId,
-                                 Model model, @PathVariable Long budgetId, RedirectAttributes attr) {
-        if (!bindingResult.hasErrors()) {
+    @PostMapping("/categories/{categoryId}/transactions") public @ResponseBody
+    ValidationResponse addTransactionViaAjax(@PathVariable Long categoryId,
+                                             @AuthenticationPrincipal CurrentUser currentUser,
+                                             @ModelAttribute(value = "transactionDto") @Valid TransactionDto transactionDto,
+                                             BindingResult bindingResult) {
+        ValidationResponse res = new ValidationResponse();
+        if (bindingResult.hasErrors()) {
+            CategoryController.validateViaAjax(bindingResult, res);
+        } else {
+            res.setStatus("SUCCESS");
             Category transactionCategory = categoryService.findCategoryById(categoryId);
             SortedSet<Transaction> categoryTransactions = transactionService.addTransactionToCategory(transactionDto,
                     transactionCategory, currentUser.getUser());
-            model.addAttribute("categoryTransactions", categoryTransactions);
-        } else {
-            attr.addFlashAttribute("org.springframework.validation.BindingResult.transactionDto", bindingResult);
-            attr.addFlashAttribute("transactionDto", transactionDto);
         }
-        return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
+        return res;
     }
 
     @GetMapping("/categories/{categoryId}/transactions/{transactionId}")
