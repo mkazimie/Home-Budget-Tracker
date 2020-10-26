@@ -21,4 +21,6 @@ public class CategoryDto {
     @Digits(integer=6, fraction=2)
     @NotNull
     private BigDecimal categoryMoney;
+
+    private Long budgetId;
 }

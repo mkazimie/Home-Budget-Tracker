@@ -51,25 +51,41 @@ public class CategoryController {
     }
 
     @PostMapping("")
-    public String addNewCategory(@AuthenticationPrincipal CurrentUser currentUser,
-                              @ModelAttribute("categoryDto") @Valid CategoryDto categoryDto,
-                              BindingResult bindingResult,
-                              Model model, @PathVariable Long budgetId, RedirectAttributes attr) {
-        if (!bindingResult.hasErrors()) {
-            boolean categoryNameValid = checkIfCategoryNameIsValid(categoryDto, attr, budgetId);
-            if (categoryNameValid) {
-                Budget budget = fetchBudget(budgetId);
-                SortedSet<Category> budgetCategories = categoryService.addNewCategory(categoryDto, budget, currentUser.getUser());
-                model.addAttribute("budgetCategories", budgetCategories);
-                model.addAttribute("budget", budget);
-            }
+    public @ResponseBody
+    ValidationResponse addCategoryViaAjax(@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long budgetId,
+                                          @ModelAttribute(value = "categoryDto") @Valid CategoryDto categoryDto,
+                                          BindingResult bindingResult) {
+        ValidationResponse res = new ValidationResponse();
+        if (bindingResult.hasErrors()) {
+            CategoryController.validateViaAjax(bindingResult, res);
         } else {
-            attr.addFlashAttribute("org.springframework.validation.BindingResult.categoryDto", bindingResult);
-            attr.addFlashAttribute("categoryDto", categoryDto);
+            final List<ErrorMessage> errorMessages = new ArrayList<>();
+            boolean categoryNameIsValid = checkIfCategoryNameIsValid(categoryDto, errorMessages, res, budgetId);
+            if (categoryNameIsValid) {
+                res.setStatus("SUCCESS");
+                Budget budget = fetchBudget(budgetId);
+                categoryService.addNewCategory(categoryDto, budget, currentUser.getUser());
+            } else {
+                res.setStatus("FAIL");
+            }
         }
-        return "redirect:/auth/budgets/{budgetId}/categories";
+        return res;
     }
 
+    private boolean checkIfCategoryNameIsValid(CategoryDto categoryDto, List<ErrorMessage> errorMessages, ValidationResponse response, Long budgetId) {
+        boolean isValid = true;
+        String selectedName = categoryDto.getSelectedName();
+        String ownName = categoryDto.getOwnName();
+        if (categoryService.findCategoryByName(selectedName, budgetId) != null || ((ownName != null && categoryService.findCategoryByName(ownName, budgetId) != null))) {
+            errorMessages.add(new ErrorMessage("generalError", "* Such category already exists in your budget"));
+            isValid = false;
+        } else if (selectedName.equals("customized") && ownName.trim().isEmpty()) {
+            errorMessages.add(new ErrorMessage("ownName", "* Please name your custom category"));
+            isValid = false;
+        }
+        response.setErrorMessageList(errorMessages);
+        return isValid;
+    }
 
     @GetMapping("/{categoryId}")
     public String displayCategoryById(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model) {
@@ -87,14 +103,14 @@ public class CategoryController {
     @PutMapping("/{id}")
     public @ResponseBody
     ValidationResponse updateCategoryViaAjax(@ModelAttribute(value = "category") @Valid Category category,
-                                     BindingResult bindingResult) {
+                                             BindingResult bindingResult) {
         ValidationResponse res = new ValidationResponse();
         if (bindingResult.hasErrors()) {
             validateViaAjax(bindingResult, res);
         } else {
             final List<ErrorMessage> errorMessageList = new ArrayList<>();
             Category existingCategory = categoryService.findCategoryByName(category.getName(), category.getBudget().getId());
-            if (existingCategory == null || existingCategory.getId()==category.getId()) {
+            if (existingCategory == null || existingCategory.getId() == category.getId()) {
                 res.setStatus("SUCCESS");
                 categoryService.saveCategory(category);
             } else {
@@ -102,7 +118,6 @@ public class CategoryController {
                 errorMessageList.add(new ErrorMessage("name", "Such category already exists in you budget"));
             }
             res.setErrorMessageList(errorMessageList);
-
         }
         return res;
     }
@@ -127,28 +142,11 @@ public class CategoryController {
         return budgetService.findBudgetById(budgetId);
     }
 
-
     public BigDecimal countAllCategoryExpenses(Category category) {
         SortedSet<Transaction> transactions = category.getTransactions();
         return transactions.stream()
                 .map(Transaction::getSum)
                 .reduce(new BigDecimal(0), BigDecimal::add);
-    }
-
-    private boolean checkIfCategoryNameIsValid(CategoryDto categoryDto, RedirectAttributes attr, Long budgetId) {
-        boolean isValid;
-        String selectedName = categoryDto.getSelectedName();
-        String ownName = categoryDto.getOwnName();
-        if (categoryService.findCategoryByName(selectedName, budgetId) != null || ((ownName != null && categoryService.findCategoryByName(ownName, budgetId) != null))) {
-            attr.addFlashAttribute("error", "Such category already exists in your budget");
-            isValid = false;
-        } else if (selectedName.equals("customized") && ownName.trim().isEmpty()) {
-            attr.addFlashAttribute("error", "Please name your customized category");
-            isValid = false;
-        } else {
-            isValid = true;
-        }
-        return isValid;
     }
 
     private Map<String, BigDecimal> calculateCategoryBalance(Budget budget) {

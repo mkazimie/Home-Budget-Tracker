@@ -1,4 +1,4 @@
-.errorMessage {
+.errorMessage, .generalErrorMessage {
     font-weight: bolder;
     text-align: center;
 }

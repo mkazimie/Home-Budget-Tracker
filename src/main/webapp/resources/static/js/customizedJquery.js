@@ -12,7 +12,6 @@ $('.toggle-form').click(function () {
     $(this).toggleClass('btn-info, btn-warning');
 })
 
-
 // Add New Transaction
 let transactionForm = $('#transactionForm');
 let category = $('#selectTransactionCategory');
@@ -60,17 +59,49 @@ transactionForm.submit(function (event) {
     });
 });
 
+// Add New Category
+let categoryForm = $('#categoryForm');
+
+categoryForm.submit(function (event) {
+    event.preventDefault();
+    let selectedName = $('#selectCat');
+    let ownName = $('#ownName');
+    let categoryMoney = $('#categoryMoney');
+    let budgetId = $('#budgetId').val();
+
+    $.ajax({
+
+        type: "POST",
+        url: "/auth/budgets/" + budgetId + "/categories/",
+        data: {
+            "selectedName": selectedName.val(),
+            "ownName": ownName.val(),
+            "categoryMoney": categoryMoney.val(),
+        },
+        success: function (response) {
+
+            if (response.status === 'FAIL') {
+                let errorMessageList = response.errorMessageList;
+                showErrorsForm(errorMessageList, categoryForm);
+
+            } else {
+                window.location = "/auth/budgets/" + budgetId + /categories/;
+            }
+        },
+        error: function (ex) {
+            console.log(ex);
+        }
+    });
+});
+
 // Error Display For Ajax Response
 function showErrorsForm(errorMessageList, form) {
     let allFormInputs = form.find(".form-control");
     console.log(allFormInputs);
     allFormInputs.each(function () {
         for (let i = 0; i < errorMessageList.length; i++) {
-            if ($(this).attr("name") === errorMessageList[i].fieldName) {
-                console.log($(this).attr("name"));
-                console.log(errorMessageList[i].message);
-                $(this).closest(".form-group").children(".errorMessage").text(errorMessageList[i].message).removeClass("d-none");
-            }
+            errorMessageList[i].fieldName === "generalError" && form.find(".generalErrorMessage").text(errorMessageList[i].message).removeClass("d-none");
+            ($(this).attr("name") === errorMessageList[i].fieldName) && $(this).closest(".form-group").children(".errorMessage").text(errorMessageList[i].message).removeClass("d-none");
         }
     });
 }
@@ -200,10 +231,10 @@ editBudgetModal.on('show.bs.modal', function (event) {
 
 //Delete Category Modal
 $('#deleteCategoryModal').on('show.bs.modal', function (event) {
-    let button = $(event.relatedTarget) // Button that triggered the modal
-    let categoryName = button.data('name') // Extract info from data-* attributes
-    let categoryId = button.data('id') // Extract info from data-* attributes
-    let budgetId = button.data('budget') // Extract info from data-* attributes
+    let button = $(event.relatedTarget)
+    let categoryName = button.data('name')
+    let categoryId = button.data('id')
+    let budgetId = button.data('budget')
     let modal = $(this)
     modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/categories/" + categoryId + "/delete");
     modal.find('.modal-body strong').text(" " + categoryName);
@@ -211,11 +242,11 @@ $('#deleteCategoryModal').on('show.bs.modal', function (event) {
 
 // Delete Transaction Modal
 $('#deleteTransactionModal').on('show.bs.modal', function (event) {
-    let button = $(event.relatedTarget) // Button that triggered the modal
-    let transactionTitle = button.data('title') // Extract info from data-* attributes
-    let transactionId = button.data('id') // Extract info from data-* attributes
-    let categoryId = button.data('category') // Extract info from data-* attributes
-    let budgetId = button.data('budget') // Extract info from data-* attributes
+    let button = $(event.relatedTarget)
+    let transactionTitle = button.data('title')
+    let transactionId = button.data('id')
+    let categoryId = button.data('category')
+    let budgetId = button.data('budget')
     let modal = $(this)
     if (categoryId != null) {
         modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/categories/" + categoryId +
@@ -259,10 +290,8 @@ $("#getCatList").change(function () {
 
 // Display Error Alert if message passed to model
 $(document).ready(function () {
-    let $errorMsg = $(".errorMsg");
-    if ($errorMsg.text() !== '') {
-        $errorMsg.removeClass("d-none");
-    }
+    let errorMsg = $(".errorMsg");
+    errorMsg.text() !== '' && errorMsg.removeClass("d-none");
 });
 
 
