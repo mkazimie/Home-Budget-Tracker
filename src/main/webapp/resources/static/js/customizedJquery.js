@@ -293,6 +293,3 @@ $(document).ready(function () {
     let errorMsg = $(".errorMsg");
     errorMsg.text() !== '' && errorMsg.removeClass("d-none");
 });
-
-
-
