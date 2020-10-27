@@ -1,6 +1,7 @@
 package com.example.budgetary.controller;
 
 import com.example.budgetary.entity.Budget;
+import com.example.budgetary.entity.Category;
 import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.User;
 import com.example.budgetary.entity.dto.CategoryDto;
@@ -20,6 +21,8 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/auth/budgets")
@@ -64,44 +67,41 @@ public class BudgetController {
     }
 
     @GetMapping("/{id}")
-    public String displayBudgetById(@PathVariable Long id, Model model, HttpServletRequest request) {
+    public String displayBudgetById(@PathVariable Long id, Model model) {
         Budget budget = budgetService.findBudgetById(id);
-        BigDecimal allExpenses = countAllBudgetExpenses(budget);
-        request.getSession().setAttribute("allExpenses", allExpenses);
-
-        TransactionDto transactionDto = new TransactionDto();
+        model.addAttribute("categoryDto", new CategoryDto());
         if (!model.containsAttribute("transactionDto")) {
-            model.addAttribute("transactionDto", transactionDto);
+            model.addAttribute("transactionDto", new TransactionDto());
         }
         model.addAttribute("budget", budget);
-        model.addAttribute("allExpenses", allExpenses);
-        model.addAttribute("categoryDto", new CategoryDto());
-        Map<String, String> categoryIconsMap = CategoryController.getCategoryIconsMap();
-        model.addAttribute("categoryIconsMap", categoryIconsMap);
+        model.addAttribute("allBudgetExpenses", countAllBudgetExpenses(budget));
+        model.addAttribute("budgetAllowance", countBudgetAllowance(budget));
+        model.addAttribute("categoryIconsMap", CategoryController.getCategoryIconsMap());
         return "budget";
     }
 
     @PutMapping("/{id}")
-    public @ResponseBody ValidationResponse updateBudgetViaAjax(@ModelAttribute(value="budget") @Valid Budget budget,
-                                    BindingResult bindingResult) {
-        ValidationResponse res = new ValidationResponse();
-        if(bindingResult.hasErrors()){
-            CategoryController.validateViaAjax(bindingResult, res);
+    public @ResponseBody
+    ValidationResponse updateBudgetViaAjax(@ModelAttribute(value = "budget") @Valid Budget budget,
+                                           BindingResult bindingResult) {
+        ValidationResponse response = new ValidationResponse();
+        if (bindingResult.hasErrors()) {
+            CategoryController.validateViaAjax(bindingResult, response);
         } else {
             final List<ErrorMessage> errorMessageList = new ArrayList<>();
             LocalDate startDate = budget.getStartDate();
             LocalDate endDate = budget.getEndDate();
             checkIfDateIsValid(startDate, endDate);
-            if (checkIfDateIsValid(startDate, endDate)){
-                res.setStatus("SUCCESS");
+            if (checkIfDateIsValid(startDate, endDate)) {
+                response.setStatus("SUCCESS");
                 budgetService.saveBudget(budget);
             } else {
-                res.setStatus("FAIL");
+                response.setStatus("FAIL");
                 errorMessageList.add(new ErrorMessage("endDate", "* The end date must not precede the start date"));
             }
-            res.setErrorMessageList(errorMessageList);
+            response.setErrorMessageList(errorMessageList);
         }
-        return res;
+        return response;
     }
 
     @GetMapping("/{id}/delete")
@@ -112,18 +112,34 @@ public class BudgetController {
 
     private void fetchUserBudgets(User user, Model model) {
         Set<Budget> budgets = budgetService.getAllUserBudgets(user);
-        int noOfBudgets = budgetService.countBudgetsByUser(user);
+        model.addAttribute("budgetsAllowanceAndBalanceMap", getBudgetAllowanceAndBalance(budgets));
         model.addAttribute("now", LocalDate.now());
         model.addAttribute("budgets", budgets);
-        model.addAttribute("noOfBudgets", noOfBudgets);
     }
 
-    private BigDecimal countAllBudgetExpenses(Budget budget) {
+    private static BigDecimal countAllBudgetExpenses(Budget budget) {
         return budget.getCategories().stream()
                 .flatMap(category -> category.getTransactions().stream())
                 .filter(transaction -> transaction.getType().equals("Withdrawal"))
                 .map(Transaction::getSum)
                 .reduce(new BigDecimal(0), BigDecimal::add);
+    }
+
+    private static BigDecimal countBudgetAllowance(Budget budget) {
+        return budget.getCategories().stream()
+                .map(Category::getCategoryBudget)
+                .reduce(new BigDecimal(0), BigDecimal::add);
+    }
+
+    private static Map<String, List<BigDecimal>> getBudgetAllowanceAndBalance(Set<Budget>budgets) {
+        Map<String, List<BigDecimal>> budgetAllowanceAndBalance = new HashMap<>();
+        for (Budget budget : budgets) {
+            BigDecimal budgetAllowance = countBudgetAllowance(budget);
+            BigDecimal allBudgetExpenses = countAllBudgetExpenses(budget);
+            BigDecimal budgetBalance = budgetAllowance.subtract(allBudgetExpenses);
+            budgetAllowanceAndBalance.put(budget.getName(), new ArrayList<>(Arrays.asList(budgetAllowance, budgetBalance)));
+        }
+        return budgetAllowanceAndBalance;
     }
 
     private boolean checkIfDateIsValid(LocalDate startDate, LocalDate endDate) {

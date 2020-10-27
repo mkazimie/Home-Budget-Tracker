@@ -14,6 +14,4 @@ public interface BudgetRepository extends JpaRepository<Budget, Long> {
     @Query("SELECT b FROM Budget b LEFT JOIN FETCH b.users u WHERE u = ?1")
     Set<Budget> findAllByUsers(User user);
 
-    int countBudgetsByUsers(User user);
-
 }

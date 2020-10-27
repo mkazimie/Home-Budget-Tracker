@@ -36,9 +36,9 @@
                         <!-- Budgets Table -->
                         <div class="mt-2">
                             <h6 class="card-subtitle mb-2 text-muted">You currently have
-                                <strong>${noOfBudgets}</strong>
+                                <strong>${budgets.size()}</strong>
                                 <c:choose>
-                                    <c:when test="${noOfBudgets == 1}">
+                                    <c:when test="${budgets.size() == 1}">
                                         Budget
                                     </c:when>
                                     <c:otherwise>
@@ -59,7 +59,7 @@
                                     <th>Contributors</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
-                                    <th><strong>Total Budget</strong></th>
+                                    <th><strong>Budget Allowance</strong></th>
                                     <th><strong>Available</strong></th>
                                     <th></th>
                                 </tr>
@@ -87,9 +87,10 @@
                                         </td>
                                         <td class="align-middle">${budget.startDate}</td>
                                         <td class="align-middle">${budget.endDate}</td>
-                                        <td class="align-middle">${budget.budgetMoney} €</td>
-                                        <td class="align-middle text-success font-weight-bolder">${budget.moneyLeft}
-                                            €
+                                        <td class="align-middle">${budgetsAllowanceAndBalanceMap.get(budget.name)[0]}
+                                            €</td>
+                                        <td class="align-middle text-success
+                                        font-weight-bolder">${budgetsAllowanceAndBalanceMap.get(budget.name)[1]}€
                                         </td>
                                         <td>
                                             <button id="deleteBudgetBtn" data-toggle="modal"

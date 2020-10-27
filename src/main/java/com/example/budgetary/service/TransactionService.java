@@ -49,12 +49,9 @@ public class TransactionService {
         BigDecimal moneyLeftInCategory = category.getMoneyLeft();
         if (transaction.getType().equals("Withdrawal")) {
             category.setMoneyLeft(moneyLeftInCategory.subtract(transactionSum));
-            budget.setMoneyLeft(budget.getMoneyLeft().subtract(transactionSum));
         } else {
             category.setMoneyLeft(moneyLeftInCategory.add(transactionSum));
-            budget.setMoneyLeft(budget.getMoneyLeft().add(transactionSum));
         }
-        transaction.setCurrentBalance(budget.getMoneyLeft());
         saveTransaction(transaction);
         return category.getTransactions();
     }
@@ -67,7 +64,6 @@ public class TransactionService {
 
         BigDecimal originalSum = transaction.getSum();
         BigDecimal transactionDifference = originalSum.subtract(sum);
-        budget.setMoneyLeft(budget.getMoneyLeft().add(transactionDifference));
         budgetRepository.save(budget);
         category.setMoneyLeft(category.getMoneyLeft().add(transactionDifference));
         categoryRepository.save(category);
@@ -83,14 +79,11 @@ public class TransactionService {
         if (transaction.getCategory() != null){
             BigDecimal transactionSum = transaction.getSum();
             Category transactionCategory = transaction.getCategory();
-            BigDecimal moneyLeftInBudget = budget.getMoneyLeft();
             BigDecimal moneyLeftInCategory = transactionCategory.getMoneyLeft();
             if (transaction.getType().equals("Withdrawal")) {
                 transactionCategory.setMoneyLeft(moneyLeftInCategory.add(transactionSum));
-                budget.setMoneyLeft(moneyLeftInBudget.add(transactionSum));
             } else {
                 transactionCategory.setMoneyLeft(moneyLeftInCategory.subtract(transactionSum));
-                budget.setMoneyLeft(moneyLeftInBudget.subtract(transactionSum));
             }
             transactionCategory.getTransactions().remove(transaction);
         }

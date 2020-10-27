@@ -54,8 +54,6 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <form:hidden path="budgetMoney" id="budgetMoney"/>
-                <form:hidden path="moneyLeft" id="moneyLeft"/>
                 <form:hidden path="categories" id="categories"/>
                 <form:hidden path="transactions" id="transactions"/>
                 <form:hidden path="users" id="users"/>

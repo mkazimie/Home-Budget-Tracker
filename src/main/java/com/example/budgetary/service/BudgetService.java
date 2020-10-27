@@ -24,10 +24,6 @@ public class BudgetService {
         return budgetRepository.findAllByUsers(user);
     }
 
-    public int countBudgetsByUser(User user) {
-        return budgetRepository.countBudgetsByUsers(user);
-    }
-
     public Budget findBudgetById(Long id) {
         Optional<Budget> budget = budgetRepository.findById(id);
         return budget.orElseThrow(() -> new NoRecordFoundException("No such record in the Database"));
@@ -35,8 +31,6 @@ public class BudgetService {
 
     public void createBudget(User user, Budget budget) {
         budget.setUsers(new HashSet<>(Arrays.asList(user)));
-        budget.setBudgetMoney(BigDecimal.ZERO);
-        budget.setMoneyLeft(BigDecimal.ZERO);
         saveBudget(budget);
     }
 

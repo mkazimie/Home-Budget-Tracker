@@ -52,10 +52,6 @@ public class CategoryService {
         category.setMoneyLeft(categoryDto.getCategoryMoney());
         category.setBudget(budget);
         saveCategory(category);
-        BigDecimal budgetMoney = budget.getBudgetMoney();
-        BigDecimal moneyLeftInBudget = budget.getMoneyLeft();
-        budget.setBudgetMoney(budgetMoney.add(category.getCategoryBudget()));
-        budget.setMoneyLeft(moneyLeftInBudget.add(category.getMoneyLeft()));
         Transaction transaction = createTransaction(budget, user);
         transaction.setType("Deposit");
         transaction.setTitle("New Category " + category.getName());
@@ -75,8 +71,6 @@ public class CategoryService {
         if (categoryTransactions != null) {
             categoryTransactions.forEach(transaction -> transaction.setCategory(null));
         }
-        budget.setBudgetMoney(budget.getBudgetMoney().subtract(categoryById.getCategoryBudget()));
-        budget.setMoneyLeft(budget.getMoneyLeft().subtract(categoryMoneyLeft));
         Transaction transaction = createTransaction(budget, user);
         transaction.setTitle("Remove Category " + categoryById.getName());
         transaction.setType("Withdrawal");
@@ -89,7 +83,6 @@ public class CategoryService {
     private Transaction createTransaction(Budget budget, User user) {
         Transaction transaction = new Transaction();
         transaction.setBudget(budget);
-        transaction.setCurrentBalance(budget.getMoneyLeft());
         transaction.setDate(LocalDate.now());
         transaction.setUser(user);
         return transaction;

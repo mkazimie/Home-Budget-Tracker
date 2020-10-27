@@ -196,8 +196,6 @@ editBudgetModal.on('show.bs.modal', function (event) {
         let categoriesInput = $("#categories");
         let transactionsInput = $("#transactions");
         let usersInput = $("#users");
-        let budgetMoneyInput = $("#budgetMoney");
-        let moneyLeftInput = $("#moneyLeft");
 
         $.ajax({
 
@@ -210,8 +208,6 @@ editBudgetModal.on('show.bs.modal', function (event) {
                 "transactions": transactionsInput.val(),
                 "categories": categoriesInput.val(),
                 "users": usersInput.val(),
-                "budgetMoney": budgetMoneyInput.val(),
-                "moneyLeft": moneyLeftInput.val(),
             },
             success: function (response) {
 
