@@ -66,7 +66,7 @@ categoryForm.submit(function (event) {
     event.preventDefault();
     let selectedName = $('#selectCat');
     let ownName = $('#ownName');
-    let categoryMoney = $('#categoryMoney');
+    let categoryAllowance = $('#categoryAllowance');
     let budgetId = $('#budgetId').val();
 
     $.ajax({
@@ -76,7 +76,7 @@ categoryForm.submit(function (event) {
         data: {
             "selectedName": selectedName.val(),
             "ownName": ownName.val(),
-            "categoryMoney": categoryMoney.val(),
+            "categoryAllowance": categoryAllowance.val(),
         },
         success: function (response) {
 
@@ -112,18 +112,17 @@ let editCategoryForm = $('#editCategoryForm');
 $editCategoryModal.on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget)
     let categoryName = button.data('name');
-    let categoryBudget = button.data('catbudget');
+    let categoryAllowance = button.data('allowance');
     let budgetId = button.data('budget');
     let catId = button.data('id');
     let modal = $(this)
     modal.find('#catName').val(categoryName);
-    modal.find('#catBudget').val(categoryBudget);
+    modal.find('#categoryAllowance').val(categoryAllowance);
 
     editCategoryForm.submit(function (event) {
         event.preventDefault();
         let catName = $("#catName");
-        let catBudget = $("#catBudget");
-        let catMoneyLeft = $("#catMoneyLeft");
+        let categoryAllowance = $("#categoryAllowance");
         let budget = $("#budget");
         let catTransactions = $("#catTransactions");
         let dateAdded = $("#added");
@@ -134,9 +133,8 @@ $editCategoryModal.on('show.bs.modal', function (event) {
             url: "/auth/budgets/" + budgetId + "/categories/" + catId,
             data: {
                 "name": catName.val(),
-                "categoryBudget": catBudget.val(),
+                "categoryAllowance": categoryAllowance.val(),
                 "budget": budget.val(),
-                "moneyLeft": catMoneyLeft.val(),
                 "transactions": catTransactions.val(),
                 "dateAdded": dateAdded.val(),
             },

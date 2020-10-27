@@ -9,7 +9,6 @@ import com.example.budgetary.exception.NoRecordFoundException;
 import com.example.budgetary.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.SortedSet;
@@ -18,13 +17,9 @@ import java.util.SortedSet;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final BudgetService budgetService;
-    private final TransactionService transactionService;
 
-    public CategoryService(CategoryRepository categoryRepository, BudgetService budgetService, TransactionService transactionService) {
+    public CategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
-        this.budgetService = budgetService;
-        this.transactionService = transactionService;
     }
 
     public Category findCategoryById(Long id) {
@@ -40,7 +35,7 @@ public class CategoryService {
         categoryRepository.save(category);
     }
 
-    public SortedSet<Category> addNewCategory(CategoryDto categoryDto, Budget budget, User user) {
+    public void addNewCategory(CategoryDto categoryDto, Budget budget, User user) {
         Category category = new Category();
         String categoryDtoName = categoryDto.getSelectedName();
         if (categoryDtoName.equals("customized")) {
@@ -48,43 +43,17 @@ public class CategoryService {
         } else {
             category.setName(categoryDtoName);
         }
-        category.setCategoryBudget(categoryDto.getCategoryMoney());
-        category.setMoneyLeft(categoryDto.getCategoryMoney());
+        category.setCategoryAllowance(categoryDto.getCategoryAllowance());
         category.setBudget(budget);
         saveCategory(category);
-        Transaction transaction = createTransaction(budget, user);
-        transaction.setType("Deposit");
-        transaction.setTitle("New Category " + category.getName());
-        transaction.setSum(category.getCategoryBudget());
-        transactionService.saveTransaction(transaction);
-        SortedSet<Category> budgetCategories = budget.getCategories();
-        budgetService.saveBudget(budget);
-        return budgetCategories;
     }
 
     public void removeCategory(Long id, User user) {
-        Category categoryById = findCategoryById(id);
-        BigDecimal categoryMoneyLeft = categoryById.getMoneyLeft();
-        Budget budget = categoryById.getBudget();
-
-        SortedSet<Transaction> categoryTransactions = categoryById.getTransactions();
+        Category category = findCategoryById(id);
+        SortedSet<Transaction> categoryTransactions = category.getTransactions();
         if (categoryTransactions != null) {
             categoryTransactions.forEach(transaction -> transaction.setCategory(null));
         }
-        Transaction transaction = createTransaction(budget, user);
-        transaction.setTitle("Remove Category " + categoryById.getName());
-        transaction.setType("Withdrawal");
-        transaction.setSum(categoryMoneyLeft);
-        transactionService.saveTransaction(transaction);
-        categoryById.setBudget(null);
-        categoryRepository.delete(categoryById);
-    }
-
-    private Transaction createTransaction(Budget budget, User user) {
-        Transaction transaction = new Transaction();
-        transaction.setBudget(budget);
-        transaction.setDate(LocalDate.now());
-        transaction.setUser(user);
-        return transaction;
+        categoryRepository.delete(category);
     }
 }

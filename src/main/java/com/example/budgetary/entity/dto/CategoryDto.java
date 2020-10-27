@@ -20,7 +20,7 @@ public class CategoryDto {
     @DecimalMin(value = "0.0", inclusive = false)
     @Digits(integer=6, fraction=2)
     @NotNull
-    private BigDecimal categoryMoney;
+    private BigDecimal categoryAllowance;
 
     private Long budgetId;
 }

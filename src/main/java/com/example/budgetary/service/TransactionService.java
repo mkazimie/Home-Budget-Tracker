@@ -21,13 +21,9 @@ import java.util.SortedSet;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
-    private final CategoryRepository categoryRepository;
-    private final BudgetRepository budgetRepository;
 
-    public TransactionService(TransactionRepository transactionRepository, CategoryRepository categoryRepository, BudgetRepository budgetRepository) {
+    public TransactionService(TransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
-        this.categoryRepository = categoryRepository;
-        this.budgetRepository = budgetRepository;
     }
 
     public Transaction findTransactionById(Long id) {
@@ -45,13 +41,6 @@ public class TransactionService {
         Transaction transaction = setNewTransaction(transactionDto, user);
         transaction.setCategory(category);
         transaction.setBudget(budget);
-        BigDecimal transactionSum = transaction.getSum();
-        BigDecimal moneyLeftInCategory = category.getMoneyLeft();
-        if (transaction.getType().equals("Withdrawal")) {
-            category.setMoneyLeft(moneyLeftInCategory.subtract(transactionSum));
-        } else {
-            category.setMoneyLeft(moneyLeftInCategory.add(transactionSum));
-        }
         saveTransaction(transaction);
         return category.getTransactions();
     }
@@ -59,14 +48,6 @@ public class TransactionService {
     public void updateTransaction(Long transactionId, String title, BigDecimal sum,
                                          LocalDate date) {
         Transaction transaction = findTransactionById(transactionId);
-        Budget budget = transaction.getBudget();
-        Category category = transaction.getCategory();
-
-        BigDecimal originalSum = transaction.getSum();
-        BigDecimal transactionDifference = originalSum.subtract(sum);
-        budgetRepository.save(budget);
-        category.setMoneyLeft(category.getMoneyLeft().add(transactionDifference));
-        categoryRepository.save(category);
         transaction.setTitle(title);
         transaction.setSum(sum);
         transaction.setDate(date);
@@ -77,14 +58,7 @@ public class TransactionService {
         Transaction transaction = findTransactionById(transactionId);
         Budget budget = transaction.getBudget();
         if (transaction.getCategory() != null){
-            BigDecimal transactionSum = transaction.getSum();
             Category transactionCategory = transaction.getCategory();
-            BigDecimal moneyLeftInCategory = transactionCategory.getMoneyLeft();
-            if (transaction.getType().equals("Withdrawal")) {
-                transactionCategory.setMoneyLeft(moneyLeftInCategory.add(transactionSum));
-            } else {
-                transactionCategory.setMoneyLeft(moneyLeftInCategory.subtract(transactionSum));
-            }
             transactionCategory.getTransactions().remove(transaction);
         }
         User user = transaction.getUser();

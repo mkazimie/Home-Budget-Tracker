@@ -12,7 +12,7 @@
 <html>
 <head>
     <jsp:include page="fragment/header.jsp"/>
-    <title>Transfer Money</title>
+    <title>Categories</title>
 </head>
 <body>
 <!-- Page Wrapper -->
@@ -103,7 +103,7 @@
                                                         </c:choose>
                                                         &nbsp;&nbsp; ${category.name}
                                                     </td>
-                                                    <td class="align-middle">${category.categoryBudget} €</td>
+                                                    <td class="align-middle">${category.categoryAllowance} €</td>
                                                     <c:choose>
                                                         <c:when test="${categoryBalanceMap.get(category.name) > 0}">
                                                             <td class="align-middle

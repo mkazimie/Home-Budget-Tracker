@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -40,12 +39,10 @@ public class CategoryController {
     @GetMapping("")
     public String displayBudgetCategories(@PathVariable Long budgetId, Model model, HttpServletRequest request) {
         Budget budget = fetchBudget(budgetId);
-        Map<String, BigDecimal> categoryBalanceMap = calculateCategoryBalance(budget);
-        model.addAttribute("categoryBalanceMap", categoryBalanceMap);
+        model.addAttribute("categoryBalanceMap", getCategoryBalanceMap(budget));
         model.addAttribute("budget", budget);
-        CategoryDto categoryDto = new CategoryDto();
         if (!model.containsAttribute("categoryDto")) {
-            model.addAttribute("categoryDto", categoryDto);
+            model.addAttribute("categoryDto", new CategoryDto());
         }
         return "categories";
     }
@@ -55,21 +52,21 @@ public class CategoryController {
     ValidationResponse addCategoryViaAjax(@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long budgetId,
                                           @ModelAttribute(value = "categoryDto") @Valid CategoryDto categoryDto,
                                           BindingResult bindingResult) {
-        ValidationResponse res = new ValidationResponse();
+        ValidationResponse response = new ValidationResponse();
         if (bindingResult.hasErrors()) {
-            CategoryController.validateViaAjax(bindingResult, res);
+            CategoryController.validateViaAjax(bindingResult, response);
         } else {
             final List<ErrorMessage> errorMessages = new ArrayList<>();
-            boolean categoryNameIsValid = checkIfCategoryNameIsValid(categoryDto, errorMessages, res, budgetId);
+            boolean categoryNameIsValid = checkIfCategoryNameIsValid(categoryDto, errorMessages, response, budgetId);
             if (categoryNameIsValid) {
-                res.setStatus("SUCCESS");
+                response.setStatus("SUCCESS");
                 Budget budget = fetchBudget(budgetId);
                 categoryService.addNewCategory(categoryDto, budget, currentUser.getUser());
             } else {
-                res.setStatus("FAIL");
+                response.setStatus("FAIL");
             }
         }
-        return res;
+        return response;
     }
 
     private boolean checkIfCategoryNameIsValid(CategoryDto categoryDto, List<ErrorMessage> errorMessages, ValidationResponse response, Long budgetId) {
@@ -104,22 +101,22 @@ public class CategoryController {
     public @ResponseBody
     ValidationResponse updateCategoryViaAjax(@ModelAttribute(value = "category") @Valid Category category,
                                              BindingResult bindingResult) {
-        ValidationResponse res = new ValidationResponse();
+        ValidationResponse response = new ValidationResponse();
         if (bindingResult.hasErrors()) {
-            validateViaAjax(bindingResult, res);
+            validateViaAjax(bindingResult, response);
         } else {
             final List<ErrorMessage> errorMessageList = new ArrayList<>();
             Category existingCategory = categoryService.findCategoryByName(category.getName(), category.getBudget().getId());
-            if (existingCategory == null || existingCategory.getId() == category.getId()) {
-                res.setStatus("SUCCESS");
+            if (existingCategory == null || existingCategory.getId().equals(category.getId())) {
+                response.setStatus("SUCCESS");
                 categoryService.saveCategory(category);
             } else {
-                res.setStatus("FAIL");
+                response.setStatus("FAIL");
                 errorMessageList.add(new ErrorMessage("name", "Such category already exists in you budget"));
             }
-            res.setErrorMessageList(errorMessageList);
+            response.setErrorMessageList(errorMessageList);
         }
-        return res;
+        return response;
     }
 
     @GetMapping("/{categoryId}/delete")
@@ -128,14 +125,14 @@ public class CategoryController {
         return "redirect:/auth/budgets/{budgetId}/categories/";
     }
 
-    static void validateViaAjax(BindingResult bindingResult, ValidationResponse res) {
-        res.setStatus("FAIL");
+    static void validateViaAjax(BindingResult bindingResult, ValidationResponse response) {
+        response.setStatus("FAIL");
         List<FieldError> allErrors = bindingResult.getFieldErrors();
         final List<ErrorMessage> errorMessages = new ArrayList<>();
         for (FieldError objectError : allErrors) {
             errorMessages.add(new ErrorMessage(objectError.getField(), objectError.getDefaultMessage()));
         }
-        res.setErrorMessageList(errorMessages);
+        response.setErrorMessageList(errorMessages);
     }
 
     public Budget fetchBudget(@PathVariable Long budgetId) {
@@ -149,12 +146,12 @@ public class CategoryController {
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
-    private Map<String, BigDecimal> calculateCategoryBalance(Budget budget) {
+    private Map<String, BigDecimal> getCategoryBalanceMap(Budget budget) {
         Map<String, BigDecimal> balanceMap = new HashMap<>();
         SortedSet<Category> categories = budget.getCategories();
         for (Category category : categories) {
             balanceMap.put(category.getName(),
-                    category.getCategoryBudget().subtract(countAllCategoryExpenses(category)));
+                    category.getCategoryAllowance().subtract(countAllCategoryExpenses(category)));
         }
         return balanceMap;
     }

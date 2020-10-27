@@ -62,7 +62,7 @@
                         <div class="btn-wrapper d-inline float-right">
                             <button id="editBtn" data-toggle="modal" data-target="#editModal"
                                     data-name="${category.name}"
-                                    data-catbudget="${category.categoryBudget}"
+                                    data-allowance="${category.categoryAllowance}"
                                     data-budget="${budget.id}"
                                     data-id="${category.id}"
                                     class="btn-circle btn-warning"><i
@@ -87,10 +87,10 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            ${category.name} Budget
+                                            ${category.name} Allowance
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold
-                                                text-primary">${category.categoryBudget}€
+                                                text-primary">${category.categoryAllowance}€
                                         </div>
                                     </div>
                                     <div class="col-auto">
@@ -110,19 +110,19 @@
                                             ${category.name} Balance
                                         </div>
                                         <c:choose>
-                                            <c:when test="${category.categoryBudget - allCategoryExpenses <= 0}">
+                                            <c:when test="${category.categoryAllowance - allCategoryExpenses <= 0}">
                                                 <div class="h5 mb-0 font-weight-bold
-                                                text-danger">${category.categoryBudget - allCategoryExpenses}€
+                                                text-danger">${category.categoryAllowance - allCategoryExpenses}€
                                                 </div>
                                             </c:when>
-                                            <c:when test="${category.categoryBudget - allCategoryExpenses <= 5}">
+                                            <c:when test="${category.categoryAllowance - allCategoryExpenses <= 5}">
                                                 <div class="h5 mb-0 font-weight-bold
-                                                text-warning">${category.categoryBudget - allCategoryExpenses}€
+                                                text-warning">${category.categoryAllowance - allCategoryExpenses}€
                                                 </div>
                                             </c:when>
                                             <c:otherwise>
                                                 <div class="h5 mb-0 font-weight-bold
-                                                text-success">${category.categoryBudget - allCategoryExpenses}€
+                                                text-success">${category.categoryAllowance - allCategoryExpenses}€
                                                 </div>
                                             </c:otherwise>
                                         </c:choose>

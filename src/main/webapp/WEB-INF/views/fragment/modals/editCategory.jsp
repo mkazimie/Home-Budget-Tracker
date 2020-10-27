@@ -35,17 +35,16 @@
                     <div class="errorMessage alert alert-danger d-none text-center" role="alert"></div>
                     <div class="row">
                         <label class="col-sm-2 col-form-label text-primary">
-                            Budget:</label>
+                            Allowance:</label>
                         <div class="col-sm-10">
-                            <form:input type="number" id="catBudget" name="catBudget"
-                                        class="form-control" path="categoryBudget"/>
+                            <form:input type="number" id="categoryAllowance" name="categoryAllowance"
+                                        class="form-control" path="categoryAllowance"/>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <form:hidden path="id"/>
-                <form:hidden path="moneyLeft" id="catMoneyLeft"/>
                 <form:hidden path="budget" id="budget"/>
                 <form:hidden path="transactions" id="catTransactions"/>
                 <form:hidden path="dateAdded" id="added"/>

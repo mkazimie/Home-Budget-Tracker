@@ -112,7 +112,7 @@ public class BudgetController {
 
     private void fetchUserBudgets(User user, Model model) {
         Set<Budget> budgets = budgetService.getAllUserBudgets(user);
-        model.addAttribute("budgetsAllowanceAndBalanceMap", getBudgetAllowanceAndBalance(budgets));
+        model.addAttribute("budgetsAllowanceAndBalanceMap", getBudgetAllowanceAndBalanceMap(budgets));
         model.addAttribute("now", LocalDate.now());
         model.addAttribute("budgets", budgets);
     }
@@ -127,11 +127,11 @@ public class BudgetController {
 
     private static BigDecimal countBudgetAllowance(Budget budget) {
         return budget.getCategories().stream()
-                .map(Category::getCategoryBudget)
+                .map(Category::getCategoryAllowance)
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
-    private static Map<String, List<BigDecimal>> getBudgetAllowanceAndBalance(Set<Budget>budgets) {
+    private static Map<String, List<BigDecimal>> getBudgetAllowanceAndBalanceMap(Set<Budget>budgets) {
         Map<String, List<BigDecimal>> budgetAllowanceAndBalance = new HashMap<>();
         for (Budget budget : budgets) {
             BigDecimal budgetAllowance = countBudgetAllowance(budget);

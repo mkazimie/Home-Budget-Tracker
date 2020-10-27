@@ -32,13 +32,13 @@
         </div>
     </div>
     <div class="form-group">
-        <form:label path="categoryMoney"
+        <form:label path="categoryAllowance"
                     cssClass="text-primary"> Budget </form:label>
         <div class="errorMessage alert alert-danger d-none" role="alert"></div>
         <div class="input-group">
-            <form:input path="categoryMoney" type="number" min="1" step=".01"
+            <form:input path="categoryAllowance" type="number" min="1" step=".01"
                         class="form-control form-control-user"
-                        placeholder="" id="categoryMoney"/>
+                        placeholder="" id="categoryAllowance"/>
             <div class="input-group-append">
                 <span class="input-group-text">€</span>
             </div>

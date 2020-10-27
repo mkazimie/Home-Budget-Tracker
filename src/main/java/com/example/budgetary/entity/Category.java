@@ -30,9 +30,7 @@ public class Category implements Comparable<Category> {
     @DecimalMin(value = "0.0", inclusive = false)
     @Digits(integer=6, fraction=2)
     @NotNull
-    private BigDecimal categoryBudget;
-
-    private BigDecimal moneyLeft;
+    private BigDecimal categoryAllowance;
 
     @ManyToOne
     private Budget budget;
@@ -40,20 +38,6 @@ public class Category implements Comparable<Category> {
     @OneToMany(mappedBy = "category")
     @OrderBy("dateTimeAdded DESC")
     private SortedSet<Transaction> transactions = new TreeSet<>();
-
-    private LocalDateTime dateAdded;
-
-    private LocalDateTime dateUpdated;
-
-    @PrePersist
-    public void prePersist(){
-        dateAdded = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate(){
-        dateUpdated = LocalDateTime.now();
-    }
 
     @Override
     public int compareTo(Category category) {
