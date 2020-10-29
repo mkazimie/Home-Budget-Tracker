@@ -15,8 +15,8 @@
             <div class="modal-body">
                 <div class="addAlert"></div>
                 <p class="text-center text-primary">Are you sure you want to delete
-                    budget <strong></strong> with its <span id="catCount"></span> categories and
-                    <span id="transCount"></span> transactions?</p>
+                    budget <strong></strong> with its <span id="catCount"></span> and
+                    all its transactions?</p>
                 <p class="text-center font-weight-bolder text-warning">All records will be removed
                     permanently.</p>
                 <div class="btn-wrapper text-center">

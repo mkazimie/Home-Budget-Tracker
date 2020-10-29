@@ -22,9 +22,6 @@ public class User {
 
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<Transaction> transactions = new HashSet<>();
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "users")
     @OrderBy
     private SortedSet<Budget> budgets = new TreeSet<>();

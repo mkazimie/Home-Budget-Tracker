@@ -47,7 +47,6 @@
                 <form:hidden path="id"/>
                 <form:hidden path="budget" id="budget"/>
                 <form:hidden path="transactions" id="catTransactions"/>
-                <form:hidden path="dateAdded" id="added"/>
                 <button id="submitCatBtn" type="submit" class="btn btn-primary"> Save
                     changes
                 </button>

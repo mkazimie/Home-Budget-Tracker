@@ -27,15 +27,16 @@
             <div class="container-fluid">
                 <!-- Page Heading -->
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <div class="row">
-                            <h4 class="m-0 font-weight-bold text-primary col-10">Your Budgets</h4>
+                    <div class="card-header">
+                        <div class="row d-table">
+                            <div class="d-table-cell align-middle">
                             <a href="/auth/budgets/form" class="btn btn-primary"> <i class="fas fa-plus"></i> </a>
+                            </div>
+                            <h4 class="ml-3 font-weight-bold text-primary">Your Budgets</h4>
                         </div>
-
                         <!-- Budgets Table -->
-                        <div class="mt-2">
-                            <h6 class="card-subtitle mb-2 text-muted">You currently have
+                        <div class="mx-5 my-2">
+                            <p class="card-subtitle text-muted">You have
                                 <strong>${budgets.size()}</strong>
                                 <c:choose>
                                     <c:when test="${budgets.size() == 1}">
@@ -45,7 +46,7 @@
                                         Budgets
                                     </c:otherwise>
                                 </c:choose>
-                            </h6>
+                            </p>
                         </div>
                     </div>
                     <div class="card-body">
@@ -98,7 +99,6 @@
                                                     data-name="${budget.name}"
                                                     data-id="${budget.id}"
                                                     data-categories="${budget.categories.size()}"
-                                                    data-transactions="${budget.transactions.size()}"
                                                     class="btn-circle btn-secondary btn-sm"><i
                                                     class="far fa-trash-alt"></i></button>
                                         </td>

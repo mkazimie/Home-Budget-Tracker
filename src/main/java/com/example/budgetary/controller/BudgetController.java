@@ -8,6 +8,7 @@ import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.entity.dto.TransactionDto;
 import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
+import com.example.budgetary.service.TransactionService;
 import com.example.budgetary.util.ErrorMessage;
 import com.example.budgetary.util.ValidationResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,13 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Controller
 @RequestMapping("/auth/budgets")
@@ -131,7 +129,7 @@ public class BudgetController {
                 .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
-    private static Map<String, List<BigDecimal>> getBudgetAllowanceAndBalanceMap(Set<Budget>budgets) {
+    private static Map<String, List<BigDecimal>> getBudgetAllowanceAndBalanceMap(Set<Budget> budgets) {
         Map<String, List<BigDecimal>> budgetAllowanceAndBalance = new HashMap<>();
         for (Budget budget : budgets) {
             BigDecimal budgetAllowance = countBudgetAllowance(budget);

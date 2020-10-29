@@ -97,7 +97,6 @@ categoryForm.submit(function (event) {
 // Error Display For Ajax Response
 function showErrorsForm(errorMessageList, form) {
     let allFormInputs = form.find(".form-control");
-    console.log(allFormInputs);
     allFormInputs.each(function () {
         for (let i = 0; i < errorMessageList.length; i++) {
             errorMessageList[i].fieldName === "generalError" && form.find(".generalErrorMessage").text(errorMessageList[i].message).removeClass("d-none");
@@ -125,7 +124,6 @@ $editCategoryModal.on('show.bs.modal', function (event) {
         let categoryAllowance = $("#categoryAllowance");
         let budget = $("#budget");
         let catTransactions = $("#catTransactions");
-        let dateAdded = $("#added");
 
         $.ajax({
 
@@ -136,7 +134,6 @@ $editCategoryModal.on('show.bs.modal', function (event) {
                 "categoryAllowance": categoryAllowance.val(),
                 "budget": budget.val(),
                 "transactions": catTransactions.val(),
-                "dateAdded": dateAdded.val(),
             },
             success: function (response) {
 
@@ -192,7 +189,6 @@ editBudgetModal.on('show.bs.modal', function (event) {
         let startInput = $("#startInput");
         let endInput = $("#endInput");
         let categoriesInput = $("#categories");
-        let transactionsInput = $("#transactions");
         let usersInput = $("#users");
 
         $.ajax({
@@ -203,7 +199,6 @@ editBudgetModal.on('show.bs.modal', function (event) {
                 "name": nameInput.val(),
                 "startDate": startInput.val(),
                 "endDate": endInput.val(),
-                "transactions": transactionsInput.val(),
                 "categories": categoriesInput.val(),
                 "users": usersInput.val(),
             },
@@ -254,16 +249,15 @@ $('#deleteTransactionModal').on('show.bs.modal', function (event) {
 
 // Delete Budget Modal
 $('#deleteBudgetModal').on('show.bs.modal', function (event) {
-    let button = $(event.relatedTarget) // Button that triggered the modal
-    let budgetName = button.data('name') // Extract info from data-* attributes
-    let budgetId = button.data('id') // Extract info from data-* attributes
-    let categoriesCount = button.data('categories') // Extract info from data-* attributes
-    let transactionsCount = button.data('transactions') // Extract info from data-* attributes
+    let button = $(event.relatedTarget)
+    let budgetName = button.data('name')
+    let budgetId = button.data('id')
+    let categoriesCount = button.data('categories')
     let modal = $(this)
     modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/delete");
     modal.find('.modal-body strong').text(" " + budgetName);
-    modal.find('#catCount').text(" " + categoriesCount + " ")
-    modal.find('#transCount').text(" " + transactionsCount + " ")
+    console.log(categoriesCount);
+    modal.find('#catCount').text(" " + categoriesCount + (categoriesCount === 1 ? " category" : " categories"));
 })
 
 // Add Own Category Name or Select Category Name From List

@@ -55,7 +55,6 @@
             </div>
             <div class="modal-footer">
                 <form:hidden path="categories" id="categories"/>
-                <form:hidden path="transactions" id="transactions"/>
                 <form:hidden path="users" id="users"/>
                 <button id="submitBtn" type="submit" class="btn btn-primary"> Save
                     changes

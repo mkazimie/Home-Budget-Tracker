@@ -33,6 +33,4 @@ public class TransactionDto {
 
     private Long budgetId;
 
-
-
 }

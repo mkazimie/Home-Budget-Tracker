@@ -35,18 +35,14 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
-    public SortedSet<Transaction> addTransactionToCategory(TransactionDto transactionDto, Category category,
-                                                           User user) {
-        Budget budget = category.getBudget();
-        Transaction transaction = setNewTransaction(transactionDto, user);
+    public void addTransactionToCategory(TransactionDto transactionDto, Category category) {
+        Transaction transaction = setNewTransaction(transactionDto);
         transaction.setCategory(category);
-        transaction.setBudget(budget);
         saveTransaction(transaction);
-        return category.getTransactions();
     }
 
     public void updateTransaction(Long transactionId, String title, BigDecimal sum,
-                                         LocalDate date) {
+                                  LocalDate date) {
         Transaction transaction = findTransactionById(transactionId);
         transaction.setTitle(title);
         transaction.setSum(sum);
@@ -56,23 +52,18 @@ public class TransactionService {
 
     public void removeTransaction(Long transactionId) {
         Transaction transaction = findTransactionById(transactionId);
-        Budget budget = transaction.getBudget();
-        if (transaction.getCategory() != null){
+        if (transaction.getCategory() != null) {
             Category transactionCategory = transaction.getCategory();
             transactionCategory.getTransactions().remove(transaction);
         }
-        User user = transaction.getUser();
-        user.getTransactions().remove(transaction);
-        budget.getTransactions().remove(transaction);
         transactionRepository.delete(transaction);
     }
 
-    private Transaction setNewTransaction(TransactionDto transactionDto, User user) {
+    private Transaction setNewTransaction(TransactionDto transactionDto) {
         Transaction transaction = new Transaction();
         transaction.setTitle(transactionDto.getTitle());
         transaction.setSum(transactionDto.getSum());
         transaction.setType(transactionDto.getType());
-        transaction.setUser(user);
         transaction.setDate(transactionDto.getDate());
         return transaction;
     }

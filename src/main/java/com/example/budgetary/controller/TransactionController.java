@@ -37,31 +37,24 @@ public class TransactionController {
 
     @PostMapping("/categories/{categoryId}/transactions") public @ResponseBody
     ValidationResponse addTransactionViaAjax(@PathVariable Long categoryId,
-                                             @AuthenticationPrincipal CurrentUser currentUser,
                                              @ModelAttribute(value = "transactionDto") @Valid TransactionDto transactionDto,
                                              BindingResult bindingResult) {
-        ValidationResponse res = new ValidationResponse();
+        ValidationResponse response = new ValidationResponse();
         if (bindingResult.hasErrors()) {
-            CategoryController.validateViaAjax(bindingResult, res);
+            CategoryController.validateViaAjax(bindingResult, response);
         } else {
-            res.setStatus("SUCCESS");
+            response.setStatus("SUCCESS");
             Category transactionCategory = categoryService.findCategoryById(categoryId);
-            SortedSet<Transaction> categoryTransactions = transactionService.addTransactionToCategory(transactionDto,
-                    transactionCategory, currentUser.getUser());
+            transactionService.addTransactionToCategory(transactionDto,
+                    transactionCategory);
         }
-        return res;
+        return response;
     }
 
     @GetMapping("/categories/{categoryId}/transactions/{transactionId}")
     public String deleteTransactionFromCategory(@PathVariable Long categoryId, @PathVariable Long transactionId){
         transactionService.removeTransaction(transactionId);
         return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
-    }
-
-    @GetMapping("/transactions/{transactionId}")
-    public String deleteTransactionFromBudget(@PathVariable Long transactionId){
-        transactionService.removeTransaction(transactionId);
-        return "redirect:/auth/budgets/{budgetId}";
     }
 
     @PostMapping("/categories/{categoryId}/transactions/{transactionId}/update")

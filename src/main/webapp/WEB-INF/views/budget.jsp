@@ -54,7 +54,6 @@
                                     data-name="${budget.name}"
                                     data-id="${budget.id}"
                                     data-categories="${budget.categories.size()}"
-                                    data-transactions="${budget.transactions.size()}"
                                     class="btn-circle btn-danger"><i
                                     class="far fa-trash-alt"></i></button>
                         </div>
@@ -139,7 +138,16 @@
                                     <div class="card-header bg-primary">
                                         <h5 class="card-title text-white font-weight-bold text-center"> Categories
                                         </h5>
-                                        <div class="text-center">${budget.categories.size()} categories in this budget
+                                        <div class="text-center">${budget.categories.size()}
+                                            <c:choose>
+                                                <c:when test="${budget.categories.size() == 1}">
+                                                    category
+                                                </c:when>
+                                                <c:otherwise>
+                                                    categories
+                                                </c:otherwise>
+                                            </c:choose>
+                                             in this budget
                                         </div>
                                     </div>
                                     <div class="card-body">

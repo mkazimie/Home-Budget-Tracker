@@ -36,14 +36,6 @@ public class Transaction implements Comparable<Transaction> {
     @ManyToOne
     private Category category;
 
-    @ManyToOne
-    private Budget budget;
-
-    private BigDecimal currentBalance;
-
-    @ManyToOne
-    private User user;
-
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 

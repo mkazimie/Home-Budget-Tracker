@@ -40,10 +40,10 @@ public class Budget implements Comparable<Budget> {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "budget")
     @OrderBy
     private SortedSet<Category> categories = new TreeSet<>();
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "budget")
-    @OrderBy("dateTimeAdded DESC")
-    private SortedSet<Transaction> transactions = new TreeSet<>();
+//
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "budget")
+//    @OrderBy("dateTimeAdded DESC")
+//    private SortedSet<Transaction> transactions = new TreeSet<>();
 
     @Override
     public int compareTo(Budget budget) {

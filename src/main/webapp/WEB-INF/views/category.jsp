@@ -214,7 +214,7 @@
                                                         </td>
                                                     </c:otherwise>
                                                 </c:choose>
-                                                <td class="align-middle">${transaction.user.username}</td>
+                                                <td class="align-middle">${currentUser.username}</td>
                                                 <fmt:parseDate value="${ transaction.date }"
                                                                pattern="yyyy-MM-dd"
                                                                var="parsedDate" type="both"/>
