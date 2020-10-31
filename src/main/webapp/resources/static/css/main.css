@@ -27,5 +27,23 @@ a.btn-circle:hover {
 
 .deleteAllIcon:hover {
     cursor: pointer;
+}
 
+.bootstrap-overrides .bg-login-image{
+    background: url("https://source.unsplash.com/VrJnsLH2nOY/600x800") center;
+    background-size: cover;
+}
+
+.bootstrap-overrides .bg-register-image{
+    background: url("https://source.unsplash.com/4kIM7ED8F1A/600x800") center;
+    background-size: cover;
+}
+
+.bg-budget-image {
+    background: url("https://source.unsplash.com/f030K9IzpcM/800x1000") center;
+    background-size: cover;
+}
+
+.category-icon{
+    color: #2c2f33;
 }

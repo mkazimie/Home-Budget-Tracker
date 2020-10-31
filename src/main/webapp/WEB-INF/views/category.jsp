@@ -50,7 +50,6 @@
                 <div class="container-fluid p-0 mb-4">
                     <div class="text-center">
                         <h2 class="d-inline text-primary font-weight-bolder">
-                            ${category.name}
                             <c:choose>
                                 <c:when test="${empty categoryIconsMap.get(category.name)}">
                                     <i class="fas fa-ellipsis-h"></i></c:when>
@@ -58,6 +57,7 @@
                                     ${categoryIconsMap.get(category.name)}
                                 </c:otherwise>
                             </c:choose>
+                            ${category.name}
                         </h2>
                         <div class="btn-wrapper d-inline float-right">
                             <button id="editBtn" data-toggle="modal" data-target="#editModal"
@@ -65,14 +65,14 @@
                                     data-allowance="${category.categoryAllowance}"
                                     data-budget="${budget.id}"
                                     data-id="${category.id}"
-                                    class="btn-circle btn-warning"><i
+                                    class="btn btn-circle btn-outline-warning"><i
                                     class="far fa-edit"></i></button>
                             <button id="deleteBtn" data-toggle="modal"
                                     data-target="#deleteCategoryModal"
                                     data-name="${category.name}"
                                     data-id="${category.id}"
                                     data-budget="${budget.id}"
-                                    class="btn-circle btn-danger"><i
+                                    class="btn btn-circle btn-outline-danger"><i
                                     class="far fa-trash-alt"></i></button>
                         </div>
                     </div>
@@ -86,11 +86,11 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            ${category.name} Allowance
+                                        <div class="text-lg font-weight-bold text-primary text-uppercase mb-1">
+                                            Allowance
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold
-                                                text-primary">${category.categoryAllowance}€
+                                                text-dark">${category.categoryAllowance}€
                                         </div>
                                     </div>
                                     <div class="col-auto">
@@ -106,8 +106,8 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            ${category.name} Balance
+                                        <div class="text-lg font-weight-bold text-primary text-uppercase mb-1">
+                                            Balance
                                         </div>
                                         <c:choose>
                                             <c:when test="${category.categoryAllowance - allCategoryExpenses <= 0}">
@@ -140,8 +140,8 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-md font-weight-bold text-primary text-uppercase mb-1">
-                                            ${category.name} Expenses
+                                        <div class="text-lg font-weight-bold text-primary text-uppercase mb-1">
+                                            Expenses
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-warning">${allCategoryExpenses} €
                                         </div>
@@ -161,8 +161,8 @@
                         <div class="card border-left-warning h-100 shadow">
                             <div class="card-header bg-warning d-table">
                                 <div class="d-table-cell align-middle">
-                                    <h5 class="card-title text-white font-weight-bold text-center"> Add
-                                        Transaction </h5>
+                                    <h4 class="card-title text-white font-weight-bold text-center"> Add
+                                        Transaction </h4>
                                 </div>
                             </div>
                     <jsp:include page="fragment/forms/add-transaction.jsp"/>
@@ -173,13 +173,14 @@
                         <div class="card border-left-primary">
                             <div class="card-header bg-primary d-table">
                                 <div class="d-table-cell align-middle">
-                                    <h5 class="font-weight-bold text-white text-center card-title"> Latest
-                                        Transactions </h5>
+                                    <h4 class="font-weight-bold text-white text-center card-title"> Latest
+                                        Transactions </h4>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                                    <table class="table table-striped text-dark" id="dataTable" width="100%"
+                                           cellspacing="0">
                                         <thead>
                                         <tr class="text-center">
                                             <th> Added</th>
@@ -235,7 +236,7 @@
                                                             data-date="${transaction.date}"
                                                             data-category="${category.id}"
                                                             data-budget="${budget.id}"
-                                                            class="btn-circle btn-warning btn-sm"><i
+                                                            class="btn btn-circle btn-outline-warning btn-sm"><i
                                                             class="far fa-edit"></i></button>
                                                     <button id="deleteTransactionBtn" data-toggle="modal"
                                                             data-target="#deleteTransactionModal"
@@ -243,7 +244,7 @@
                                                             data-id="${transaction.id}"
                                                             data-category="${category.id}"
                                                             data-budget="${budget.id}"
-                                                            class="btn-circle btn-danger btn-sm"><i
+                                                            class="btn btn-circle btn-outline-danger btn-sm"><i
                                                             class="far fa-trash-alt"></i></button>
                                                 </td>
                                             </tr>

@@ -56,8 +56,7 @@
                                             <form:errors path="endDate" cssClass="errorMessage"/>
                                         </div>
                                     </div>
-                                    <div class="text-center mt-5"> . . .</div>
-                                    <button class="btn btn-primary btn-block mb-0 mt-5" type="submit"> Save</button>
+                                    <button class="btn btn-primary btn-block mb-0 mt-5" type="submit">Save</button>
                                 </form:form>
                             </div>
                         </div>

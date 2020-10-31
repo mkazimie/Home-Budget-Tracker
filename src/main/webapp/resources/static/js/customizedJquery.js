@@ -9,7 +9,7 @@ $(document).ready(function () {
 // Toggle Forms in Budget Dashboard
 $('.toggle-form').click(function () {
     $(this).children().toggleClass('fa-plus, fa-times');
-    $(this).toggleClass('btn-info, btn-warning');
+    $(this).toggleClass('btn-outline-success, btn-outline-dark');
 })
 
 // Add New Transaction

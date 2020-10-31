@@ -6,7 +6,7 @@
            modelAttribute="categoryDto">
     <div class="generalErrorMessage alert alert-danger d-none" role="alert"></div>
     <div id="selectInput" class="form-group">
-        <form:label path="selectedName" cssClass="text-primary"> Name </form:label>
+        <form:label path="selectedName" cssClass="text-dark"> Name </form:label>
         <div class="errorMessage alert alert-danger d-none" role="alert"></div>
         <form:select path="selectedName" class="form-control" id="selectCat">
             <form:option label="--Select--"
@@ -17,7 +17,7 @@
         </form:select>
     </div>
     <div id="ownInput" class="form-group d-none">
-        <form:label path="ownName" cssClass="text-primary"> Name </form:label>
+        <form:label path="ownName" cssClass="text-dark"> Name </form:label>
         <div class="errorMessage alert alert-danger d-none" role="alert"></div>
         <div class="input-group">
             <div class="input-group-append">
@@ -33,7 +33,7 @@
     </div>
     <div class="form-group">
         <form:label path="categoryAllowance"
-                    cssClass="text-primary"> Budget </form:label>
+                    cssClass="text-dark"> Budget </form:label>
         <div class="errorMessage alert alert-danger d-none" role="alert"></div>
         <div class="input-group">
             <form:input path="categoryAllowance" type="number" min="1" step=".01"

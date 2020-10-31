@@ -30,7 +30,8 @@
                     <div class="card-header">
                         <div class="row d-table">
                             <div class="d-table-cell align-middle">
-                            <a href="/auth/budgets/form" class="btn btn-primary"> <i class="fas fa-plus"></i> </a>
+                                <a href="/auth/budgets/form" class="btn btn-outline-primary"> <i
+                                        class="fas fa-plus"></i> </a>
                             </div>
                             <h4 class="ml-3 font-weight-bold text-primary">Your Budgets</h4>
                         </div>
@@ -51,10 +52,10 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped" id="dataTable" width="100%"
+                            <table class="table table-bordered table-striped text-dark" id="dataTable" width="100%"
                                    cellspacing="0">
                                 <thead>
-                                <tr>
+                                <tr class="text-center">
                                     <th></th>
                                     <th>Name</th>
                                     <th>Contributors</th>
@@ -68,17 +69,19 @@
                                 <tbody>
                                 <c:forEach items="${budgets}" var="budget">
                                     <tr class="text-center">
-                                        <c:choose>
-                                        <c:when test="${now >= budget.startDate && now <= budget.endDate}">
-                                        <td class="align-middle bg-success">
+                                        <td class="align-middle">
+                                            <c:choose>
+                                            <c:when test="${now >= budget.startDate && now <= budget.endDate}">
+                                                <a href="/auth/budgets/${budget.id}"
+                                                   class="btn btn-outline-success"><i
+                                                        class="fas fa-angle-double-right"></i></a>
                                             </c:when>
                                             <c:otherwise>
-                                        <td class="align-middle">
+                                                <a href="/auth/budgets/${budget.id}"
+                                                   class="btn btn-outline-primary"><i
+                                                        class="fas fa-angle-double-right"></i></a>
                                             </c:otherwise>
                                             </c:choose>
-                                            <a href="/auth/budgets/${budget.id}"
-                                               class="btn btn-primary"><i
-                                                    class="fas fa-angle-double-right"></i></a>
                                         </td>
                                         <td class="align-middle">${budget.name}</td>
                                         <td class="align-middle">
@@ -89,7 +92,8 @@
                                         <td class="align-middle">${budget.startDate}</td>
                                         <td class="align-middle">${budget.endDate}</td>
                                         <td class="align-middle">${budgetsAllowanceAndBalanceMap.get(budget.name)[0]}
-                                            €</td>
+                                            €
+                                        </td>
                                         <td class="align-middle text-success
                                         font-weight-bolder">${budgetsAllowanceAndBalanceMap.get(budget.name)[1]}€
                                         </td>
@@ -99,7 +103,7 @@
                                                     data-name="${budget.name}"
                                                     data-id="${budget.id}"
                                                     data-categories="${budget.categories.size()}"
-                                                    class="btn-circle btn-secondary btn-sm"><i
+                                                    class="btn-circle btn-outline-secondary btn-sm"><i
                                                     class="far fa-trash-alt"></i></button>
                                         </td>
                                     </tr>

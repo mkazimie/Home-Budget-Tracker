@@ -164,19 +164,19 @@ public class CategoryController {
     @ModelAttribute("categoryIconsMap")
     public static Map<String, String> getCategoryIconsMap() {
         Map<String, String> categoryIcons = new LinkedHashMap<>();
-        categoryIcons.put("Home", "<i class='fas fa-file-invoice'></i>");
-        categoryIcons.put("Supermarket", "<i class='fas fa-shopping-cart'></i>");
-        categoryIcons.put("Public Transport", "<i class='fas fa-bus-alt'></i>");
-        categoryIcons.put("Vehicle", "<i class='fas fa-car'></i>");
-        categoryIcons.put("Health", "<i class='fas fa-tablets'></i>");
-        categoryIcons.put("Gym", "<i class='fas fa-dumbbell'></i>");
-        categoryIcons.put("Going Out", "<i class='fas fa-glass-cheers'></i>");
-        categoryIcons.put("Shopping", "<i class='fas fa-shopping-bag'></i>");
-        categoryIcons.put("Personal Care", "<i class='fas fa-magic'></i>");
-        categoryIcons.put("Travel", "<i class='fas fa-plane'></i>");
-        categoryIcons.put("Other", "<i class='fas fa-atom'></i>");
-        categoryIcons.put("Savings", "<i class='fas fa-piggy-bank'></i>");
-        categoryIcons.put("Unexpected", "<i class='fas fa-exclamation-triangle'></i>");
+        categoryIcons.put("Home", "<i class='category-icon fas fa-file-invoice'></i>");
+        categoryIcons.put("Supermarket", "<i class='category-icon fas fa-shopping-cart'></i>");
+        categoryIcons.put("Public Transport", "<i class='category-icon fas fa-bus-alt'></i>");
+        categoryIcons.put("Vehicle", "<i class='category-icon fas fa-car'></i>");
+        categoryIcons.put("Health", "<i class='category-icon fas fa-tablets'></i>");
+        categoryIcons.put("Gym", "<i class='category-icon fas fa-dumbbell'></i>");
+        categoryIcons.put("Going Out", "<i class='category-icon fas fa-glass-cheers'></i>");
+        categoryIcons.put("Shopping", "<i class='category-icon fas fa-shopping-bag'></i>");
+        categoryIcons.put("Personal Care", "<i class='category-icon fas fa-magic'></i>");
+        categoryIcons.put("Travel", "<i class='category-icon fas fa-plane'></i>");
+        categoryIcons.put("Other", "<i class='category-icon fas fa-atom'></i>");
+        categoryIcons.put("Savings", "<i class='category-icon fas fa-piggy-bank'></i>");
+        categoryIcons.put("Unexpected", "<i class='category-icon fas fa-exclamation-triangle'></i>");
         return categoryIcons;
     }
 

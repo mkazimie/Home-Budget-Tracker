@@ -52,7 +52,7 @@
                         <div class="card border-left-primary shadow">
                             <div class="card-header bg-primary d-table">
                                 <div class="d-table-cell align-middle">
-                                    <h5 class="card-title font-weight-bold text-center text-white">Add Category</h5>
+                                    <h4 class="card-title font-weight-bold text-center text-white">Add Category</h4>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -68,13 +68,14 @@
                             <div class="card border-left-primary shadow h-100">
                                 <div class="card-header bg-primary d-table">
                                     <div class="d-table-cell align-middle">
-                                        <h5 class="card-title font-weight-bold text-center text-white">
-                                            Categories</h5>
+                                        <h4 class="card-title font-weight-bold text-center text-white">
+                                            Categories</h4>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                                        <table class="table table-striped text-dark" id="dataTable" width="100%"
+                                               cellspacing="0">
                                             <thead>
                                             <tr>
                                                 <th></th>
@@ -89,7 +90,7 @@
                                                 <tr>
                                                     <td class="align-middle"><a
                                                             href="/auth/budgets/${budget.id}/categories/${category.id}"
-                                                            class="btn btn-success"><i
+                                                            class="btn btn-outline-success"><i
                                                             class="fas fa-angle-double-right"></i></a>
                                                     </td>
                                                     <td
@@ -122,7 +123,7 @@
                                                                 data-name="${category.name}"
                                                                 data-id="${category.id}"
                                                                 data-budget="${budget.id}"
-                                                                class="btn-circle btn-secondary btn-sm"><i
+                                                                class="btn btn-circle btn-outline-secondary btn-sm"><i
                                                                 class="far fa-trash-alt"></i></button>
                                                     </td>
                                                 </tr>

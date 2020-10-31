@@ -9,7 +9,7 @@
            action=""
            modelAttribute="transactionDto">
     <div class="form-group">
-        <form:label path="categoryName" cssClass="text-primary"> Category </form:label>
+        <form:label path="categoryName" cssClass="text-dark"> Category </form:label>
         <div class="errorMessage alert alert-danger d-none" role="alert"></div>
         <form:select path="categoryName" class="form-control" id="selectTransactionCategory">
             <form:option label="--Select--"
@@ -18,13 +18,13 @@
         </form:select>
     </div>
     <div class="form-group">
-        <form:label path="title" cssClass="text-primary"> Title </form:label>
+        <form:label path="title" cssClass="text-dark"> Title </form:label>
         <div class="errorMessage alert alert-danger d-none" role="alert"></div>
         <form:input id="title" path="title" type="text" class="form-control form-control-user"
                     placeholder=""/>
     </div>
     <div class="form-group">
-        <form:label path="sum" cssClass="text-primary"> Sum </form:label>
+        <form:label path="sum" cssClass="text-dark"> Sum </form:label>
         <div class="errorMessage alert alert-danger d-none" role="alert"></div>
         <div class="input-group">
             <form:input path="sum" type="number" min="1"
@@ -37,7 +37,7 @@
         </div>
     </div>
     <div class="form-group">
-        <form:label path="date" cssClass="text-primary"> Date </form:label>
+        <form:label path="date" cssClass="text-dark"> Date </form:label>
         <div class="errorMessage alert alert-danger d-none" role="alert"></div>
         <form:input path="date" type="date" min="${budget.startDate}"
                     max="${budget.endDate}"
@@ -47,7 +47,7 @@
     </div>
     </div>
     <div class="card-footer">
-    <button class="btn btn-warning btn-user btn-block" type="submit"> Save
+    <button class="btn btn-success btn-user btn-block" type="submit"> Save
     </button>
     <form:hidden path="type" value="Withdrawal"/>
     <form:hidden path="budgetId" value="${budget.id}"/>
