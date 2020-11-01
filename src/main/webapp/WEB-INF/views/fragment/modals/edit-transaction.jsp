@@ -16,7 +16,7 @@
                 <div class="addAlert"></div>
                 <form method="post" action="">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label text-primary">
+                        <label class="col-sm-2 col-form-label text-dark">
                             Title:</label>
                         <div class="col-sm-10">
                             <input name="title" type="text" id="transactionTitle"
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label text-primary">
+                        <label class="col-sm-2 col-form-label text-dark">
                             Sum:</label>
                         <div class="col-sm-10">
                             <input type="number" id="transactionSum" name="sum"
@@ -34,7 +34,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label text-primary">
+                        <label class="col-sm-2 col-form-label text-dark">
                             Date:</label>
                         <div class="col-sm-10">
                             <input type="date" id="transactionDate" name="date"

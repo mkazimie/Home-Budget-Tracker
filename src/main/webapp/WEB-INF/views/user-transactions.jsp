@@ -24,6 +24,14 @@
         <!-- Main Content -->
         <div id="content">
             <jsp:include page="fragment/topbar.jsp"/>
+            <!-- Bread Crumbs-->
+            <nav aria-label="breadcrumb bg-info">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item ml-3"><a href="/auth/budgets">
+                        <i class="fas fa-angle-double-left"></i>
+                        Home </a></li>
+                </ol>
+            </nav>
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
@@ -36,9 +44,9 @@
                         <!-- Budgets Table -->
                         <div class="mx-2 my-2">
                             <p class="card-subtitle text-muted">You have
-                                <strong>${allTransactionsByBudgetUser.size()}</strong>
+                                <strong>${allTransactionsByUser.size()}</strong>
                                 <c:choose>
-                                    <c:when test="${allTransactionsByBudgetUser.size() == 1}">
+                                    <c:when test="${allTransactionsByUser.size() == 1}">
                                         Transaction
                                     </c:when>
                                     <c:otherwise>
@@ -63,7 +71,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${allTransactionsByBudgetUser}" var="transaction">
+                                <c:forEach items="${allTransactionsByUser}" var="transaction">
                                     <tr class="text-center">
                                         <fmt:parseDate value="${ transaction.dateTimeAdded }"
                                                        pattern="yyyy-MM-dd'T'HH:mm"
@@ -71,7 +79,7 @@
                                         <td class="align-middle text-gray-800 font-sm">
                                             <fmt:formatDate
                                                     pattern="dd/MM/yyyy HH:mm"
-                                                    value="${ parsedDateTime }"
+                                                    value="${parsedDateTime }"
                                             />
                                         </td>
                                         <td class="align-middle">${transaction.title}</td>
@@ -88,13 +96,13 @@
                                         </c:choose>
                                         <td class="align-middle">
                                             <a href="/auth/budgets/${transaction.category.budget.id}"
-                                               class="btn btn-primary font-weight-bolder">
+                                               class="btn btn-outline-primary font-weight-bolder">
                                                     ${transaction.category.budget.name}
                                             </a>
                                         </td>
                                         <td class="align-middle">
                                             <a href="/auth/budgets/${transaction.category.budget.id}/categories/${transaction.category.id}"
-                                               class="btn btn-primary font-weight-bolder">
+                                               class="btn btn-outline-dark font-weight-bolder">
                                                     ${transaction.category.name}
                                             </a>
                                         </td>
@@ -118,7 +126,7 @@
                                                     data-date="${transaction.date}"
                                                     data-category="${transaction.category.id}"
                                                     data-budget="${transaction.category.budget.id}"
-                                                    class="btn-circle btn-warning btn-sm"><i
+                                                    class="btn btn-circle btn-outline-warning btn-sm"><i
                                                     class="far fa-edit"></i></button>
                                             <button
                                                     data-toggle="modal"
@@ -127,7 +135,7 @@
                                                     data-id="${transaction.id}"
                                                     data-category="${transaction.category.id}"
                                                     data-budget="${transaction.category.budget.id}"
-                                                    class="btn-circle btn-danger btn-sm"><i
+                                                    class="btn btn-circle btn-outline-danger btn-sm"><i
                                                     class="far fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
@@ -138,9 +146,9 @@
                     </div>
                 </div>
                 <!-- Include Modals-->
-                <jsp:include page="fragment/modals/deleteBudget.jsp"/>
-                <jsp:include page="fragment/modals/editTransaction.jsp"/>
-                <jsp:include page="fragment/modals/deleteTransaction.jsp"/>
+                <jsp:include page="fragment/modals/delete-budget.jsp"/>
+                <jsp:include page="fragment/modals/edit-transaction.jsp"/>
+                <jsp:include page="fragment/modals/delete-transaction.jsp"/>
             </div>
             <!-- /.container-fluid -->
         </div>

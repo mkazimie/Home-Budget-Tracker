@@ -21,10 +21,10 @@ public class UserController {
         this.transactionService = transactionService;
     }
 
-    @GetMapping("/activity-log")
-    public String fetchTransactionsByBudgetUser(@AuthenticationPrincipal CurrentUser currentUser, Model model){
-        List<Transaction> allTransactionsByBudgetUser = transactionService.findAllByBudgetUser(currentUser.getUser());
-        model.addAttribute("allTransactionsByBudgetUser", allTransactionsByBudgetUser);
+    @GetMapping("/transactions")
+    public String displayTransactionsByUser(@AuthenticationPrincipal CurrentUser currentUser, Model model){
+        List<Transaction> allTransactionsByUser = transactionService.findAllByBudgetUser(currentUser.getUser());
+        model.addAttribute("allTransactionsByUser", allTransactionsByUser);
         return "user-transactions";
     }
 }

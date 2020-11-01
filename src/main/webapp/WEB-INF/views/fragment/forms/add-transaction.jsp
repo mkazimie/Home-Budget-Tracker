@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <div class="card-body">
-<div class="row no-gutters align-items-center justify-content-center">
+<div class="row no-gutters align-items-center justify-content-center text-center">
 <form:form id="transactionForm" method="post"
            action=""
            modelAttribute="transactionDto">
@@ -46,7 +46,7 @@
     </div>
     </div>
     </div>
-    <div class="card-footer">
+    <div class="card-footer bg-white">
     <button class="btn btn-success btn-user btn-block" type="submit"> Save
     </button>
     <form:hidden path="type" value="Withdrawal"/>

@@ -256,10 +256,10 @@
                         </div>
                     </div>
                     <!--Insert Modals -->
-                    <jsp:include page="fragment/modals/editCategory.jsp"/>
-                    <jsp:include page="fragment/modals/editTransaction.jsp"/>
-                    <jsp:include page="fragment/modals/deleteCategory.jsp"/>
-                    <jsp:include page="fragment/modals/deleteTransaction.jsp"/>
+                    <jsp:include page="fragment/modals/edit-category.jsp"/>
+                    <jsp:include page="fragment/modals/edit-transaction.jsp"/>
+                    <jsp:include page="fragment/modals/delete-category.jsp"/>
+                    <jsp:include page="fragment/modals/delete-transaction.jsp"/>
                 </div>
                 <!-- /.container-fluid -->
             </div>

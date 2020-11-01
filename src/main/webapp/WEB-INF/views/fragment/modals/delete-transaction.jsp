@@ -14,7 +14,7 @@
             </div>
             <div class="modal-body">
                 <div class="addAlert"></div>
-                <p class="text-center text-primary">Are you sure you want to delete
+                <p class="text-center text-dark">Are you sure you want to delete
                     transaction
                     <strong></strong>?</p>
                 <div class="btn-wrapper text-center">

@@ -29,7 +29,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item ml-3"><a href="/auth/budgets">
                         <i class="fas fa-angle-double-left"></i>
-                        Home </a></li>
+                        Home</a></li>
                 </ol>
             </nav>
 
@@ -63,7 +63,7 @@
                 <!-- Content Row -->
                 <div class="row">
                     <!-- BUDGET -->
-                    <div class="col-xl-3 col-md-6 mb-4 ">
+                    <div class="col-xl-4 col-md-6 mb-4 ">
                         <div class="card h-100 shadow py-2 bg-light border-left-info">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -81,7 +81,7 @@
                         </div>
                     </div>
                     <!-- BALANCE -->
-                    <div class="col-xl-3 col-md-6 mb-4 ">
+                    <div class="col-xl-4 col-md-6 mb-4 ">
                         <div class="card h-100 shadow py-2 border-left-success ">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -115,7 +115,7 @@
                         </div>
                     </div>
                     <!-- EXPENSES -->
-                    <div class="col-xl-3 col-md-6 mb-4 ">
+                    <div class="col-xl-4 col-md-6 mb-4 ">
                         <div class="card h-100 shadow py-2 border-left-warning ">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -136,9 +136,59 @@
 
                 <!-- Content Row -->
                 <div class="row">
+
+                    <div class="col-xl-4 col-md-6">
+                        <!-- Add Category Toggled Form-->
+                        <div class="card border-left-primary mb-4">
+                            <div class="card-header bg-primary d-table">
+                                <div class="d-table-cell align-middle">
+                                    <h4 class="card-title font-weight-bold text-white text-center"> Add
+                                        Category </h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="btn-wrapper text-center">
+                                    <button class="btn btn-circle btn-lg btn-outline-success toggle-form"
+                                            type="button"
+                                            data-toggle="collapse" data-target="#addCategoryForm"
+                                            aria-expanded="false"
+                                            aria-controls="collapseExample">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <div id="addCategoryForm" class="collapse my-3">
+                                        <jsp:include page="fragment/forms/add-category.jsp"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Add Transaction Toggled Form-->
+                        <div class="card border-left-dark mb-4">
+                            <div class="card-header bg-dark d-table">
+                                <div class="d-table-cell align-middle">
+                                    <h4 class="card-title text-white font-weight-bold text-center"> Add
+                                        Transaction </h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="btn-wrapper text-center">
+                                    <button class="btn btn-circle btn-lg btn-outline-success toggle-form"
+                                            type="button"
+                                            data-toggle="collapse" data-target="#addTransactionForm"
+                                            aria-expanded="false"
+                                            aria-controls="collapseExample">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <div id="addTransactionForm" class="collapse my-3">
+                                        <jsp:include page="fragment/forms/add-transaction.jsp"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Go To Categories -->
                     <div class="col-xl-4 col-md-6 mb-4">
-                        <div class="card border-left-dark border-bottom-dark shadow">
+                        <div class="card border-left-dark shadow">
                             <div class="card-header bg-gradient-dark">
                                 <h4 class="card-title text-white font-weight-bold text-center"> Categories
                                 </h4>
@@ -176,91 +226,145 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Add Category Toggled Form-->
-                    <div class="col-xl-4 col-md-6 mb-4 ">
-                        <div class="card border-left-primary border-bottom-primary">
-                            <div class="card-header bg-primary d-table">
+
+
+                    <div class="col-xl-4 col-md-6">
+                        <div class="card  border-left-warning mb-4">
+                            <div class="card-header bg-warning d-table">
                                 <div class="d-table-cell align-middle">
-                                    <h4 class="card-title font-weight-bold text-white text-center"> Add
-                                        Category </h4>
+                                    <h4 class="card-title font-weight-bold text-white text-center"> Your Latest
+                                        Transactions
+                                    </h4>
                                 </div>
                             </div>
                             <div class="card-body">
+
+                                <div class="table-responsive">
+                                    <table class="table table-striped" width="100%" cellspacing="0">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th> Added</th>
+                                            <th> Title</th>
+                                            <th><strong> € </strong></th>
+                                            <th> Category</th>
+                                            <th> Transaction Date</th>
+                                            <th> Actions</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${budget.categories}" var="category">
+                                            <c:forEach items="${category.transactions}" var="transaction"
+                                                       begin="0" end="4">
+                                                <tr class="text-center">
+                                                    <fmt:parseDate value="${transaction.dateTimeAdded}"
+                                                                   pattern="yyyy-MM-dd'T'HH:mm"
+                                                                   var="parsedDateTime" type="both"/>
+                                                    <td class="align-middle text-gray-800 font-sm">
+                                                        <fmt:formatDate
+                                                                pattern="dd/MM/yyyy HH:mm"
+                                                                value="${parsedDateTime}"
+                                                        />
+                                                    </td>
+                                                    <td class="align-middle">${transaction.title}</td>
+                                                    <c:choose>
+                                                        <c:when test="${transaction.type.equals('Withdrawal')}">
+                                                            <td class="align-middle text-danger"> -${transaction.sum}€
+                                                            </td>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <td class="align-middle text-success">
+                                                                +${transaction.sum}€
+                                                            </td>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    <td class="align-middle">
+                                                        <a href="/auth/budgets/${transaction.category.budget.id}/categories/${transaction.category.id}"
+                                                           class="btn btn-outline-dark font-weight-bolder">
+                                                                ${transaction.category.name}
+                                                        </a>
+                                                    </td>
+                                                    <fmt:parseDate value="${transaction.date}"
+                                                                   pattern="yyyy-MM-dd"
+                                                                   var="parsedDate" type="both"/>
+                                                    <td class="align-middle">
+                                                        <fmt:formatDate
+                                                                pattern="dd/MM/yyyy"
+                                                                value="${parsedDate}"
+                                                        />
+                                                    </td>
+                                                    <td class="align-middle">
+                                                        <button
+                                                                data-toggle="modal"
+                                                                data-target="#editTransactionModal"
+                                                                data-title="${transaction.title}"
+                                                                data-id="${transaction.id}"
+                                                                data-sum="${transaction.sum}"
+                                                                data-date="${transaction.date}"
+                                                                data-category="${transaction.category.id}"
+                                                                data-budget="${transaction.category.budget.id}"
+                                                                class="btn btn-circle btn-outline-warning btn-sm"><i
+                                                                class="far fa-edit"></i></button>
+                                                        <button
+                                                                data-toggle="modal"
+                                                                data-target="#deleteTransactionModal"
+                                                                data-title="${transaction.title}"
+                                                                data-id="${transaction.id}"
+                                                                data-category="${transaction.category.id}"
+                                                                data-budget="${transaction.category.budget.id}"
+                                                                class="btn btn-circle btn-outline-danger btn-sm"><i
+                                                                class="far fa-trash-alt"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer">
                                 <div class="btn-wrapper text-center">
-                                    <button class="btn btn-circle btn-lg btn-outline-success toggle-form"
-                                            type="button"
-                                            data-toggle="collapse" data-target="#addCategoryForm"
-                                            aria-expanded="false"
-                                            aria-controls="collapseExample">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                    <div id="addCategoryForm" class="collapse my-3">
-                                        <jsp:include page="fragment/forms/add-category.jsp"/>
+                                    <div class="row no-gutters align-items-center justify-content-center">
+                                        <a href="/auth/users/${currentUser.id}/transactions"
+                                           class="btn btn-outline-success btn-block">
+                                            See All
+                                            <i class="fas fa-angle-double-right"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- Add Transaction Toggled Form-->
-                    <div class="col-xl-4 col-md-6 mb-4 ">
-                        <div class="card border-left-dark border-bottom-dark">
-                            <div class="card-header bg-dark d-table">
-                                <div class="d-table-cell align-middle">
-                                    <h4 class="card-title text-white font-weight-bold text-center"> Add
-                                        Transaction </h4>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="btn-wrapper text-center">
-                                    <button class="btn btn-circle btn-lg btn-outline-success toggle-form"
-                                            type="button"
-                                            data-toggle="collapse" data-target="#addTransactionForm"
-                                            aria-expanded="false"
-                                            aria-controls="collapseExample">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                    <div id="addTransactionForm" class="collapse my-3">
-                                        <jsp:include page="fragment/forms/add-transaction.jsp"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <!--Insert Modals -->
+                    <div>
+                        <jsp:include page="fragment/modals/edit-budget.jsp"/>
+                        <jsp:include page="fragment/modals/delete-budget.jsp"/>
+                        <jsp:include page="fragment/modals/edit-transaction.jsp"/>
+                        <jsp:include page="fragment/modals/delete-transaction.jsp"/>
+                        <!-- End Page Content -->
                     </div>
+                    <!-- End of Main Content -->
                 </div>
+                <!-- End of Content Wrapper -->
             </div>
+            <jsp:include page="fragment/footer.jsp"/>
         </div>
-        <!--Insert Modals -->
+        <!-- Scroll to Top Button-->
         <div>
-            <jsp:include page="fragment/modals/editBudget.jsp"/>
-            <jsp:include page="fragment/modals/deleteBudget.jsp"/>
-            <jsp:include page="fragment/modals/deleteTransaction.jsp"/>
+            <jsp:include page="fragment/scroll-btn.jsp"/>
         </div>
+        <!--App level plugins-->
+        <div>
+            <jsp:include page="fragment/core-js-plugins.jsp"/>
+        </div>
+        <!-- Page level plugins -->
+        <script src="${pageContext.request.contextPath}/resources/static/vendor/chart.js/Chart.min.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/static/js/customizedJquery.js"></script>
 
-        <!-- End Page Content -->
-    </div>
-    <!-- End of Main Content -->
-</div>
-<!-- End of Content Wrapper -->
-</div>
-<jsp:include page="fragment/footer.jsp"/>
-</div>
-<!-- Scroll to Top Button-->
-<div>
-    <jsp:include page="fragment/scroll-btn.jsp"/>
-</div>
-<!--App level plugins-->
-<div>
-    <jsp:include page="fragment/core-js-plugins.jsp"/>
-</div>
-<!-- Page level plugins -->
-<script src="${pageContext.request.contextPath}/resources/static/vendor/chart.js/Chart.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/customizedJquery.js"></script>
-
-<!-- Page level custom scripts -->
-<script src="${pageContext.request.contextPath}/resources/static/js/demo/chart-area-demo.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/demo/datatables-demo.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/demo/chart-pie-demo.js"></script>
+        <!-- Page level custom scripts -->
+        <script src="${pageContext.request.contextPath}/resources/static/js/demo/chart-area-demo.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/static/js/demo/datatables-demo.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/static/js/demo/chart-pie-demo.js"></script>
 </body>
 </html>

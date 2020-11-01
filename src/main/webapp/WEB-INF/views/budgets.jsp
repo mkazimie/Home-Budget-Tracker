@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <html>
 <head>
@@ -19,6 +20,7 @@
     <jsp:include page="fragment/sidebar.jsp"/>
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
+
         <!-- Main Content -->
         <div id="content">
             <jsp:include page="fragment/topbar.jsp"/>
@@ -57,6 +59,7 @@
                                 <thead>
                                 <tr class="text-center">
                                     <th></th>
+                                    <th>Added</th>
                                     <th>Name</th>
                                     <th>Contributors</th>
                                     <th>Start Date</th>
@@ -83,6 +86,15 @@
                                             </c:otherwise>
                                             </c:choose>
                                         </td>
+                                        <fmt:parseDate value="${budget.dateTimeAdded }"
+                                                       pattern="yyyy-MM-dd'T'HH:mm"
+                                                       var="parsedDateTime" type="both"/>
+                                        <td class="align-middle text-gray-800 font-sm">
+                                            <fmt:formatDate
+                                                    pattern="dd/MM/yyyy HH:mm"
+                                                    value="${parsedDateTime }"
+                                            />
+                                        </td>
                                         <td class="align-middle">${budget.name}</td>
                                         <td class="align-middle">
                                             <c:forEach items="${budget.users}" var="user">
@@ -103,7 +115,7 @@
                                                     data-name="${budget.name}"
                                                     data-id="${budget.id}"
                                                     data-categories="${budget.categories.size()}"
-                                                    class="btn-circle btn-outline-secondary btn-sm"><i
+                                                    class="btn btn-circle btn-outline-secondary btn-sm"><i
                                                     class="far fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
@@ -114,7 +126,7 @@
                     </div>
                 </div>
                 <!-- Include Modals-->
-                <jsp:include page="fragment/modals/deleteBudget.jsp"/>
+                <jsp:include page="fragment/modals/delete-budget.jsp"/>
             </div>
             <!-- /.container-fluid -->
         </div>

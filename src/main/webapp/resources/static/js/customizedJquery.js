@@ -50,7 +50,7 @@ transactionForm.submit(function (event) {
                 showErrorsForm(errorMessageList, transactionForm);
 
             } else {
-                window.location = "/auth/budgets/" + budgetId + /categories/ + categoryId;
+                window.location.reload();
             }
         },
         error: function (ex) {
@@ -85,7 +85,7 @@ categoryForm.submit(function (event) {
                 showErrorsForm(errorMessageList, categoryForm);
 
             } else {
-                window.location = "/auth/budgets/" + budgetId + /categories/;
+                window.location.reload();
             }
         },
         error: function (ex) {

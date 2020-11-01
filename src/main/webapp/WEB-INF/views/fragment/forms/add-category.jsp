@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<div class="card-body">
+<div class="row no-gutters align-items-center justify-content-center text-center">
 <form:form id="categoryForm" method="post" action=""
            modelAttribute="categoryDto">
     <div class="generalErrorMessage alert alert-danger d-none" role="alert"></div>
@@ -44,6 +46,11 @@
             </div>
         </div>
     </div>
+    </div>
+    </div>
+    <div class="card-footer bg-white">
+    <button class="btn btn-success btn-user btn-block" type="submit"> Save
+    </button>
     <form:hidden path="budgetId" value="${budget.id}"/>
-    <button id="addCategory" class="btn btn-success btn-user btn-block" type="submit"> Save</button>
 </form:form>
+</div>

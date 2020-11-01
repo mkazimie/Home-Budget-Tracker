@@ -18,19 +18,19 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-comment-dollar"></i>
         </div>
-        <div class="sidebar-brand-text mx-3"> Budgetarian </div>
+        <div class="sidebar-brand-text mx-3">Budgetarian</div>
     </a>
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
+    <li class="nav-item">
         <a class="nav-link"  href="/auth/budgets">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>All Budgets</span></a>
     </li>
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="/auth/budgets" data-toggle="collapse" data-target="#collapseTwo"
+        <a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
            aria-expanded="true"
            aria-controls="collapseTwo">
             <i class="fas fa-angle-double-right"></i>

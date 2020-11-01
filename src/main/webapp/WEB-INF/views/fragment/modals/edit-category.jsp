@@ -2,14 +2,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<!--MODAL FORM to update BUDGET -->
-<div id="editBudgetModal" class="modal" tabindex="-1" role="dialog">
+<div id="editModal" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary d-table justify-content-between">
                 <div class="d-table-cell align-middle">
                     <h5 class="modal-title text-white font-weight-bolder text-center">
-                        Edit Budget</h5>
+                        Edit category</h5>
                 </div>
                 <button type="button" class="close" data-dismiss="modal"
                         aria-label="Close">
@@ -18,48 +17,40 @@
             </div>
             <div class="modal-body">
                 <div class="addAlert"></div>
-                <form:form id="editBudgetForm" method="post"
+                <form:form id="editCategoryForm" method="post"
                            action=""
-                           modelAttribute="budget">
+                           modelAttribute="category">
                 <div class="form-group">
-                    <div class="errorMessage alert alert-danger d-none" role="alert"></div>
+                    <div class="errorMessage alert alert-danger d-none text-center" role="alert"></div>
                     <div class="row">
-                        <label class="col-sm-2 col-form-label text-primary">
+                        <label class="col-sm-2 col-form-label text-dark">
                             Name:</label>
                         <div class="col-sm-10">
-                            <form:input path="name" type="text" id="nameInput"
+                            <form:input path="name" type="text" id="catName"
                                         class="form-control"/>
                         </div>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label text-primary">
-                        Start Date:</label>
-                    <div class="col-sm-10">
-                        <form:input id="startInput" path="startDate" type="date" class="form-control"
-                                    placeholder="yyyy-MM-dd"/>
-                    </div>
-                </div>
                 <div class="form-group">
-                    <div class="errorMessage alert alert-danger d-none" role="alert"></div>
+                    <div class="errorMessage alert alert-danger d-none text-center" role="alert"></div>
                     <div class="row">
-                        <label class="col-sm-2 col-form-label text-primary">
-                            End Date:</label>
+                        <label class="col-sm-2 col-form-label text-dark">
+                            Allowance:</label>
                         <div class="col-sm-10">
-                            <form:input id="endInput" path="endDate" type="date"
-                                        class="form-control"
-                                        placeholder="yyyy-MM-dd"/>
+                            <form:input type="number" id="categoryAllowance" name="categoryAllowance"
+                                        class="form-control" path="categoryAllowance"/>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <form:hidden path="categories" id="categories"/>
-                <form:hidden path="users" id="users"/>
-                <button id="submitBtn" type="submit" class="btn btn-primary"> Save
+                <form:hidden path="id"/>
+                <form:hidden path="budget" id="budget"/>
+                <form:hidden path="transactions" id="catTransactions"/>
+                <button id="submitCatBtn" type="submit" class="btn btn-primary"> Save
                     changes
                 </button>
-                <button id="closeModalBtn" type="button" class="btn btn-secondary"
+                <button type="button" class="btn btn-secondary"
                         data-dismiss="modal"> Close
                 </button>
                 </form:form>
