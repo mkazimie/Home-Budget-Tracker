@@ -28,23 +28,6 @@
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>All Budgets</span></a>
     </li>
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
-           aria-expanded="true"
-           aria-controls="collapseTwo">
-            <i class="fas fa-angle-double-right"></i>
-            <span> Go To Budget </span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Your budgets:</h6>
-                <c:forEach items="${budgets}" var="budget">
-                    <a class="collapse-item" href="/auth/budgets/${budget.id}">${budget.name}</a>
-                </c:forEach>
-            </div>
-        </div>
-    </li>
     <!-- Divider -->
     <hr class="sidebar-divider">
     <!-- Sidebar Toggler (Sidebar) -->

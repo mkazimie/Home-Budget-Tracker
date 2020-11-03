@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: magdalena
-  Date: 30.09.2020
-  Time: 19:28
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -17,14 +10,12 @@
 <body id="page-top">
 <!-- Page Wrapper -->
 <div id="wrapper">
-    <jsp:include page="fragment/sidebar.jsp"/>
+    <jsp:include page="fragment/side-bar.jsp"/>
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-
         <!-- Main Content -->
         <div id="content">
-            <jsp:include page="fragment/topbar.jsp"/>
-
+            <jsp:include page="fragment/top-bar.jsp"/>
             <!-- Begin Page Content -->
             <div class="container-fluid">
                 <!-- Page Heading -->
@@ -106,9 +97,18 @@
                                         <td class="align-middle">${budgetsAllowanceAndBalanceMap.get(budget.name)[0]}
                                             €
                                         </td>
-                                        <td class="align-middle text-success
+                                        <c:choose>
+                                            <c:when test="${budgetsAllowanceAndBalanceMap.get(budget.name)[1] <= 0}">
+                                                <td class="align-middle text-danger
                                         font-weight-bolder">${budgetsAllowanceAndBalanceMap.get(budget.name)[1]}€
-                                        </td>
+                                                </td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td class="align-middle text-success
+                                        font-weight-bolder">${budgetsAllowanceAndBalanceMap.get(budget.name)[1]}€
+                                                </td>
+                                            </c:otherwise>
+                                        </c:choose>
                                         <td>
                                             <button id="deleteBudgetBtn" data-toggle="modal"
                                                     data-target="#deleteBudgetModal"
@@ -147,7 +147,7 @@
 <!-- Page level plugins -->
 <script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/customizedJquery.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/customized-jQuery.js"></script>
 <!-- Page level custom scripts -->
 <script src="${pageContext.request.contextPath}/resources/static/js/demo/datatables-demo.js"></script>
 </body>

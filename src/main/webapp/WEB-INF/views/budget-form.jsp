@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: magdalena
-  Date: 02.10.2020
-  Time: 00:15
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
@@ -16,11 +9,12 @@
 <body class="bg-gradient-primary">
 <!-- Page Wrapper -->
 <div id="wrapper">
-    <jsp:include page="fragment/sidebar.jsp"/>
+    <jsp:include page="fragment/side-bar.jsp"/>
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
         <!-- Main Content -->
         <div id="content">
+            <jsp:include page="fragment/top-bar.jsp"/>
             <div id="budget-form-card" class="card o-hidden border-0 shadow-lg mx-5 my-5">
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
@@ -75,6 +69,6 @@
         </div>
 
         <!-- Page level plugins -->
-        <script src="${pageContext.request.contextPath}/resources/static/js/customizedJquery.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/static/js/customized-jQuery.js"></script>
 </body>
 </html>

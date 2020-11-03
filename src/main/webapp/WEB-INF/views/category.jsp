@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: magdalena
-  Date: 28.09.2020
-  Time: 21:10
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -18,12 +11,12 @@
 <body>
 <!-- Page Wrapper -->
 <div id="wrapper">
-    <jsp:include page="fragment/sidebar.jsp"/>
+    <jsp:include page="fragment/side-bar.jsp"/>
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
         <!-- Main Content -->
         <div id="content">
-            <jsp:include page="fragment/topbar.jsp"/>
+            <jsp:include page="fragment/top-bar.jsp"/>
 
             <!-- Bread Crumbs-->
             <nav aria-label="breadcrumb bg-info">
@@ -282,7 +275,7 @@
 <script src="${pageContext.request.contextPath}/resources/static/vendor/chart.js/Chart.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/static/js/customizedJquery.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/customized-jQuery.js"></script>
 <!-- Page level custom scripts -->
 <script src="${pageContext.request.contextPath}/resources/static/js/demo/chart-area-demo.js"></script>
 <script src="${pageContext.request.contextPath}/resources/static/js/demo/datatables-demo.js"></script>

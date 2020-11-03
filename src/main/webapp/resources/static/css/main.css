@@ -1,3 +1,15 @@
+body, html {
+    height: 100%;
+}
+
+.bg-img-landing {
+    background-image: url("../img/micheile-henderson-lZ_4nPFKcV8-unsplash.jpg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .errorMessage, .generalErrorMessage {
     font-weight: bolder;
     text-align: center;
@@ -35,7 +47,7 @@ a.btn-circle:hover {
 }
 
 .bootstrap-overrides .bg-register-image{
-    background: url("https://source.unsplash.com/4kIM7ED8F1A/600x800") center;
+    background: url("https://source.unsplash.com/ZKVBM2_Dp84/600x800") center;
     background-size: cover;
 }
 

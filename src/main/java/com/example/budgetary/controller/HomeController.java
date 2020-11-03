@@ -29,8 +29,11 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String hello() {
-        return "index";
+    public String displayLandingPage(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
+        if (currentUser != null){
+            model.addAttribute("currentUser", currentUser.getUser());
+        }
+        return "landing-page";
     }
 
     @GetMapping("/login")
@@ -46,10 +49,9 @@ public class HomeController {
         HttpSession session = request.getSession(false);
         String errorMessage = null;
         if (session != null) {
-            AuthenticationException ex = (AuthenticationException) session
-                    .getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-            if (ex != null) {
-                errorMessage = ex.getMessage();
+            AuthenticationException exception = (AuthenticationException) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+            if (exception != null) {
+                errorMessage = exception.getMessage();
             }
         }
         attr.addFlashAttribute("error", errorMessage);
@@ -57,7 +59,10 @@ public class HomeController {
     }
 
     @GetMapping("/register")
-    public String register(Model model) {
+    public String register(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
+        if (currentUser != null){
+            return "redirect:/logout";
+        }
         UserDto userDto = new UserDto();
         model.addAttribute(userDto);
         return "register";
