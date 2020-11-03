@@ -1,6 +1,5 @@
 package com.example.budgetary.controller;
 
-import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.dto.UserDto;
 import com.example.budgetary.exception.RecordAlreadyExistsException;
 import com.example.budgetary.security.CurrentUser;
@@ -13,14 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class HomeController {
@@ -37,7 +34,7 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String login(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
+    public String login(@AuthenticationPrincipal CurrentUser currentUser) {
         if (currentUser != null) {
             return "redirect:/auth/budgets";
         }

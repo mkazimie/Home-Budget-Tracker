@@ -9,7 +9,6 @@ import com.example.budgetary.exception.NoRecordFoundException;
 import com.example.budgetary.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.SortedSet;
 

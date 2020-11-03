@@ -4,11 +4,11 @@ import com.example.budgetary.entity.Budget;
 
 import com.example.budgetary.entity.User;
 import com.example.budgetary.exception.NoRecordFoundException;
+import com.example.budgetary.exception.UnauthorizedRequestException;
 import com.example.budgetary.repository.BudgetRepository;
 import org.springframework.stereotype.Service;
 
 
-import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -21,7 +21,7 @@ public class BudgetService {
     }
 
     public Set<Budget> getAllUserBudgets(User user) {
-        return budgetRepository.findAllByUsers(user);
+        return budgetRepository.findAllByUser(user);
     }
 
     public Budget findBudgetById(Long id) {

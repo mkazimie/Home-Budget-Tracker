@@ -6,6 +6,7 @@ import com.example.budgetary.entity.Transaction;
 import com.example.budgetary.entity.User;
 import com.example.budgetary.entity.dto.CategoryDto;
 import com.example.budgetary.entity.dto.TransactionDto;
+import com.example.budgetary.exception.UnauthorizedRequestException;
 import com.example.budgetary.security.CurrentUser;
 import com.example.budgetary.service.BudgetService;
 import com.example.budgetary.util.ErrorMessage;
@@ -33,7 +34,7 @@ public class BudgetController {
 
     @GetMapping("")
     public String displayUserBudgets(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
-        fetchUserBudgets(currentUser.getUser(), model);
+        fetchAllUserBudgets(currentUser.getUser(), model);
         return "budgets";
     }
 
@@ -49,7 +50,7 @@ public class BudgetController {
                 return "budget-form";
             }
             budgetService.createBudget(currentUser.getUser(), budget);
-            fetchUserBudgets(currentUser.getUser(), model);
+            fetchAllUserBudgets(currentUser.getUser(), model);
             return "redirect:/auth/budgets";
         }
         model.addAttribute("error", "Please try again");
@@ -66,21 +67,16 @@ public class BudgetController {
     @GetMapping("/{id}")
     public String displayBudgetById(@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long id,
                                     Model model) {
-        boolean budgetBelongsToUser = checkIfBudgetBelongsToUser(id, currentUser.getUser());
-        if (budgetBelongsToUser){
-            Budget budget = budgetService.findBudgetById(id);
-            model.addAttribute("categoryDto", new CategoryDto());
-            if (!model.containsAttribute("transactionDto")) {
-                model.addAttribute("transactionDto", new TransactionDto());
-            }
-            model.addAttribute("budget", budget);
-            model.addAttribute("allBudgetExpenses", countAllBudgetExpenses(budget));
-            model.addAttribute("budgetAllowance", countBudgetAllowance(budget));
-            model.addAttribute("categoryIconsMap", CategoryController.getCategoryIconsMap());
-            return "budget";
-        } else {
-            return "404";
+        Budget budget = fetchUserBudget(id, currentUser.getUser());
+        model.addAttribute("categoryDto", new CategoryDto());
+        if (!model.containsAttribute("transactionDto")) {
+            model.addAttribute("transactionDto", new TransactionDto());
         }
+        model.addAttribute("budget", budget);
+        model.addAttribute("allBudgetExpenses", countAllBudgetExpenses(budget));
+        model.addAttribute("budgetAllowance", countBudgetAllowance(budget));
+        model.addAttribute("categoryIconsMap", CategoryController.getCategoryIconsMap());
+        return "budget";
     }
 
     @PutMapping("/{id}")
@@ -109,20 +105,23 @@ public class BudgetController {
 
     @GetMapping("/{id}/delete")
     public String deleteBudget(@PathVariable Long id, @AuthenticationPrincipal CurrentUser currentUser) {
-        boolean budgetBelongsToUser = checkIfBudgetBelongsToUser(id, currentUser.getUser());
-        if (budgetBelongsToUser){
-            budgetService.removeBudget(id, currentUser.getUser());
-            return "redirect:/auth/budgets";
-        } else {
-            return "404";
-        }
+        Budget budget = fetchUserBudget(id, currentUser.getUser());
+        budgetService.removeBudget(budget.getId(), currentUser.getUser());
+        return "redirect:/auth/budgets";
     }
 
-    private void fetchUserBudgets(User user, Model model) {
+    private void fetchAllUserBudgets(User user, Model model) {
         Set<Budget> budgets = budgetService.getAllUserBudgets(user);
         model.addAttribute("budgetsAllowanceAndBalanceMap", getBudgetAllowanceAndBalanceMap(budgets));
         model.addAttribute("now", LocalDate.now());
         model.addAttribute("budgets", budgets);
+    }
+
+    private Budget fetchUserBudget(Long id, User user) {
+        return budgetService.getAllUserBudgets(user).stream()
+                .filter(currentUserBudget -> currentUserBudget.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new UnauthorizedRequestException("Unauthorized Request"));
     }
 
     private static BigDecimal countAllBudgetExpenses(Budget budget) {
@@ -148,14 +147,6 @@ public class BudgetController {
             budgetAllowanceAndBalance.put(budget.getName(), new ArrayList<>(Arrays.asList(budgetAllowance, budgetBalance)));
         }
         return budgetAllowanceAndBalance;
-    }
-
-    private boolean checkIfBudgetBelongsToUser(Long id, User user) {
-        Budget budget = budgetService.getAllUserBudgets(user).stream()
-                .filter(currentUserBudget -> currentUserBudget.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        return budget != null;
     }
 
     private boolean checkIfDateIsValid(LocalDate startDate, LocalDate endDate) {
