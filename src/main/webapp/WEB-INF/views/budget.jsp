@@ -262,7 +262,8 @@
                                                     <td class="align-middle">${transaction.title}</td>
                                                     <c:choose>
                                                         <c:when test="${transaction.type.equals('Withdrawal')}">
-                                                            <td class="align-middle text-danger"> -${transaction.sum}€
+                                                            <td id="sumField" class="align-middle text-danger">
+                                                                -${transaction.sum}€
                                                             </td>
                                                         </c:when>
                                                         <c:otherwise>
@@ -294,7 +295,9 @@
                                                                 data-id="${transaction.id}"
                                                                 data-sum="${transaction.sum}"
                                                                 data-date="${transaction.date}"
+                                                                data-type="${transaction.type}"
                                                                 data-category="${transaction.category.id}"
+                                                                data-added="${transaction.added}"
                                                                 data-budget="${transaction.category.budget.id}"
                                                                 class="btn btn-circle btn-outline-warning btn-sm"><i
                                                                 class="far fa-edit"></i></button>
