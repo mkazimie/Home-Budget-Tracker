@@ -45,15 +45,6 @@ public class TransactionService {
         saveTransaction(transaction);
     }
 
-    public void updateTransaction(Long transactionId, String title, BigDecimal sum,
-                                  LocalDate date) {
-        Transaction transaction = findTransactionById(transactionId);
-        transaction.setTitle(title);
-        transaction.setSum(sum);
-        transaction.setDate(date);
-        saveTransaction(transaction);
-    }
-
     public void removeTransaction(Long transactionId) {
         Transaction transaction = findTransactionById(transactionId);
         if (transaction.getCategory() != null) {

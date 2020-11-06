@@ -187,13 +187,13 @@
                                         <tbody>
                                         <c:forEach items="${category.transactions}" var="transaction">
                                             <tr class="text-center">
-                                                <fmt:parseDate value="${ transaction.dateTimeAdded }"
+                                                <fmt:parseDate value="${transaction.added}"
                                                                pattern="yyyy-MM-dd'T'HH:mm"
                                                                var="parsedDateTime" type="both"/>
                                                 <td class="align-middle text-gray-800 font-sm">
                                                     <fmt:formatDate
                                                             pattern="dd/MM/yyyy HH:mm"
-                                                            value="${ parsedDateTime }"
+                                                            value="${parsedDateTime}"
                                                     />
                                                 </td>
                                                 <td class="align-middle">${transaction.title}</td>
@@ -209,13 +209,13 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                                 <td class="align-middle">${currentUser.username}</td>
-                                                <fmt:parseDate value="${ transaction.date }"
+                                                <fmt:parseDate value="${transaction.date}"
                                                                pattern="yyyy-MM-dd"
                                                                var="parsedDate" type="both"/>
                                                 <td class="align-middle">
                                                     <fmt:formatDate
                                                             pattern="dd/MM/yyyy"
-                                                            value="${ parsedDate }"
+                                                            value="${parsedDate}"
                                                     />
                                                 </td>
                                                 <td class="align-middle">
@@ -226,7 +226,9 @@
                                                             data-title="${transaction.title}"
                                                             data-id="${transaction.id}"
                                                             data-sum="${transaction.sum}"
+                                                            data-type="${transaction.type}"
                                                             data-date="${transaction.date}"
+                                                            data-added="${transaction.added}"
                                                             data-category="${category.id}"
                                                             data-budget="${budget.id}"
                                                             class="btn btn-circle btn-outline-warning btn-sm"><i

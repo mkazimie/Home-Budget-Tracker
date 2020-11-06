@@ -5,15 +5,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.Locale;
 
 @Data
 @Entity
@@ -40,18 +35,26 @@ public class Transaction implements Comparable<Transaction> {
     private LocalDate date;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime dateTimeAdded;
+    private LocalDateTime added;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime updated;
 
     @PrePersist
     public void prePersist() {
-        dateTimeAdded = LocalDateTime.now();
+        added = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        updated = LocalDateTime.now();
     }
 
     @Override
     public int compareTo(Transaction transaction) {
         int compareTo = 0;
-        if (this.getDateTimeAdded() != null && transaction.getDateTimeAdded() != null) {
-            compareTo = this.getDateTimeAdded().compareTo(transaction.getDateTimeAdded());
+        if (this.getAdded() != null && transaction.getAdded() != null) {
+            compareTo = this.getAdded().compareTo(transaction.getAdded());
         }
         return compareTo * -1;
     }

@@ -152,21 +152,55 @@ $editCategoryModal.on('show.bs.modal', function (event) {
 });
 
 // Edit Transaction Form Modal
-$('#editTransactionModal').on('show.bs.modal', function (event) {
+let $editTransactionModal = $('#editTransactionModal');
+let $editTransactionForm = $('#editTransactionForm');
+$editTransactionModal.on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget)
     let budgetId = button.data('budget');
     let categoryId = button.data('category');
-    let transactionTitle = button.data('title');
     let transactionId = button.data('id');
+    let transactionTitle = button.data('title');
     let transactionSum = button.data('sum');
+    let transactionType = button.data('type');
     let transactionDate = button.data('date');
-    let modal = $(this)
-    modal.find('form').attr("action", "/auth/budgets/" + budgetId + "/categories/" + categoryId + "/transactions/" +
-        transactionId + "/update");
+    let added = button.data('added');
+    let modal = $(this);
+
     modal.find('#transactionTitle').val(transactionTitle);
     modal.find('#transactionSum').val(transactionSum);
     modal.find('#transactionDate').val(transactionDate);
-    modal.find('#transactionId').val(transactionId);
+    modal.find('#added').val(added);
+
+    $editTransactionForm.submit(function (event) {
+        event.preventDefault();
+        let transactionTitle = $("#transactionTitle");
+        let transactionSum = $("#transactionSum");
+        let transactionDate = $("#transactionDate");
+
+        $.ajax({
+            type: "PUT",
+            url: "/auth/budgets/" + budgetId + "/categories/" + categoryId + "/transactions/" + transactionId,
+            data: {
+                "title": transactionTitle.val(),
+                "sum": transactionSum.val(),
+                "date": transactionDate.val(),
+                "category" : categoryId,
+                "type" : transactionType,
+            },
+            success: function (response) {
+
+                if (response.status === 'FAIL') {
+                    showErrorsForm(response.errorMessageList, editCategoryForm);
+                } else {
+                    $editCategoryModal.modal('hide');
+                    window.location.reload();
+                }
+            },
+            error: function (ex) {
+                console.log(ex);
+            }
+        });
+    });
 })
 
 // Edit Budget Form Modal

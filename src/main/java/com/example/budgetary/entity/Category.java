@@ -36,7 +36,7 @@ public class Category implements Comparable<Category> {
     private Budget budget;
 
     @OneToMany(mappedBy = "category")
-    @OrderBy("dateTimeAdded DESC")
+    @OrderBy("added DESC")
     private SortedSet<Transaction> transactions = new TreeSet<>();
 
     @Override

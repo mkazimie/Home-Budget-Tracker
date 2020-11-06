@@ -69,21 +69,6 @@ public class CategoryController {
         return response;
     }
 
-    private boolean checkIfCategoryNameIsValid(CategoryDto categoryDto, List<ErrorMessage> errorMessages, ValidationResponse response, Long budgetId) {
-        boolean isValid = true;
-        String selectedName = categoryDto.getSelectedName();
-        String ownName = categoryDto.getOwnName();
-        if (categoryService.findCategoryByName(selectedName, budgetId) != null || ((ownName != null && categoryService.findCategoryByName(ownName, budgetId) != null))) {
-            errorMessages.add(new ErrorMessage("generalError", "* Such category already exists in your budget"));
-            isValid = false;
-        } else if (selectedName.equals("customized") && ownName.trim().isEmpty()) {
-            errorMessages.add(new ErrorMessage("ownName", "* Please name your custom category"));
-            isValid = false;
-        }
-        response.setErrorMessageList(errorMessages);
-        return isValid;
-    }
-
     @GetMapping("/{categoryId}")
     public String displayCategoryById(@PathVariable Long categoryId, @PathVariable Long budgetId, Model model) {
         Category category = categoryService.findCategoryById(categoryId);
@@ -123,6 +108,21 @@ public class CategoryController {
     public String deleteCategory(@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long categoryId) {
         categoryService.removeCategory(categoryId, currentUser.getUser());
         return "redirect:/auth/budgets/{budgetId}/categories/";
+    }
+
+    private boolean checkIfCategoryNameIsValid(CategoryDto categoryDto, List<ErrorMessage> errorMessages, ValidationResponse response, Long budgetId) {
+        boolean isValid = true;
+        String selectedName = categoryDto.getSelectedName();
+        String ownName = categoryDto.getOwnName();
+        if (categoryService.findCategoryByName(selectedName, budgetId) != null || ((ownName != null && categoryService.findCategoryByName(ownName, budgetId) != null))) {
+            errorMessages.add(new ErrorMessage("generalError", "* Such category already exists in your budget"));
+            isValid = false;
+        } else if (selectedName.equals("customized") && ownName.trim().isEmpty()) {
+            errorMessages.add(new ErrorMessage("ownName", "* Please name your custom category"));
+            isValid = false;
+        }
+        response.setErrorMessageList(errorMessages);
+        return isValid;
     }
 
     static void validateViaAjax(BindingResult bindingResult, ValidationResponse response) {
