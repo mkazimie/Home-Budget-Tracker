@@ -51,10 +51,12 @@ public class TransactionController {
         return response;
     }
 
-    @GetMapping("/categories/{categoryId}/transactions/{transactionId}")
-    public String deleteTransactionFromCategory(@PathVariable Long categoryId, @PathVariable Long transactionId){
+    @DeleteMapping("/categories/{categoryId}/transactions/{transactionId}")
+    public @ResponseBody ValidationResponse deleteTransactionViaAjax(@PathVariable Long transactionId){
+        ValidationResponse response = new ValidationResponse();
         transactionService.removeTransaction(transactionId);
-        return "redirect:/auth/budgets/{budgetId}/categories/{categoryId}";
+        response.setStatus("SUCCESS");
+        return response;
     }
 
     @PutMapping("/categories/{categoryId}/transactions/{id}")

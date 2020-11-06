@@ -234,6 +234,7 @@
 
                                 <div class="table-responsive">
                                     <table class="table table-striped" width="100%" cellspacing="0">
+                                        <div class="confirmSuccess alert alert-success d-none text-center font-weight-bolder"></div>
                                         <thead>
                                         <tr class="text-center">
                                             <th> Added</th>
@@ -249,7 +250,7 @@
                                             <c:forEach items="${category.transactions}" var="transaction"
                                                        begin="0" end="4">
                                                 <tr class="text-center">
-                                                    <fmt:parseDate value="${transaction.dateTimeAdded}"
+                                                    <fmt:parseDate value="${transaction.added}"
                                                                    pattern="yyyy-MM-dd'T'HH:mm"
                                                                    var="parsedDateTime" type="both"/>
                                                     <td class="align-middle text-gray-800 font-sm">

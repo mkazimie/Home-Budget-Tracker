@@ -48,7 +48,6 @@ transactionForm.submit(function (event) {
             if (response.status === 'FAIL') {
                 let errorMessageList = response.errorMessageList;
                 showErrorsForm(errorMessageList, transactionForm);
-
             } else {
                 window.location.reload();
             }
@@ -184,8 +183,8 @@ $editTransactionModal.on('show.bs.modal', function (event) {
                 "title": transactionTitle.val(),
                 "sum": transactionSum.val(),
                 "date": transactionDate.val(),
-                "category" : categoryId,
-                "type" : transactionType,
+                "category": categoryId,
+                "type": transactionType,
             },
             success: function (response) {
 
@@ -237,7 +236,6 @@ editBudgetModal.on('show.bs.modal', function (event) {
                 "users": usersInput.val(),
             },
             success: function (response) {
-
                 if (response.status === 'FAIL') {
                     showErrorsForm(response.errorMessageList, editBudgetForm);
                 } else {
@@ -264,35 +262,50 @@ $('#deleteCategoryModal').on('show.bs.modal', function (event) {
 })
 
 // Delete Transaction Modal
-$('#deleteTransactionModal').on('show.bs.modal', function (event) {
+let $deleteTransactionModal = $('#deleteTransactionModal');
+$deleteTransactionModal.on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget)
     let transactionTitle = button.data('title')
     let transactionId = button.data('id')
     let categoryId = button.data('category')
     let budgetId = button.data('budget')
     let modal = $(this)
-    if (categoryId != null) {
-        modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/categories/" + categoryId +
-            "/transactions/" + transactionId);
-    } else {
-        modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/transactions/" + transactionId);
-    }
     modal.find('.modal-body strong').text(" " + transactionTitle);
-})
 
+    $('#deleteTransactionBtn').click(function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            type: "DELETE",
+            url: "/auth/budgets/" + budgetId + "/categories/" + categoryId + "/transactions/" + transactionId,
+            success: function (response) {
+                if (response.status === 'SUCCESS') {
+                    $deleteTransactionModal.modal('hide');
+                    button.closest('tr').remove();
+                    $('.confirmSuccess').removeClass('d-none').text("Transaction " + transactionId + " has been" +
+                        " removed")
+                }
+            },
+            error: function (ex) {
+                console.log(ex);
+            }
+        })
+    })
+});
 
 // Delete Budget Modal
-$('#deleteBudgetModal').on('show.bs.modal', function (event) {
+let $deleteBudgetModal = $('#deleteBudgetModal');
+$deleteBudgetModal.on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget)
     let budgetName = button.data('name')
     let budgetId = button.data('id')
     let categoriesCount = button.data('categories')
-    let modal = $(this)
+    let modal = $(this);
     modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/delete");
+
     modal.find('.modal-body strong').text(" " + budgetName);
-    console.log(categoriesCount);
     modal.find('#catCount').text(" " + categoriesCount + (categoriesCount === 1 ? " category" : " categories"));
-})
+});
 
 // Add Own Category Name or Select Category Name From List
 $("#selectCat").change(function () {

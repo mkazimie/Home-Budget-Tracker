@@ -174,6 +174,8 @@
                                 <div class="table-responsive">
                                     <table class="table table-striped text-dark" id="dataTable" width="100%"
                                            cellspacing="0">
+                                        <div class="confirmSuccess alert alert-success d-none text-center font-weight-bolder"
+                                             role="alert"></div>
                                         <thead>
                                         <tr class="text-center">
                                             <th> Added</th>
@@ -220,7 +222,6 @@
                                                 </td>
                                                 <td class="align-middle">
                                                     <button
-                                                            id="editTransactionBtn"
                                                             data-toggle="modal"
                                                             data-target="#editTransactionModal"
                                                             data-title="${transaction.title}"
@@ -233,7 +234,8 @@
                                                             data-budget="${budget.id}"
                                                             class="btn btn-circle btn-outline-warning btn-sm"><i
                                                             class="far fa-edit"></i></button>
-                                                    <button id="deleteTransactionBtn" data-toggle="modal"
+                                                    <button
+                                                            data-toggle="modal"
                                                             data-target="#deleteTransactionModal"
                                                             data-title="${transaction.title}"
                                                             data-id="${transaction.id}"
