@@ -17,8 +17,8 @@
                 <p class="text-center text-dark">Are you sure you want to delete
                     category<strong></strong>?</p>
                 <div class="btn-wrapper text-center">
-                    <a href="" class="btn btn-primary"> Yes
-                    </a>
+                    <button id="deleteCategoryBtn" class="btn btn-primary"> Yes
+                    </button>
                     <button type="button" class="btn btn-secondary"
                             data-dismiss="modal"> No
                     </button>

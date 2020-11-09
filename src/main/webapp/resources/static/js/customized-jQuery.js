@@ -87,7 +87,6 @@ categoryForm.submit(function (event) {
     let budgetId = $('#budgetId').val();
 
     $.ajax({
-
         type: "POST",
         url: "/auth/budgets/" + budgetId + "/categories/",
         data: {
@@ -96,13 +95,21 @@ categoryForm.submit(function (event) {
             "categoryAllowance": categoryAllowance.val(),
         },
         success: function (response) {
-
             if (response.status === 'FAIL') {
                 let errorMessageList = response.errorMessageList;
                 showErrorsForm(errorMessageList, categoryForm);
-
             } else {
-                window.location.reload();
+                let lastSegment = extractLastSegmentFromUri();
+                if (lastSegment === "categories"){
+                    window.location.reload();
+                } else {
+                    $('.confirmSuccessCategory').removeClass('d-none').text("Category has been added successfully");
+                    let $displayNumberOfCategories = $('#displayNumberOfCategories span');
+                    let numberOfCategories = $displayNumberOfCategories.text();
+                    let updatedNumberOfCategories = (parseInt(numberOfCategories)) + 1;
+                    $displayNumberOfCategories.text(updatedNumberOfCategories);
+                    categoryForm.trigger('reset');
+                }
             }
         },
         error: function (ex) {
@@ -174,15 +181,38 @@ $editCategoryModal.on('show.bs.modal', function (event) {
 });
 
 // Delete Category Modal
-$('#deleteCategoryModal').on('show.bs.modal', function (event) {
+let $deleteCategoryModal = $('#deleteCategoryModal');
+$deleteCategoryModal.on('show.bs.modal', function (event) {
     let button = $(event.relatedTarget)
     let categoryName = button.data('name')
     let categoryId = button.data('id')
     let budgetId = button.data('budget')
     let modal = $(this)
-    modal.find('.modal-body a').attr("href", "/auth/budgets/" + budgetId + "/categories/" + categoryId + "/delete");
     modal.find('.modal-body strong').text(" " + categoryName);
-})
+
+    $('#deleteCategoryBtn').click(function () {
+        $.ajax({
+            type: "DELETE",
+            url: "/auth/budgets/" + budgetId + "/categories/" + categoryId,
+            success: function (response) {
+                if (response.status === 'SUCCESS') {
+                    $deleteCategoryModal.modal('hide');
+                    let lastSegment = extractLastSegmentFromUri();
+                    if (lastSegment === "categories") {
+                        button.closest('tr').remove();
+                        $('.confirmSuccessCategory').removeClass('d-none').text("Category " + categoryName + " has been" +
+                            " removed");
+                    } else {
+                        window.location.href = "/auth/budgets/" + budgetId + "/categories";
+                    }
+                }
+            },
+            error: function (ex) {
+                console.log(ex);
+            }
+        })
+    })
+});
 
 // TRANSACTION CRUD FUNCTIONS
 // Add New Transaction
@@ -256,7 +286,6 @@ $editTransactionModal.on('show.bs.modal', function (event) {
         let transactionTitle = $("#transactionTitle");
         let transactionSum = $("#transactionSum");
         let transactionDate = $("#transactionDate");
-        console.log(transactionType);
 
         $.ajax({
             type: "PUT",
@@ -295,8 +324,7 @@ $deleteTransactionModal.on('show.bs.modal', function (event) {
     let modal = $(this)
     modal.find('.modal-body strong').text(" " + transactionTitle);
 
-    $('#deleteTransactionBtn').click(function (event) {
-
+    $('#deleteTransactionBtn').click(function () {
         $.ajax({
             type: "DELETE",
             url: "/auth/budgets/" + budgetId + "/categories/" + categoryId + "/transactions/" + transactionId,
@@ -304,7 +332,7 @@ $deleteTransactionModal.on('show.bs.modal', function (event) {
                 if (response.status === 'SUCCESS') {
                     $deleteTransactionModal.modal('hide');
                     button.closest('tr').remove();
-                    $('.confirmSuccess').removeClass('d-none').text("Transaction " + transactionTitle + " has been" +
+                    $('.confirmSuccessTransaction').removeClass('d-none').text("Transaction " + transactionTitle + " has been" +
                         " removed")
                 }
             },
@@ -324,6 +352,12 @@ function showErrorsForm(errorMessageList, form) {
             ($(this).attr("name") === errorMessageList[i].fieldName) && $(this).closest(".form-group").children(".errorMessage").text(errorMessageList[i].message).removeClass("d-none");
         }
     });
+}
+
+function extractLastSegmentFromUri() {
+    let uri = window.location.href;
+    let uriSplit = uri.split("/");
+    return uriSplit.pop();
 }
 
 // Display Error Alert if message passed to model

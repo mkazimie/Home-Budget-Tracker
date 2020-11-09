@@ -185,20 +185,15 @@
                             <div class="card-header bg-gradient-dark">
                                 <h4 class="card-title text-white font-weight-bold text-center"> Categories
                                 </h4>
-                                <div class="text-center text-white-50">${budget.categories.size()}
-                                    <c:choose>
-                                        <c:when test="${budget.categories.size() == 1}">
-                                            category
-                                        </c:when>
-                                        <c:otherwise>
-                                            categories
-                                        </c:otherwise>
-                                    </c:choose>
+                                <div id="displayNumberOfCategories" class="text-center
+                                text-white-50"><span>${budget.categories.size()}</span>
                                     in this budget
                                 </div>
                             </div>
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center justify-content-center">
+                                    <div class="confirmSuccessCategory alert alert-success d-none text-center font-weight-bolder"
+                                         role="alert"></div>
                                     <a href="/auth/budgets/${budget.id}/categories"
                                        class="btn btn-outline-success btn-circle btn-lg">
                                         <i class="fas fa-angle-double-right"></i>
@@ -234,7 +229,8 @@
 
                                 <div class="table-responsive">
                                     <table class="table table-striped" width="100%" cellspacing="0">
-                                        <div class="confirmSuccess alert alert-success d-none text-center font-weight-bolder"></div>
+                                        <div
+                                                class="confirmSuccessTransaction alert alert-success d-none text-center font-weight-bolder"></div>
                                         <thead>
                                         <tr class="text-center">
                                             <th> Added</th>

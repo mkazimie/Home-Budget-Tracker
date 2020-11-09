@@ -52,6 +52,9 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                                <div
+                                        class="confirmSuccessTransaction alert alert-success d-none text-center font-weight-bolder"
+                                     role="alert"></div>
                                 <thead>
                                 <tr class="text-center">
                                     <th> Added</th>

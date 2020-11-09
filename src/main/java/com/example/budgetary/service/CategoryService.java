@@ -47,7 +47,7 @@ public class CategoryService {
         saveCategory(category);
     }
 
-    public void removeCategory(Long id, User user) {
+    public void removeCategory(Long id) {
         Category category = findCategoryById(id);
         SortedSet<Transaction> categoryTransactions = category.getTransactions();
         if (categoryTransactions != null) {

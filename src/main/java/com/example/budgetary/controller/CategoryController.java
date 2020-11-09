@@ -104,10 +104,12 @@ public class CategoryController {
         return response;
     }
 
-    @GetMapping("/{categoryId}/delete")
-    public String deleteCategory(@AuthenticationPrincipal CurrentUser currentUser, @PathVariable Long categoryId) {
-        categoryService.removeCategory(categoryId, currentUser.getUser());
-        return "redirect:/auth/budgets/{budgetId}/categories/";
+    @DeleteMapping("/{categoryId}")
+    public @ResponseBody ValidationResponse deleteCategoryViaAjax(@PathVariable Long categoryId){
+        ValidationResponse response = new ValidationResponse();
+        categoryService.removeCategory(categoryId);
+        response.setStatus("SUCCESS");
+        return response;
     }
 
     private boolean checkIfCategoryNameIsValid(CategoryDto categoryDto, List<ErrorMessage> errorMessages, ValidationResponse response, Long budgetId) {

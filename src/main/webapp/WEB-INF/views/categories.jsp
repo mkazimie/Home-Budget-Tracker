@@ -42,7 +42,7 @@
                 <!--ADD CAT FORM-->
                 <div class="row">
                     <div class="col-xl-4 col-md-6 mb-4 ">
-                        <div class="card border-left-primary h-100 shadow">
+                        <div class="card border-left-primary shadow">
                             <div class="card-header bg-primary d-table">
                                 <div class="d-table-cell align-middle">
                                     <h4 class="card-title font-weight-bold text-center text-white">Add Category</h4>
@@ -65,6 +65,9 @@
                                 <div class="table-responsive">
                                     <table class="table table-striped text-dark" id="dataTable" width="100%"
                                            cellspacing="0">
+                                        <div
+                                                class="confirmSuccessCategory alert alert-success d-none text-center font-weight-bolder"
+                                             role="alert"></div>
                                         <thead>
                                         <tr>
                                             <th></th>

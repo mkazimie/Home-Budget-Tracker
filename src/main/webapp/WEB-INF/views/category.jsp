@@ -174,7 +174,8 @@
                                 <div class="table-responsive">
                                     <table class="table table-striped text-dark" id="dataTable" width="100%"
                                            cellspacing="0">
-                                        <div class="confirmSuccess alert alert-success d-none text-center font-weight-bolder"
+                                        <div
+                                                class="confirmSuccessTransaction alert alert-success d-none text-center font-weight-bolder"
                                              role="alert"></div>
                                         <thead>
                                         <tr class="text-center">
