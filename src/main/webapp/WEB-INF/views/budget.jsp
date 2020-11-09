@@ -242,7 +242,6 @@
                                             <th><strong> € </strong></th>
                                             <th> Category</th>
                                             <th> Transaction Date</th>
-                                            <th> Actions</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -287,30 +286,6 @@
                                                                 value="${parsedDate}"
                                                         />
                                                     </td>
-                                                    <td class="align-middle">
-                                                        <button
-                                                                data-toggle="modal"
-                                                                data-target="#editTransactionModal"
-                                                                data-title="${transaction.title}"
-                                                                data-id="${transaction.id}"
-                                                                data-sum="${transaction.sum}"
-                                                                data-date="${transaction.date}"
-                                                                data-type="${transaction.type}"
-                                                                data-category="${transaction.category.id}"
-                                                                data-added="${transaction.added}"
-                                                                data-budget="${transaction.category.budget.id}"
-                                                                class="btn btn-circle btn-outline-warning btn-sm"><i
-                                                                class="far fa-edit"></i></button>
-                                                        <button
-                                                                data-toggle="modal"
-                                                                data-target="#deleteTransactionModal"
-                                                                data-title="${transaction.title}"
-                                                                data-id="${transaction.id}"
-                                                                data-category="${transaction.category.id}"
-                                                                data-budget="${transaction.category.budget.id}"
-                                                                class="btn btn-circle btn-outline-danger btn-sm"><i
-                                                                class="far fa-trash-alt"></i></button>
-                                                    </td>
                                                 </tr>
                                             </c:forEach>
                                         </c:forEach>
@@ -335,8 +310,6 @@
                     <div>
                         <jsp:include page="fragment/modals/edit-budget.jsp"/>
                         <jsp:include page="fragment/modals/delete-budget.jsp"/>
-                        <jsp:include page="fragment/modals/edit-transaction.jsp"/>
-                        <jsp:include page="fragment/modals/delete-transaction.jsp"/>
                     </div>
                 </div>
                 <!-- End Page Content -->

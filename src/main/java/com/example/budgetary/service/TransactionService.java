@@ -31,8 +31,8 @@ public class TransactionService {
         return transaction.orElseThrow(() -> new NoRecordFoundException("No record found in our DB"));
     }
 
-    public List<Transaction> findAllByBudgetUser(User user){
-        return transactionRepository.findAllByBudgetUser(user);
+    public List<Transaction> findAllByBudgetUserId(Long id){
+        return transactionRepository.findAllByBudgetUser(id);
     }
 
     public void saveTransaction(Transaction transaction) {

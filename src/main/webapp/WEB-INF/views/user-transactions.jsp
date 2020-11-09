@@ -66,7 +66,7 @@
                                 <tbody>
                                 <c:forEach items="${allTransactionsByUser}" var="transaction">
                                     <tr class="text-center">
-                                        <fmt:parseDate value="${ transaction.dateTimeAdded }"
+                                        <fmt:parseDate value="${transaction.added}"
                                                        pattern="yyyy-MM-dd'T'HH:mm"
                                                        var="parsedDateTime" type="both"/>
                                         <td class="align-middle text-gray-800 font-sm">

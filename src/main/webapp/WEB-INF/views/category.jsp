@@ -166,7 +166,7 @@
                         <div class="card border-left-primary">
                             <div class="card-header bg-primary d-table">
                                 <div class="d-table-cell align-middle">
-                                    <h4 class="font-weight-bold text-white text-center card-title"> Latest
+                                    <h4 class="font-weight-bold text-white text-center card-title"> ${category.name}
                                         Transactions </h4>
                                 </div>
                             </div>
